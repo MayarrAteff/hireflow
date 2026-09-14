@@ -4,6 +4,7 @@ export enum Permission {
   ManagePipeline = 'pipeline.manage',
   ScheduleInterviews = 'interviews.schedule',
   ViewCompanyAnalytics = 'analytics.company',
+  ManageCompanyProfile = 'company.manage',
   // Candidate
   ApplyToJobs = 'jobs.apply',
   ManageOwnProfile = 'profile.manage',

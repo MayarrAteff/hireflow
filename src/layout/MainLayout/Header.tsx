@@ -7,17 +7,19 @@ import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { alpha } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { MdLogout, MdMenu } from 'react-icons/md';
+import { MdBusiness, MdLogout, MdMenu, MdPerson } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { LanguageSwitcher } from '@/components/UI/LanguageSwitcher';
 import { ThemeModeToggle } from '@/components/UI/ThemeModeToggle';
 import { logout } from '@/services/auth.service';
+import { brandGradient } from '@/styles/themes/accents';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 type HeaderProps = {
@@ -33,6 +35,11 @@ export function Header({ onToggleSidebar }: HeaderProps) {
 
   const initials = (profile?.full_name || profile?.email || '?').slice(0, 1).toUpperCase();
 
+  const goTo = (to: '/candidate/profile' | '/recruiter/company') => {
+    setAnchorEl(null);
+    navigate({ to });
+  };
+
   const handleLogout = async () => {
     setAnchorEl(null);
     await logout();
@@ -45,20 +52,31 @@ export function Header({ onToggleSidebar }: HeaderProps) {
       position="sticky"
       color="inherit"
       elevation={0}
-      sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'background.paper' }}
+      sx={(theme) => ({
+        borderBottom: 1,
+        borderColor: 'divider',
+        bgcolor: alpha(theme.palette.background.paper, 0.72),
+        backdropFilter: 'blur(12px)',
+      })}
     >
-      <Toolbar className="tw-gap-2">
+      <Toolbar className="gap-2">
         <IconButton edge="start" aria-label={$t({ id: 'header.toggleSidebar' })} onClick={onToggleSidebar}>
           <MdMenu />
         </IconButton>
 
-        <Box className="tw-flex-1" />
+        <Box className="flex-1" />
 
         <LanguageSwitcher />
         <ThemeModeToggle />
 
-        <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} className="tw-ms-1">
-          <Avatar sx={{ bgcolor: 'primary.main', width: 36, height: 36 }}>{initials}</Avatar>
+        <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} className="ms-1">
+          <Avatar
+            src={profile?.avatar_url ?? undefined}
+            alt={profile?.full_name}
+            sx={(theme) => ({ background: brandGradient(theme), color: '#fff', width: 36, height: 36 })}
+          >
+            {initials}
+          </Avatar>
         </IconButton>
 
         <Menu
@@ -67,18 +85,35 @@ export function Header({ onToggleSidebar }: HeaderProps) {
           onClose={() => setAnchorEl(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          slotProps={{ paper: { className: 'tw-min-w-56' } }}
+          slotProps={{ paper: { className: 'min-w-56' } }}
         >
-          <Box className="tw-px-4 tw-py-2">
+          <Box className="px-4 py-2">
             <Typography fontWeight={600}>{profile?.full_name}</Typography>
             <Typography variant="body2" color="text.secondary">
               {profile?.email}
             </Typography>
             {profile && (
-              <Chip size="small" color="primary" className="tw-mt-2" label={$t({ id: `role.${profile.role}` })} />
+              <Chip size="small" color="primary" className="mt-2" label={$t({ id: `role.${profile.role}` })} />
             )}
           </Box>
           <Divider />
+          {profile?.role === 'candidate' && (
+            <MenuItem onClick={() => goTo('/candidate/profile')}>
+              <ListItemIcon>
+                <MdPerson />
+              </ListItemIcon>
+              {$t({ id: 'menu.myProfile' })}
+            </MenuItem>
+          )}
+          {profile?.role === 'recruiter' && (
+            <MenuItem onClick={() => goTo('/recruiter/company')}>
+              <ListItemIcon>
+                <MdBusiness />
+              </ListItemIcon>
+              {$t({ id: 'menu.company' })}
+            </MenuItem>
+          )}
+          {profile?.role !== 'admin' && <Divider />}
           <MenuItem onClick={handleLogout}>
             <ListItemIcon>
               <MdLogout />

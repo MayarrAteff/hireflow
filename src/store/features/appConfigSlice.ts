@@ -22,7 +22,7 @@ function readThemeMode(): ThemeMode {
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-/** `dir`, `lang` and the `dark` class live on <html>; portal colour tokens resolve from `.tw-theme-<portal>` on <body>. */
+/** `dir`, `lang` and the `dark` class live on <html>; portal colour tokens resolve from `.theme-<portal>` on <body>. */
 function applyDocumentLocale(locale: Locale) {
   const html = document.documentElement;
   html.dir = appDirection[locale];
@@ -34,7 +34,7 @@ function applyDocumentThemeMode(mode: ThemeMode) {
 }
 
 function applyPortalThemeClass(theme: PortalTheme) {
-  document.body.className = `tw-theme-${theme}`;
+  document.body.className = `theme-${theme}`;
 }
 
 const initialLocale = readLocale();

@@ -24,7 +24,7 @@ export function RoleSelector({ value, onChange }: RoleSelectorProps) {
 
   return (
     <Box>
-      <Typography variant="body2" color="text.secondary" className="tw-mb-2">
+      <Typography variant="body2" color="text.secondary" className="mb-2">
         {$t({ id: 'auth.register.iAm' })}
       </Typography>
       <ToggleButtonGroup
@@ -33,13 +33,13 @@ export function RoleSelector({ value, onChange }: RoleSelectorProps) {
         color="primary"
         value={value}
         onChange={(_, next: Role | null) => next && onChange(next)}
-        className="tw-gap-3"
+        className="gap-3"
       >
         {roles.map(({ value: role, icon: Icon }) => (
           <ToggleButton
             key={role}
             value={role}
-            className="tw-flex tw-flex-col tw-items-start tw-gap-1 tw-p-4 tw-text-start"
+            className="flex flex-col items-start gap-1 p-4 text-start"
             sx={{ border: 1, borderColor: 'divider', '&&': { borderRadius: 3 } }}
           >
             <Icon size={24} />

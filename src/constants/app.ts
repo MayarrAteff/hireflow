@@ -29,6 +29,11 @@ export const CV_FILE_TYPES = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ];
 
+/** Limit for the original photo; it is cropped and compressed to a small JPEG before upload. */
+export const MAX_AVATAR_SOURCE_BYTES = 5 * 1024 * 1024;
+export const AVATAR_FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
 export const DRAWER_WIDTH = 264;
+export const DRAWER_COLLAPSED_WIDTH = 76;
 export const PASSWORD_MIN_LENGTH = 8;
 export const SNACKBAR_MAX = 3;

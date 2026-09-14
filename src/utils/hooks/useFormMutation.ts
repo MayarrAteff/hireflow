@@ -12,15 +12,20 @@ interface UseFormMutationProps<TData, TVariables> {
   onSuccess?: (data: TData, variables: TVariables) => void;
 }
 
-/** Maps an error from PostgREST (axios) or Supabase auth into `{ general: message }`. */
-function toServerErrors(error: unknown): ServerErrors {
+/** Readable message from a PostgREST/Storage (axios) or Supabase client error. */
+export function getErrorMessage(error: unknown): string | undefined {
   if (isAxiosError<PostgrestErrorResponse>(error)) {
-    return { general: error.response?.data?.message ?? error.message };
+    return error.response?.data?.message ?? error.message;
   }
   if (error instanceof Error) {
-    return { general: error.message };
+    return error.message;
   }
-  return {};
+  return undefined;
+}
+
+function toServerErrors(error: unknown): ServerErrors {
+  const message = getErrorMessage(error);
+  return message ? { general: message } : {};
 }
 
 /** `useMutation` plus server errors ready to show next to the form (same idea as Quotem). */

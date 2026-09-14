@@ -11,6 +11,20 @@ export type Company = {
   created_at: string;
 };
 
+export type CreateCompanyPayload = {
+  name: string;
+  website: string;
+  industry: string;
+  /** One of `COMPANY_SIZES`, or empty. */
+  size: string;
+};
+
+export type CompanyDetailsValues = CreateCompanyPayload & { about: string };
+
+export type CompanyUpdatePayload = Partial<
+  Pick<Company, 'name' | 'website' | 'industry' | 'size' | 'about' | 'logo_url'>
+>;
+
 export type Profile = {
   id: string;
   role: UserRole;
@@ -21,11 +35,36 @@ export type Profile = {
   headline: string | null;
   bio: string | null;
   cv_path: string | null;
+  location: string | null;
+  skills: string[];
+  years_of_experience: number | null;
+  linkedin_url: string | null;
+  portfolio_url: string | null;
+  github_url: string | null;
   company_id: string | null;
   is_active: boolean;
   created_at: string;
   company?: Company | null;
 };
+
+/** Columns a user can change on their own profile. */
+export type ProfileUpdatePayload = Partial<
+  Pick<
+    Profile,
+    | 'full_name'
+    | 'headline'
+    | 'location'
+    | 'bio'
+    | 'years_of_experience'
+    | 'phone'
+    | 'linkedin_url'
+    | 'portfolio_url'
+    | 'github_url'
+    | 'skills'
+    | 'avatar_url'
+    | 'cv_path'
+  >
+>;
 
 export type LoginPayload = {
   email: string;

@@ -34,14 +34,14 @@ export function Login() {
 
   return (
     <AuthLayout>
-      <Typography variant="h2" className="tw-mb-1">
+      <Typography variant="h2" className="mb-1">
         {$t({ id: 'auth.login.title' })}
       </Typography>
-      <Typography color="text.secondary" className="tw-mb-8">
+      <Typography color="text.secondary" className="mb-8">
         {$t({ id: 'auth.login.subtitle' })}
       </Typography>
 
-      <Box component="form" noValidate onSubmit={handleSubmit((values) => mutate(values))} className="tw-space-y-5">
+      <Box component="form" noValidate onSubmit={handleSubmit((values) => mutate(values))} className="space-y-5">
         {serverErrors.general && <Alert severity="error">{serverErrors.general}</Alert>}
         <FormTextField name="email" control={control} labelId="field.email" type="email" autoComplete="email" />
         <FormTextField
@@ -56,7 +56,7 @@ export function Login() {
         </Button>
       </Box>
 
-      <Typography className="tw-mt-6 tw-text-center" color="text.secondary">
+      <Typography className="mt-6 text-center" color="text.secondary">
         {$t({ id: 'auth.login.noAccount' })}{' '}
         <Link component={RouterLink} to="/register" fontWeight={600}>
           {$t({ id: 'auth.register.submit' })}

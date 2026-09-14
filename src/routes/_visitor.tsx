@@ -6,7 +6,7 @@ import { homePathFor, isAuthenticated, safeRedirectPath } from '@/utils/authChec
 export const Route = createFileRoute('/_visitor')({
   beforeLoad: ({ context, location }) => {
     if (isAuthenticated(context.auth)) {
-      const requested = safeRedirectPath((location.search as { redirect?: unknown }).redirect);
+      const requested = safeRedirectPath((location.search as { redirect?: unknown }).redirect, context.auth.role);
       throw redirect({ href: requested ?? homePathFor(context.auth) });
     }
   },

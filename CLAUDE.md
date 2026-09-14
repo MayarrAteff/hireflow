@@ -12,7 +12,7 @@ The repo-local git config sets this. Remote uses the `github-personal` SSH host 
 
 - `npm run dev` (port 3004), `npm run build`, `npm run lint`, `npm run typecheck`, `npm run format`
 - No test framework on purpose.
-- Commit messages follow Conventional Commits (commitlint + husky pre-commit runs typecheck and lint-staged).
+- No commit hooks or commit message format rules; write plain, descriptive commit messages.
 
 ## Architecture
 
@@ -29,6 +29,6 @@ The repo-local git config sets this. Remote uses the `github-personal` SSH host 
 - Named exports only (`import/no-default-export`), function declarations for components.
 - `@/` alias for imports; imports sorted by `simple-import-sort`.
 - MUI path imports only (`import Button from '@mui/material/Button'`), never the barrel.
-- Tailwind classes use the `tw-` prefix; portal colours via `tw-bg-primary` etc.
+- Tailwind classes have no prefix; portal colours via `bg-primary` etc.
 - All user-facing text through react-intl; add keys to both `src/i18n/en.json` and `ar.json`. Yup messages are i18n ids.
-- Use logical CSS (`tw-ms-*`, `tw-text-start`, `paddingInline`) so RTL works.
+- Use logical CSS (`ms-*`, `text-start`, `paddingInline`) so RTL works.

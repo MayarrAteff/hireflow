@@ -2,6 +2,7 @@
   "app.name": "HireFlow",
   "app.tagline": "Hire the right people, faster.",
   "app.subtitle": "Post jobs, track every candidate on one board, schedule interviews and follow progress in real time.",
+  "app.loading": "Loading…",
 
   "auth.login.title": "Welcome back",
   "auth.login.subtitle": "Sign in to continue to HireFlow",

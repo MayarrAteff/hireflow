@@ -33,7 +33,7 @@ export function App() {
   }, [auth.isReady, auth.isAuthenticated, auth.role]);
 
   if (!auth.isReady) {
-    return <LoadingPage />;
+    return <LoadingPage fullScreen />;
   }
 
   return <RouterProvider router={router} context={{ auth }} />;

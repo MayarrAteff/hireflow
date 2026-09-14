@@ -1,8 +1,7 @@
 import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import { useIntl } from 'react-intl';
 
+import { LoadingPage } from '@/components/shared/LoadingPage';
 import { useJob } from '@/hooks/useJobs';
 
 import { JobForm } from './JobForm';
@@ -16,11 +15,7 @@ export function EditJob({ jobId }: EditJobProps) {
   const { data: job, isPending, isError } = useJob(jobId);
 
   if (isPending) {
-    return (
-      <Box className="flex justify-center py-20">
-        <CircularProgress />
-      </Box>
-    );
+    return <LoadingPage />;
   }
 
   if (isError) {

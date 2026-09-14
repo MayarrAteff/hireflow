@@ -64,16 +64,16 @@ export function SkillsSection({ profile }: SkillsSectionProps) {
       }}
     >
       <FormChipsField name="skills" control={control} labelId="profile.field.skills" />
-      <Typography variant="caption" color="text.secondary" className="tw-mt-1 tw-block tw-text-end">
+      <Typography variant="caption" color="text.secondary" className="mt-1 block text-end">
         {formatNumber(skills.length)} / {formatNumber(PROFILE_LIMITS.skills)}
       </Typography>
 
       {suggestions.length > 0 && skills.length < PROFILE_LIMITS.skills && (
-        <Box className="tw-mt-3">
-          <Typography variant="body2" color="text.secondary" className="tw-mb-2">
+        <Box className="mt-3">
+          <Typography variant="body2" color="text.secondary" className="mb-2">
             {$t({ id: 'profile.skills.suggestions' })}
           </Typography>
-          <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+          <Box className="flex flex-wrap gap-1.5">
             {suggestions.map((suggestion) => (
               <Chip
                 key={suggestion}

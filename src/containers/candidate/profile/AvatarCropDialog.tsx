@@ -97,10 +97,10 @@ export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogP
   return (
     <Dialog open={Boolean(file)} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle>{$t({ id: 'profile.photo.cropTitle' })}</DialogTitle>
-      <DialogContent className="tw-flex tw-flex-col tw-items-center tw-gap-4">
+      <DialogContent className="flex flex-col items-center gap-4">
         <Box
           role="presentation"
-          className="tw-relative tw-flex tw-shrink-0 tw-cursor-grab tw-items-center tw-justify-center tw-overflow-hidden tw-rounded-full active:tw-cursor-grabbing"
+          className="relative flex shrink-0 cursor-grab items-center justify-center overflow-hidden rounded-full active:cursor-grabbing"
           sx={{
             width: VIEWPORT_SIZE,
             height: VIEWPORT_SIZE,
@@ -122,7 +122,7 @@ export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogP
               onLoad={(event) =>
                 setNatural({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })
               }
-              className="tw-pointer-events-none tw-shrink-0 tw-select-none"
+              className="pointer-events-none shrink-0 select-none"
               style={{
                 maxWidth: 'none',
                 width: natural.width * scale || undefined,
@@ -135,7 +135,7 @@ export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogP
         <Typography variant="body2" color="text.secondary">
           {$t({ id: 'profile.photo.cropHint' })}
         </Typography>
-        <Box className="tw-flex tw-w-full tw-items-center tw-gap-3 tw-px-2">
+        <Box className="flex w-full items-center gap-3 px-2">
           <MdZoomOut size={20} />
           <Slider
             value={zoom}
@@ -148,7 +148,7 @@ export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogP
           <MdZoomIn size={20} />
         </Box>
       </DialogContent>
-      <DialogActions className="tw-px-6 tw-pb-4">
+      <DialogActions className="px-6 pb-4">
         <Button onClick={onClose}>{$t({ id: 'profile.cancel' })}</Button>
         <Button variant="contained" onClick={handleConfirm} disabled={!natural.width}>
           {$t({ id: 'profile.photo.savePhoto' })}

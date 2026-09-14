@@ -52,7 +52,7 @@ export function AboutSection({ profile }: AboutSectionProps) {
         serverError: serverErrors.general,
       }}
     >
-      <Box className="tw-grid tw-gap-4">
+      <Box className="grid gap-4">
         <FormTextField
           name="bio"
           control={control}
@@ -68,7 +68,7 @@ export function AboutSection({ profile }: AboutSectionProps) {
           control={control}
           labelId="profile.field.experience"
           type="number"
-          className="sm:tw-max-w-xs"
+          className="sm:max-w-xs"
           slotProps={{
             htmlInput: { min: 0, max: PROFILE_LIMITS.maxExperience, inputMode: 'numeric' },
             input: {

@@ -197,12 +197,12 @@ export function HiringBoard({
   if (applications.length === 0) {
     return (
       <Card>
-        <CardContent className="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
-          <EmptyJobsIllustration className="tw-mb-3 tw-w-44" />
-          <Typography variant="h4" className="tw-mb-1">
+        <CardContent className="flex flex-col items-center py-12 text-center">
+          <EmptyJobsIllustration className="mb-3 w-44" />
+          <Typography variant="h4" className="mb-1">
             {$t({ id: 'applicants.empty.title' })}
           </Typography>
-          <Typography color="text.secondary" className="tw-max-w-md">
+          <Typography color="text.secondary" className="max-w-md">
             {$t({ id: 'board.empty' })}
           </Typography>
         </CardContent>
@@ -213,8 +213,8 @@ export function HiringBoard({
   const activeApplication = activeId ? byId.get(activeId) : undefined;
 
   return (
-    <Box className="tw-flex tw-flex-col tw-gap-3">
-      <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1.5 tw-px-1">
+    <Box className="flex flex-col gap-3">
+      <Typography variant="body2" color="text.secondary" className="flex items-center gap-1.5 px-1">
         <MdPanTool />
         {$t({ id: 'board.hint' })}
       </Typography>
@@ -231,7 +231,7 @@ export function HiringBoard({
           screenReaderInstructions: { draggable: $t({ id: 'board.a11y.instructions' }) },
         }}
       >
-        <Box className="tw-flex tw-items-stretch tw-gap-3 tw-overflow-x-auto tw-pb-3">
+        <Box className="flex items-stretch gap-3 overflow-x-auto pb-3">
           {BOARD_STAGES.map((stage) => (
             <BoardColumn
               key={stage}
@@ -245,7 +245,7 @@ export function HiringBoard({
 
         <DragOverlay dropAnimation={{ duration: 180, easing: 'cubic-bezier(0.2, 0, 0, 1)' }}>
           {activeApplication && (
-            <Box className="tw-w-[256px]">
+            <Box className="w-[256px]">
               <BoardCardContent
                 application={activeApplication}
                 matchPercent={matchById.get(activeApplication.id) ?? 0}

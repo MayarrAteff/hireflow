@@ -57,10 +57,10 @@ export function JobsList() {
   );
 
   return (
-    <Box className="tw-mx-auto tw-max-w-6xl">
-      <Box className="tw-mb-6 tw-flex tw-flex-wrap tw-items-end tw-justify-between tw-gap-4">
+    <Box className="mx-auto max-w-6xl">
+      <Box className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <Box>
-          <Typography variant="h2" className="tw-mb-1">
+          <Typography variant="h2" className="mb-1">
             {$t({ id: 'jobs.list.title' })}
           </Typography>
           <Typography color="text.secondary">{$t({ id: 'jobs.list.subtitle' })}</Typography>
@@ -70,7 +70,7 @@ export function JobsList() {
 
       {isPending && (
         <Card>
-          <CardContent className="tw-space-y-3">
+          <CardContent className="space-y-3">
             {[0, 1, 2].map((row) => (
               <Skeleton key={row} height={56} />
             ))}
@@ -81,15 +81,15 @@ export function JobsList() {
       {!isPending && jobs.length === 0 && (
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
           <Card>
-            <CardContent className="tw-flex tw-flex-col tw-items-center tw-px-6 tw-py-12 tw-text-center">
-              <EmptyJobsIllustration className="tw-mb-4 tw-w-52" />
-              <Typography variant="h3" className="tw-mb-2">
+            <CardContent className="flex flex-col items-center px-6 py-12 text-center">
+              <EmptyJobsIllustration className="mb-4 w-52" />
+              <Typography variant="h3" className="mb-2">
                 {$t({ id: 'jobs.list.empty.title' })}
               </Typography>
-              <Typography color="text.secondary" className="tw-mb-6 tw-max-w-md">
+              <Typography color="text.secondary" className="mb-6 max-w-md">
                 {$t({ id: 'jobs.list.empty.body' })}
               </Typography>
-              <Box className="tw-mb-8 tw-flex tw-w-full tw-justify-center">
+              <Box className="mb-8 flex w-full justify-center">
                 <JobStepsJourney />
               </Box>
               {postJobButton}
@@ -105,18 +105,18 @@ export function JobsList() {
             size="small"
             value={filter}
             onChange={(_event, value: StatusFilter | null) => value && setFilter(value)}
-            className="tw-mb-4 tw-flex-wrap"
+            className="mb-4 flex-wrap"
           >
             {STATUS_FILTERS.map((status) => (
-              <ToggleButton key={status} value={status} className="tw-gap-2 tw-px-4">
+              <ToggleButton key={status} value={status} className="gap-2 px-4">
                 {$t({ id: status === 'all' ? 'jobs.list.filter.all' : `jobs.status.${status}` })}
-                <Chip size="small" label={countFor(status)} className="tw-h-5" />
+                <Chip size="small" label={countFor(status)} className="h-5" />
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
 
           <Card>
-            <Box className="tw-overflow-x-auto">
+            <Box className="overflow-x-auto">
               <Table>
                 <TableHead>
                   <TableRow>
@@ -132,14 +132,14 @@ export function JobsList() {
                   {visibleJobs.map((job) => (
                     <TableRow key={job.id} hover>
                       <TableCell>
-                        <Box className="tw-flex tw-items-center tw-gap-3">
+                        <Box className="flex items-center gap-3">
                           <Avatar
                             variant="rounded"
                             sx={(theme) => ({ ...accentSoftSx(theme, accentFor(job.title)), fontWeight: 600 })}
                           >
                             {job.title.slice(0, 1).toUpperCase()}
                           </Avatar>
-                          <Box className="tw-min-w-0">
+                          <Box className="min-w-0">
                             <MuiRouterLink
                               to="/recruiter/jobs/$jobId"
                               params={{ jobId: job.id }}
@@ -177,10 +177,10 @@ export function JobsList() {
                       <TableCell>
                         <JobStatusChip status={job.status} />
                       </TableCell>
-                      <TableCell className="tw-whitespace-nowrap">
+                      <TableCell className="whitespace-nowrap">
                         {formatDate(job.created_at, { dateStyle: 'medium' })}
                       </TableCell>
-                      <TableCell align="right" className="tw-whitespace-nowrap">
+                      <TableCell align="right" className="whitespace-nowrap">
                         <Tooltip title={$t({ id: 'jobs.list.openBoard' })}>
                           <IconButtonLink
                             to="/recruiter/jobs/$jobId"
@@ -205,7 +205,7 @@ export function JobsList() {
                   ))}
                   {visibleJobs.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={6} align="center" className="tw-py-10">
+                      <TableCell colSpan={6} align="center" className="py-10">
                         <Typography color="text.secondary">{$t({ id: 'jobs.list.filter.empty' })}</Typography>
                       </TableCell>
                     </TableRow>

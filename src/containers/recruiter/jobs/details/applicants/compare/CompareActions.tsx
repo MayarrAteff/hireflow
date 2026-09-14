@@ -55,24 +55,24 @@ export function CompareActions({
   };
 
   return (
-    <Box className="tw-flex tw-items-center tw-gap-2 tw-p-3">
+    <Box className="flex items-center gap-2 p-3">
       {stage === 'rejected' ? (
-        <Button variant="outlined" startIcon={<MdUndo />} onClick={() => onMove('applied')} className="tw-flex-1">
+        <Button variant="outlined" startIcon={<MdUndo />} onClick={() => onMove('applied')} className="flex-1">
           {$t({ id: 'compare.reconsider' })}
         </Button>
       ) : nextStage ? (
         <Button
           variant="contained"
-          endIcon={<MdArrowForward className="rtl:tw-rotate-180" />}
+          endIcon={<MdArrowForward className="rtl:rotate-180" />}
           onClick={() => onMove(nextStage)}
-          className="tw-min-w-0 tw-flex-1"
+          className="min-w-0 flex-1"
         >
-          <Box component="span" className="tw-truncate">
+          <Box component="span" className="truncate">
             {$t({ id: 'compare.moveTo' }, { stage: $t({ id: `application.stage.${nextStage}` }) })}
           </Box>
         </Button>
       ) : (
-        <Button variant="contained" color="success" startIcon={<MdCheckCircle />} disabled className="tw-flex-1">
+        <Button variant="contained" color="success" startIcon={<MdCheckCircle />} disabled className="flex-1">
           {$t({ id: 'application.stage.hired' })}
         </Button>
       )}
@@ -84,7 +84,7 @@ export function CompareActions({
             color="error"
             onClick={() => onMove('rejected')}
             aria-label={`${$t({ id: 'compare.reject' })} ${name}`}
-            className="tw-min-w-0 tw-px-2.5"
+            className="min-w-0 px-2.5"
           >
             <MdThumbDown size={18} />
           </Button>

@@ -18,10 +18,10 @@ export function StepTipCard({ step }: StepTipCardProps) {
 
   return (
     <Card>
-      <CardContent className="tw-flex tw-gap-3">
+      <CardContent className="flex gap-3">
         <IconTile icon={MdLightbulb} color="amber" size="sm" />
-        <Box className="tw-min-w-0">
-          <Typography fontWeight={600} className="tw-mb-0.5">
+        <Box className="min-w-0">
+          <Typography fontWeight={600} className="mb-0.5">
             {$t({ id: 'jobs.tip.title' })}
           </Typography>
           <AnimatePresence mode="wait">

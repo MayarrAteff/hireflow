@@ -23,18 +23,18 @@ export function ProfileStrength({ onItemClick }: ProfileStrengthProps) {
 
   return (
     <Box>
-      <Box className="tw-mb-5 tw-flex tw-items-center tw-gap-5">
-        <Box className="tw-relative tw-shrink-0">
+      <Box className="mb-5 flex items-center gap-5">
+        <Box className="relative shrink-0">
           <ProgressRing value={percent} />
           <Typography
             variant="h3"
             component="span"
-            className="tw-absolute tw-inset-0 tw-flex tw-items-center tw-justify-center"
+            className="absolute inset-0 flex items-center justify-center"
           >
             {formatNumber(percent / 100, { style: 'percent' })}
           </Typography>
         </Box>
-        <Box className="tw-min-w-0">
+        <Box className="min-w-0">
           <Typography fontWeight={700}>{$t({ id: `candidate.profile.level.${levelId}.title` })}</Typography>
           <Typography variant="body2" color="text.secondary">
             {$t({ id: `candidate.profile.level.${levelId}.body` })}
@@ -42,12 +42,12 @@ export function ProfileStrength({ onItemClick }: ProfileStrengthProps) {
         </Box>
       </Box>
 
-      <Box component="ul" className="tw-m-0 tw-grid tw-list-none tw-grid-cols-2 tw-gap-x-3 tw-gap-y-1 tw-p-0">
+      <Box component="ul" className="m-0 grid list-none grid-cols-2 gap-x-3 gap-y-1 p-0">
         {items.map((item) => {
           const content = (
             <>
               <Box
-                className="tw-flex tw-h-5 tw-w-5 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-full"
+                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
                 sx={
                   item.done ? { bgcolor: ACCENT_COLORS.emerald, color: '#fff' } : { border: 2, borderColor: 'divider' }
                 }
@@ -65,13 +65,13 @@ export function ProfileStrength({ onItemClick }: ProfileStrengthProps) {
               {onItemClick && !item.done ? (
                 <ButtonBase
                   onClick={() => onItemClick(item)}
-                  className="tw-flex tw-w-full tw-justify-start tw-gap-2 tw-rounded-lg tw-px-1 tw-py-1 tw-text-start"
+                  className="flex w-full justify-start gap-2 rounded-lg px-1 py-1 text-start"
                   sx={{ '&:hover': { bgcolor: 'action.hover' } }}
                 >
                   {content}
                 </ButtonBase>
               ) : (
-                <Box className="tw-flex tw-items-center tw-gap-2 tw-px-1 tw-py-1">{content}</Box>
+                <Box className="flex items-center gap-2 px-1 py-1">{content}</Box>
               )}
             </li>
           );

@@ -130,12 +130,12 @@ export function ApplicantsTab({
   if (!loading && applications.length === 0) {
     return (
       <Card>
-        <CardContent className="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
-          <EmptyJobsIllustration className="tw-mb-3 tw-w-44" />
-          <Typography variant="h4" className="tw-mb-1">
+        <CardContent className="flex flex-col items-center py-12 text-center">
+          <EmptyJobsIllustration className="mb-3 w-44" />
+          <Typography variant="h4" className="mb-1">
             {$t({ id: 'applicants.empty.title' })}
           </Typography>
-          <Typography color="text.secondary" className="tw-max-w-md">
+          <Typography color="text.secondary" className="max-w-md">
             {$t({ id: job.status === 'published' ? 'applicants.empty.published' : 'applicants.empty.notPublished' })}
           </Typography>
         </CardContent>
@@ -144,16 +144,16 @@ export function ApplicantsTab({
   }
 
   return (
-    <Box className="tw-flex tw-flex-col tw-gap-4">
+    <Box className="flex flex-col gap-4">
       <Card>
-        <CardContent className="tw-flex tw-flex-col tw-gap-3 tw-p-4">
-          <Box className="tw-flex tw-flex-col tw-gap-3 sm:tw-flex-row">
+        <CardContent className="flex flex-col gap-3 p-4">
+          <Box className="flex flex-col gap-3 sm:flex-row">
             <TextField
               size="small"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder={$t({ id: 'applicants.search' })}
-              className="tw-flex-1"
+              className="flex-1"
               slotProps={{
                 htmlInput: { 'aria-label': $t({ id: 'applicants.search' }) },
                 input: {
@@ -171,7 +171,7 @@ export function ApplicantsTab({
               label={$t({ id: 'applicants.sort' })}
               value={sort}
               onChange={(event) => setSort(event.target.value as SortKey)}
-              className="sm:tw-w-52"
+              className="sm:w-52"
             >
               {SORT_KEYS.map((key) => (
                 <MenuItem key={key} value={key}>
@@ -180,7 +180,7 @@ export function ApplicantsTab({
               ))}
             </TextField>
           </Box>
-          <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+          <Box className="flex flex-wrap gap-1.5">
             {STAGE_FILTERS.map((stage) => {
               const count =
                 stage === 'all' ? applications.length : applications.filter((a) => a.stage === stage).length;
@@ -200,9 +200,9 @@ export function ApplicantsTab({
         </CardContent>
       </Card>
 
-      <Box className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-2 tw-px-1">
-        <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1.5">
-          <MdCompareArrows className="tw-shrink-0" />
+      <Box className="flex flex-wrap items-center justify-between gap-2 px-1">
+        <Typography variant="body2" color="text.secondary" className="flex items-center gap-1.5">
+          <MdCompareArrows className="shrink-0" />
           {$t({ id: 'applicants.compareHint' }, { max: MAX_COMPARE })}
         </Typography>
         <Button
@@ -218,11 +218,11 @@ export function ApplicantsTab({
 
       <Card>
         {visible.length === 0 ? (
-          <CardContent className="tw-py-10 tw-text-center">
+          <CardContent className="py-10 text-center">
             <Typography color="text.secondary">{$t({ id: 'applicants.noMatches' })}</Typography>
           </CardContent>
         ) : (
-          <Box component="ul" className="tw-m-0 tw-list-none tw-p-0">
+          <Box component="ul" className="m-0 list-none p-0">
             {visible.map((application, index) => {
               const { candidate } = application;
               const isSelected = selectedIds.includes(application.id);
@@ -232,7 +232,7 @@ export function ApplicantsTab({
                 <Box
                   component="li"
                   key={application.id}
-                  className="tw-flex tw-items-center tw-gap-2 tw-px-2 sm:tw-px-3"
+                  className="flex items-center gap-2 px-2 sm:px-3"
                   sx={{
                     borderTop: index === 0 ? 0 : 1,
                     borderColor: 'divider',
@@ -255,12 +255,12 @@ export function ApplicantsTab({
                   </Tooltip>
                   <ButtonBase
                     onClick={() => onOpenApplicant(application.id)}
-                    className="tw-grid tw-min-w-0 tw-flex-1 tw-items-center tw-gap-x-4 tw-gap-y-1 tw-rounded-xl tw-py-3 tw-text-start md:tw-grid-cols-[minmax(0,2fr)_140px_110px_120px]"
+                    className="grid min-w-0 flex-1 items-center gap-x-4 gap-y-1 rounded-xl py-3 text-start md:grid-cols-[minmax(0,2fr)_140px_110px_120px]"
                     sx={{ '&:hover': { bgcolor: 'action.hover' }, px: 1 }}
                   >
-                    <Box className="tw-flex tw-min-w-0 tw-items-center tw-gap-3">
+                    <Box className="flex min-w-0 items-center gap-3">
                       <ApplicantAvatar candidate={candidate} />
-                      <Box className="tw-min-w-0">
+                      <Box className="min-w-0">
                         <Typography fontWeight={600} noWrap>
                           {candidate.full_name || candidate.email}
                         </Typography>
@@ -275,23 +275,23 @@ export function ApplicantsTab({
                         </Typography>
                       </Box>
                     </Box>
-                    <Box className="tw-hidden md:tw-block">
+                    <Box className="hidden md:block">
                       <SkillMatchBar percent={matchById.get(application.id)?.percent ?? 0} />
                     </Box>
-                    <Box className="tw-hidden md:tw-flex md:tw-flex-col md:tw-items-start md:tw-gap-0.5">
+                    <Box className="hidden md:flex md:flex-col md:items-start md:gap-0.5">
                       <StageChip stage={application.stage} />
                       {nextInterview && (
                         <Typography
                           variant="caption"
                           color="text.secondary"
-                          className="tw-flex tw-items-center tw-gap-1"
+                          className="flex items-center gap-1"
                         >
                           <MdEventAvailable />
                           {formatDate(nextInterview.scheduled_at, { month: 'short', day: 'numeric' })}
                         </Typography>
                       )}
                     </Box>
-                    <Box className="tw-hidden md:tw-block">
+                    <Box className="hidden md:block">
                       {application.rating ? (
                         <Rating value={application.rating} readOnly size="small" />
                       ) : (
@@ -299,13 +299,13 @@ export function ApplicantsTab({
                           {$t({ id: 'applicants.notRated' })}
                         </Typography>
                       )}
-                      <Typography variant="caption" color="text.secondary" className="tw-block">
+                      <Typography variant="caption" color="text.secondary" className="block">
                         {formatRelativeDay(application.created_at)}
                       </Typography>
                     </Box>
-                    <Box className="tw-flex tw-items-center tw-gap-2 md:tw-hidden">
+                    <Box className="flex items-center gap-2 md:hidden">
                       <StageChip stage={application.stage} />
-                      <Box className="tw-w-28">
+                      <Box className="w-28">
                         <SkillMatchBar percent={matchById.get(application.id)?.percent ?? 0} />
                       </Box>
                     </Box>
@@ -323,10 +323,10 @@ export function ApplicantsTab({
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
-            className="tw-sticky tw-bottom-4 tw-z-10 tw-flex tw-justify-center"
+            className="sticky bottom-4 z-10 flex justify-center"
           >
-            <Paper elevation={8} className="tw-flex tw-items-center tw-gap-3 tw-rounded-full tw-py-2 tw-pe-2 tw-ps-3">
-              <Box className="tw-flex tw-gap-1.5">
+            <Paper elevation={8} className="flex items-center gap-3 rounded-full py-2 pe-2 ps-3">
+              <Box className="flex gap-1.5">
                 {Array.from({ length: MAX_COMPARE }, (_, slot) => {
                   const application = selected[slot];
                   if (!application) {
@@ -334,7 +334,7 @@ export function ApplicantsTab({
                       <Box
                         key={`empty-${slot}`}
                         aria-hidden
-                        className="tw-flex tw-h-9 tw-w-9 tw-items-center tw-justify-center tw-rounded-full"
+                        className="flex h-9 w-9 items-center justify-center rounded-full"
                         sx={{ border: 2, borderStyle: 'dashed', borderColor: 'divider', color: 'text.disabled' }}
                       >
                         <MdAdd />
@@ -343,9 +343,9 @@ export function ApplicantsTab({
                   }
                   const name = application.candidate.full_name || application.candidate.email;
                   return (
-                    <Box key={application.id} className="tw-relative">
+                    <Box key={application.id} className="relative">
                       <Tooltip title={name}>
-                        <Box component="span" className="tw-block">
+                        <Box component="span" className="block">
                           <ApplicantAvatar candidate={application.candidate} size={36} />
                         </Box>
                       </Tooltip>
@@ -353,7 +353,7 @@ export function ApplicantsTab({
                         size="small"
                         onClick={() => toggleSelected(application.id)}
                         aria-label={$t({ id: 'compare.remove' }, { name })}
-                        className="tw-absolute -tw-end-1.5 -tw-top-1.5 tw-h-[18px] tw-w-[18px] tw-p-0"
+                        className="absolute -end-1.5 -top-1.5 h-[18px] w-[18px] p-0"
                         sx={{
                           bgcolor: 'text.primary',
                           color: 'background.paper',
@@ -366,7 +366,7 @@ export function ApplicantsTab({
                   );
                 })}
               </Box>
-              <Typography variant="body2" fontWeight={600} className="tw-hidden sm:tw-block">
+              <Typography variant="body2" fontWeight={600} className="hidden sm:block">
                 {selected.length < 2
                   ? $t({ id: 'applicants.pickMore' }, { count: 2 - selected.length })
                   : $t({ id: 'applicants.selected' }, { count: selected.length, max: MAX_COMPARE })}
@@ -380,7 +380,7 @@ export function ApplicantsTab({
                 startIcon={<MdCompareArrows />}
                 disabled={selected.length < 2}
                 onClick={() => setCompareOpen(true)}
-                className="tw-rounded-full"
+                className="rounded-full"
               >
                 {$t({ id: 'applicants.compare' })}
               </Button>

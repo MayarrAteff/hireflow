@@ -39,24 +39,24 @@ export function CompanySetupCard() {
   });
 
   return (
-    <Card className="tw-mx-auto tw-max-w-xl tw-overflow-hidden">
+    <Card className="mx-auto max-w-xl overflow-hidden">
       <Box
-        className="tw-flex tw-justify-center tw-pt-6"
+        className="flex justify-center pt-6"
         sx={(theme) => ({
           background: `linear-gradient(180deg, ${alpha(theme.palette.primary.main, 0.14)} 0%, transparent 100%)`,
         })}
       >
-        <CompanyIllustration className="tw-w-48" />
+        <CompanyIllustration className="w-48" />
       </Box>
-      <CardContent className="tw-p-6 sm:tw-p-8">
-        <Typography variant="h3" className="tw-mb-1 tw-text-center">
+      <CardContent className="p-6 sm:p-8">
+        <Typography variant="h3" className="mb-1 text-center">
           {$t({ id: 'company.setup.title' })}
         </Typography>
-        <Typography color="text.secondary" className="tw-mb-6 tw-text-center">
+        <Typography color="text.secondary" className="mb-6 text-center">
           {$t({ id: 'company.setup.body' })}
         </Typography>
 
-        <Box component="form" noValidate onSubmit={handleSubmit((values) => mutate(values))} className="tw-space-y-5">
+        <Box component="form" noValidate onSubmit={handleSubmit((values) => mutate(values))} className="space-y-5">
           {serverErrors.general && <Alert severity="error">{serverErrors.general}</Alert>}
           <FormTextField name="name" control={control} labelId="company.field.name" autoComplete="organization" />
           <FormTextField name="website" control={control} labelId="company.field.website" type="url" />

@@ -16,14 +16,14 @@ export function DashboardWelcome({ subtitleId, features }: DashboardWelcomeProps
   const { $t } = useIntl();
 
   return (
-    <Box className="tw-mx-auto tw-flex tw-max-w-6xl tw-flex-col tw-gap-8">
+    <Box className="mx-auto flex max-w-6xl flex-col gap-8">
       <DashboardHero subtitleId={subtitleId} />
 
       <Box>
-        <Typography variant="h4" className="tw-mb-4">
+        <Typography variant="h4" className="mb-4">
           {$t({ id: 'dashboard.section.explore' })}
         </Typography>
-        <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2 lg:tw-grid-cols-3">
+        <Box className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
             <motion.div
               key={feature.labelId}

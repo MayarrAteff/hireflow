@@ -39,19 +39,19 @@ export function CandidateProfile() {
   if (!profile) return null;
 
   return (
-    <Box className="tw-mx-auto tw-max-w-6xl">
-      <Box className="tw-mb-8 tw-flex tw-items-center tw-gap-4">
+    <Box className="mx-auto max-w-6xl">
+      <Box className="mb-8 flex items-center gap-4">
         <IconTile icon={MdPerson} size="lg" />
-        <Box className="tw-min-w-0">
-          <Typography variant="h2" className="tw-mb-1">
+        <Box className="min-w-0">
+          <Typography variant="h2" className="mb-1">
             {$t({ id: 'profile.title' })}
           </Typography>
           <Typography color="text.secondary">{$t({ id: 'profile.subtitle' })}</Typography>
         </Box>
       </Box>
 
-      <Box className="tw-grid tw-items-start tw-gap-6 lg:tw-grid-cols-[minmax(0,1fr)_340px]">
-        <Box className="tw-flex tw-flex-col tw-gap-6">
+      <Box className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <Box className="flex flex-col gap-6">
           {SECTIONS.map(({ key, Component }, index) => (
             <motion.div key={key} {...appear(index)}>
               <Component profile={profile} />
@@ -59,11 +59,11 @@ export function CandidateProfile() {
           ))}
         </Box>
 
-        <Box component="aside" className="tw-flex tw-flex-col tw-gap-4 lg:tw-sticky lg:tw-top-24">
+        <Box component="aside" className="flex flex-col gap-4 lg:sticky lg:top-24">
           <ProfilePreviewCard profile={profile} />
           <Card>
-            <CardContent className="tw-p-5">
-              <Typography variant="h6" className="tw-mb-4">
+            <CardContent className="p-5">
+              <Typography variant="h6" className="mb-4">
                 {$t({ id: 'candidate.profile.title' })}
               </Typography>
               <ProfileStrength

@@ -23,26 +23,26 @@ export function FeatureCard({ icon, labelId, color, to }: Feature) {
   const { $t } = useIntl();
 
   const content = (
-    <CardContent className="tw-flex tw-h-full tw-flex-col tw-gap-3">
+    <CardContent className="flex h-full flex-col gap-3">
       <IconTile icon={icon} color={color} />
-      <Typography fontWeight={600} className="tw-flex-1">
+      <Typography fontWeight={600} className="flex-1">
         {$t({ id: labelId })}
       </Typography>
       {to ? (
-        <Typography color="primary" fontWeight={600} className="tw-flex tw-items-center tw-gap-1">
+        <Typography color="primary" fontWeight={600} className="flex items-center gap-1">
           {$t({ id: 'dashboard.openFeature' })}
-          <MdArrowForward className="rtl:tw-rotate-180" />
+          <MdArrowForward className="rtl:rotate-180" />
         </Typography>
       ) : (
-        <Chip size="small" variant="outlined" label={$t({ id: 'dashboard.comingSoon' })} className="tw-w-fit" />
+        <Chip size="small" variant="outlined" label={$t({ id: 'dashboard.comingSoon' })} className="w-fit" />
       )}
     </CardContent>
   );
 
   return (
-    <Card className="tw-h-full tw-transition-transform hover:-tw-translate-y-1">
+    <Card className="h-full transition-transform hover:-translate-y-1">
       {to ? (
-        <CardActionArea component={Link} to={to} className="tw-h-full">
+        <CardActionArea component={Link} to={to} className="h-full">
           {content}
         </CardActionArea>
       ) : (

@@ -17,9 +17,9 @@ export function ProfileStrengthCard() {
   const { percent } = getProfileCompleteness(profile);
 
   return (
-    <Card className="tw-h-full">
-      <CardContent className="tw-flex tw-h-full tw-flex-col tw-p-6">
-        <Typography variant="h5" className="tw-mb-4">
+    <Card className="h-full">
+      <CardContent className="flex h-full flex-col p-6">
+        <Typography variant="h5" className="mb-4">
           {$t({ id: 'candidate.profile.title' })}
         </Typography>
         <ProfileStrength />
@@ -27,8 +27,8 @@ export function ProfileStrengthCard() {
           component={Link}
           to="/candidate/profile"
           variant={percent === 100 ? 'outlined' : 'contained'}
-          endIcon={<MdArrowForward className="rtl:tw-rotate-180" />}
-          className="tw-mt-5 tw-self-start"
+          endIcon={<MdArrowForward className="rtl:rotate-180" />}
+          className="mt-5 self-start"
         >
           {$t({ id: percent === 100 ? 'candidate.profile.view' : 'candidate.profile.complete' })}
         </Button>

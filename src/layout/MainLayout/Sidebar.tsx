@@ -53,8 +53,8 @@ export function Sidebar({ variant, open, onClose }: SidebarProps) {
         '& .MuiDrawer-paper': { width, boxSizing: 'border-box', overflowX: 'hidden', transition: widthTransition },
       }}
     >
-      <Box className={`tw-flex tw-h-16 tw-items-center tw-gap-2 ${collapsed ? 'tw-justify-center' : 'tw-px-5'}`}>
-        <img src="/logo.svg" alt="" className="tw-h-8 tw-w-8" />
+      <Box className={`flex h-16 items-center gap-2 ${collapsed ? 'justify-center' : 'px-5'}`}>
+        <img src="/logo.svg" alt="" className="h-8 w-8" />
         {!collapsed && (
           <Typography variant="h5" component="span" noWrap>
             {$t({ id: 'app.name' })}
@@ -64,7 +64,7 @@ export function Sidebar({ variant, open, onClose }: SidebarProps) {
 
       <SimpleBar style={{ flex: 1, minHeight: 0 }}>
         <List
-          className="tw-px-3"
+          className="px-3"
           subheader={
             collapsed ? undefined : <ListSubheader disableSticky>{$t({ id: 'menu.section.main' })}</ListSubheader>
           }
@@ -75,9 +75,9 @@ export function Sidebar({ variant, open, onClose }: SidebarProps) {
                 to={to}
                 activeProps={{ className: 'active' }}
                 onClick={variant === 'temporary' ? onClose : undefined}
-                className={`tw-mb-1 ${collapsed ? 'tw-justify-center' : ''}`}
+                className={`mb-1 ${collapsed ? 'justify-center' : ''}`}
               >
-                <ListItemIcon className={collapsed ? 'tw-min-w-0' : 'tw-min-w-10'}>
+                <ListItemIcon className={collapsed ? 'min-w-0' : 'min-w-10'}>
                   <Icon size={20} />
                 </ListItemIcon>
                 {!collapsed && <ListItemText primary={$t({ id: labelId })} />}

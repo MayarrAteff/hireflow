@@ -38,11 +38,11 @@ export function GettingStartedCard({ jobs }: GettingStartedCardProps) {
   const nextTask = tasks.find((task) => !task.done);
 
   return (
-    <Card className="tw-h-full">
-      <CardContent className="tw-p-6">
-        <Box className="tw-mb-4 tw-flex tw-items-center tw-gap-3">
+    <Card className="h-full">
+      <CardContent className="p-6">
+        <Box className="mb-4 flex items-center gap-3">
           <IconTile icon={MdRocketLaunch} />
-          <Box className="tw-min-w-0 tw-flex-1">
+          <Box className="min-w-0 flex-1">
             <Typography variant="h5">{$t({ id: 'dashboard.gettingStarted.title' })}</Typography>
             <Typography variant="body2" color="text.secondary">
               {$t({ id: 'dashboard.gettingStarted.progress' }, { done: doneCount, total: tasks.length })}
@@ -50,23 +50,23 @@ export function GettingStartedCard({ jobs }: GettingStartedCardProps) {
           </Box>
         </Box>
 
-        <LinearProgress variant="determinate" value={(doneCount / tasks.length) * 100} className="tw-mb-5" />
+        <LinearProgress variant="determinate" value={(doneCount / tasks.length) * 100} className="mb-5" />
 
         {allDone ? (
-          <Typography className="tw-rounded-xl tw-p-4" sx={{ bgcolor: alpha(ACCENT_COLORS.emerald, 0.12) }}>
+          <Typography className="rounded-xl p-4" sx={{ bgcolor: alpha(ACCENT_COLORS.emerald, 0.12) }}>
             {$t({ id: 'dashboard.gettingStarted.allDone' })}
           </Typography>
         ) : (
-          <Box component="ol" className="tw-m-0 tw-flex tw-list-none tw-flex-col tw-gap-2 tw-p-0">
+          <Box component="ol" className="m-0 flex list-none flex-col gap-2 p-0">
             {tasks.map((task, index) => (
               <Box
                 component="li"
                 key={task.labelId}
-                className="tw-flex tw-items-center tw-gap-3 tw-rounded-xl tw-p-2"
+                className="flex items-center gap-3 rounded-xl p-2"
                 sx={task === nextTask ? { bgcolor: 'primary.light' } : undefined}
               >
                 <Box
-                  className="tw-flex tw-h-8 tw-w-8 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-full tw-text-sm tw-font-semibold"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold"
                   sx={
                     task.done
                       ? { bgcolor: ACCENT_COLORS.emerald, color: '#fff' }
@@ -76,7 +76,7 @@ export function GettingStartedCard({ jobs }: GettingStartedCardProps) {
                   {task.done ? <MdCheck size={18} /> : index + 1}
                 </Box>
                 <Typography
-                  className="tw-flex-1"
+                  className="flex-1"
                   color={task.done ? 'text.secondary' : 'text.primary'}
                   sx={task.done ? { textDecoration: 'line-through' } : undefined}
                 >

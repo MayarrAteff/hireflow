@@ -41,26 +41,26 @@ export function JobStatusChip({ status, size = 'small' }: JobStatusChipProps) {
   return (
     <Box
       component="span"
-      className={`tw-inline-flex tw-shrink-0 tw-items-center tw-gap-1.5 tw-whitespace-nowrap tw-rounded-full tw-font-semibold ${
-        isMedium ? 'tw-px-3 tw-py-1 tw-text-sm' : 'tw-px-2.5 tw-py-0.5 tw-text-xs'
+      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full font-semibold ${
+        isMedium ? 'px-3 py-1 text-sm' : 'px-2.5 py-0.5 text-xs'
       }`}
       sx={(theme) => {
         const colors = statusColors(theme, status);
         return { bgcolor: colors.bg, color: colors.text, border: `1px solid ${colors.border}` };
       }}
     >
-      <Box component="span" className="tw-relative tw-flex tw-h-2 tw-w-2">
+      <Box component="span" className="relative flex h-2 w-2">
         {/* A soft pulse signals the job is live and accepting applications. */}
         {status === 'published' && (
           <Box
             component="span"
-            className="tw-absolute tw-inset-0 tw-animate-ping tw-rounded-full motion-reduce:tw-hidden"
+            className="absolute inset-0 animate-ping rounded-full motion-reduce:hidden"
             sx={(theme) => ({ bgcolor: statusColors(theme, status).dot, opacity: 0.6 })}
           />
         )}
         <Box
           component="span"
-          className="tw-relative tw-h-2 tw-w-2 tw-rounded-full"
+          className="relative h-2 w-2 rounded-full"
           sx={(theme) => ({ bgcolor: statusColors(theme, status).dot })}
         />
       </Box>

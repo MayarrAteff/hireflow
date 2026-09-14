@@ -27,15 +27,15 @@ export function ReviewSection({ step, rows }: ReviewSectionProps) {
   return (
     <Box
       component="section"
-      className="tw-overflow-hidden tw-rounded-2xl"
+      className="overflow-hidden rounded-2xl"
       sx={{ border: 1, borderColor: 'divider', borderInlineStart: `4px solid ${ACCENT_COLORS[color]}` }}
     >
       <Box
-        className="tw-flex tw-items-center tw-gap-3 tw-px-4 tw-py-3"
+        className="flex items-center gap-3 px-4 py-3"
         sx={{ borderBottom: 1, borderColor: 'divider' }}
       >
         <IconTile icon={icon} color={color} size="sm" />
-        <Typography variant="h6" className="tw-flex-1">
+        <Typography variant="h6" className="flex-1">
           {$t({ id: `jobs.step.${step}` })}
         </Typography>
         <Button
@@ -48,13 +48,13 @@ export function ReviewSection({ step, rows }: ReviewSectionProps) {
         </Button>
       </Box>
 
-      <Box component="dl" className="tw-m-0 tw-grid tw-gap-x-6 tw-gap-y-4 tw-p-4 sm:tw-grid-cols-[160px_minmax(0,1fr)]">
+      <Box component="dl" className="m-0 grid gap-x-6 gap-y-4 p-4 sm:grid-cols-[160px_minmax(0,1fr)]">
         {rows.map(({ labelId, value }) => (
-          <Box key={labelId} className="tw-contents">
-            <Typography component="dt" variant="body2" color="text.secondary" className="sm:tw-pt-0.5">
+          <Box key={labelId} className="contents">
+            <Typography component="dt" variant="body2" color="text.secondary" className="sm:pt-0.5">
               {$t({ id: labelId })}
             </Typography>
-            <Box component="dd" className="tw-m-0 tw-min-w-0 tw-break-words">
+            <Box component="dd" className="m-0 min-w-0 break-words">
               {value}
             </Box>
           </Box>

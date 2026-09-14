@@ -109,7 +109,7 @@ function ListEditor({
 
   return (
     <Box>
-      <Box className="tw-mb-2 tw-flex tw-items-baseline tw-justify-between tw-gap-2">
+      <Box className="mb-2 flex items-baseline justify-between gap-2">
         <Typography fontWeight={600}>{$t({ id: labelId })}</Typography>
         <Typography variant="caption" color="text.secondary">
           {$t({ id: hintId })}
@@ -118,7 +118,7 @@ function ListEditor({
 
       <Box
         component="ol"
-        className="tw-m-0 tw-flex tw-list-none tw-flex-col tw-gap-2 tw-rounded-2xl tw-p-3"
+        className="m-0 flex list-none flex-col gap-2 rounded-2xl p-3"
         sx={{ border: 1, borderColor: error ? 'error.main' : 'divider', bgcolor: 'action.hover' }}
       >
         <AnimatePresence initial={false}>
@@ -132,10 +132,10 @@ function ListEditor({
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.18 }}
-                className="tw-flex tw-items-center tw-gap-2"
+                className="flex items-center gap-2"
               >
                 <Box
-                  className="tw-flex tw-h-7 tw-w-7 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-full tw-text-xs tw-font-bold"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold"
                   sx={{ bgcolor: 'primary.light', color: 'primary.main' }}
                 >
                   {index + 1}
@@ -173,7 +173,7 @@ function ListEditor({
         </AnimatePresence>
 
         <li>
-          <Button size="small" startIcon={<MdAdd />} onClick={handleAdd} className="tw-ms-7">
+          <Button size="small" startIcon={<MdAdd />} onClick={handleAdd} className="ms-7">
             {$t({ id: addLabelId })}
           </Button>
         </li>

@@ -33,20 +33,20 @@ export function JobCard({ job, applied }: JobCardProps) {
   const closingSoon = daysLeft !== null && daysLeft >= 0 && daysLeft <= CLOSING_SOON_DAYS;
 
   return (
-    <Card className="tw-h-full tw-transition-transform hover:-tw-translate-y-1">
+    <Card className="h-full transition-transform hover:-translate-y-1">
       <CardActionLink
         to="/candidate/jobs/$jobId"
         params={{ jobId: job.id }}
-        className="tw-flex tw-h-full tw-flex-col tw-items-stretch tw-gap-3 tw-p-4"
+        className="flex h-full flex-col items-stretch gap-3 p-4"
       >
-        <Box className="tw-flex tw-items-center tw-gap-3">
+        <Box className="flex items-center gap-3">
           <Avatar
             variant="rounded"
             sx={(theme) => ({ ...accentSoftSx(theme, accentFor(company || job.title)), fontWeight: 700 })}
           >
             {(company || job.title).slice(0, 1).toUpperCase()}
           </Avatar>
-          <Box className="tw-min-w-0 tw-flex-1">
+          <Box className="min-w-0 flex-1">
             <Typography fontWeight={700} noWrap>
               {job.title}
             </Typography>
@@ -61,7 +61,7 @@ export function JobCard({ job, applied }: JobCardProps) {
           )}
         </Box>
 
-        <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+        <Box className="flex flex-wrap gap-1.5">
           <Chip size="small" variant="outlined" label={$t({ id: `jobs.employmentType.${job.employment_type}` })} />
           <Chip size="small" variant="outlined" label={$t({ id: `jobs.workMode.${job.work_mode}` })} />
           {closingSoon && (
@@ -75,9 +75,9 @@ export function JobCard({ job, applied }: JobCardProps) {
           )}
         </Box>
 
-        <Box className="tw-mt-auto tw-flex tw-items-center tw-justify-between tw-gap-2">
-          <Typography variant="body2" color="text.secondary" noWrap className="tw-flex tw-items-center tw-gap-1">
-            {job.location && <MdPlace className="tw-shrink-0" />}
+        <Box className="mt-auto flex items-center justify-between gap-2">
+          <Typography variant="body2" color="text.secondary" noWrap className="flex items-center gap-1">
+            {job.location && <MdPlace className="shrink-0" />}
             {job.location || formatRelativeDay(job.created_at)}
           </Typography>
           {salary && (

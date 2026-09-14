@@ -154,24 +154,24 @@ export function OfferDialog({ job, target, onClose }: OfferDialogProps) {
 
   return (
     <Dialog open={Boolean(target)} onClose={isBusy ? undefined : onClose} maxWidth="sm" fullWidth>
-      <DialogTitle className="tw-flex tw-items-center tw-gap-3">
-        <Box className="tw-min-w-0 tw-flex-1">
-          <Typography variant="h4" component="span" className="tw-block">
+      <DialogTitle className="flex items-center gap-3">
+        <Box className="min-w-0 flex-1">
+          <Typography variant="h4" component="span" className="block">
             {$t({
               id: isRevision ? 'offer.dialog.reviseTitle' : isDraft ? 'offer.dialog.editTitle' : 'offer.dialog.title',
             })}
           </Typography>
-          <Typography color="text.secondary" component="span" className="tw-block">
+          <Typography color="text.secondary" component="span" className="block">
             {$t({ id: 'offer.dialog.for' }, { name: target?.candidateName, job: job.title })}
           </Typography>
         </Box>
       </DialogTitle>
 
-      <DialogContent className="tw-flex tw-flex-col tw-gap-5 tw-pt-2">
+      <DialogContent className="flex flex-col gap-5 pt-2">
         {serverError && <Alert severity="error">{serverError}</Alert>}
         {isPending && <Alert severity="info">{$t({ id: 'offer.dialog.revisionNote' })}</Alert>}
 
-        <Box className="tw-grid tw-gap-4 tw-pt-2 sm:tw-grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <Box className="grid gap-4 pt-2 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <FormTextField
             name="salary"
             control={control}
@@ -189,12 +189,12 @@ export function OfferDialog({ job, target, onClose }: OfferDialogProps) {
           </FormTextField>
         </Box>
 
-        <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2">
+        <Box className="grid gap-4 sm:grid-cols-2">
           <FormDateField name="startDate" control={control} labelId="offer.field.startDate" disablePast />
           <FormDateField name="expiresAt" control={control} labelId="offer.field.expiresAt" disablePast />
         </Box>
         {expiresAt?.isValid() && (
-          <Typography variant="body2" color="text.secondary" className="-tw-mt-3">
+          <Typography variant="body2" color="text.secondary" className="-mt-3">
             {$t(
               { id: 'offer.field.expiresAt.preview' },
               { date: formatDate(expiresAt.toDate(), { weekday: 'long', month: 'long', day: 'numeric' }) },
@@ -213,16 +213,16 @@ export function OfferDialog({ job, target, onClose }: OfferDialogProps) {
         />
 
         <Box>
-          <Typography variant="body2" fontWeight={600} className="tw-mb-2">
+          <Typography variant="body2" fontWeight={600} className="mb-2">
             {$t({ id: 'offer.field.letter' })}
           </Typography>
           {letter || keptLetterPath ? (
             <Box
-              className="tw-flex tw-items-center tw-gap-3 tw-rounded-2xl tw-p-3"
+              className="flex items-center gap-3 rounded-2xl p-3"
               sx={{ border: 1, borderColor: 'divider', bgcolor: 'action.hover' }}
             >
               <IconTile icon={MdPictureAsPdf} color="rose" size="sm" />
-              <Typography fontWeight={600} className="tw-min-w-0 tw-flex-1 tw-break-all">
+              <Typography fontWeight={600} className="min-w-0 flex-1 break-all">
                 {letter?.name ?? getOfferLetterFileName(keptLetterPath as string)}
               </Typography>
               <IconButton
@@ -249,7 +249,7 @@ export function OfferDialog({ job, target, onClose }: OfferDialogProps) {
         </Box>
       </DialogContent>
 
-      <DialogActions className="tw-flex-wrap tw-gap-2 tw-px-6 tw-pb-5">
+      <DialogActions className="flex-wrap gap-2 px-6 pb-5">
         {isPending &&
           (confirmWithdraw ? (
             <Button color="error" variant="contained" onClick={() => withdraw.mutate()} loading={withdraw.isPending}>
@@ -260,7 +260,7 @@ export function OfferDialog({ job, target, onClose }: OfferDialogProps) {
               {$t({ id: 'offer.dialog.withdraw' })}
             </Button>
           ))}
-        <Box className="tw-flex-1" />
+        <Box className="flex-1" />
         <Button onClick={onClose} disabled={isBusy}>
           {$t({ id: 'profile.cancel' })}
         </Button>
@@ -276,7 +276,7 @@ export function OfferDialog({ job, target, onClose }: OfferDialogProps) {
         )}
         <Button
           variant="contained"
-          startIcon={<MdSend className="rtl:tw-rotate-180" />}
+          startIcon={<MdSend className="rtl:rotate-180" />}
           onClick={submitAs('sent')}
           disabled={isBusy}
           loading={save.isPending && save.variables?.status === 'sent'}

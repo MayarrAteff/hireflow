@@ -29,24 +29,24 @@ export function DashboardHero({ subtitleId, actions }: DashboardHeroProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
       <Box
-        className="tw-relative tw-grid tw-items-center tw-gap-6 tw-overflow-hidden tw-rounded-3xl tw-p-6 tw-text-white sm:tw-p-10 md:tw-grid-cols-[1fr_auto]"
+        className="relative grid items-center gap-6 overflow-hidden rounded-3xl p-6 text-white sm:p-10 md:grid-cols-[1fr_auto]"
         sx={(theme) => ({ background: brandGradient(theme) })}
       >
-        <Box aria-hidden className="tw-absolute -tw-end-16 -tw-top-24 tw-h-64 tw-w-64 tw-rounded-full tw-bg-white/10" />
+        <Box aria-hidden className="absolute -end-16 -top-24 h-64 w-64 rounded-full bg-white/10" />
         <Box
           aria-hidden
-          className="tw-absolute -tw-bottom-20 tw-start-1/3 tw-h-48 tw-w-48 tw-rounded-full tw-bg-white/10"
+          className="absolute -bottom-20 start-1/3 h-48 w-48 rounded-full bg-white/10"
         />
 
-        <Box className="tw-relative">
-          <Typography variant="h2" className="tw-mb-2">
+        <Box className="relative">
+          <Typography variant="h2" className="mb-2">
             {$t({ id: greetingId() }, { name: firstName })}
           </Typography>
-          <Typography className="tw-mb-6 tw-max-w-lg tw-text-white/85">{$t({ id: subtitleId })}</Typography>
-          {actions && <Box className="tw-flex tw-flex-wrap tw-gap-3">{actions}</Box>}
+          <Typography className="mb-6 max-w-lg text-white/85">{$t({ id: subtitleId })}</Typography>
+          {actions && <Box className="flex flex-wrap gap-3">{actions}</Box>}
         </Box>
 
-        <HiringIllustration className="tw-relative tw-hidden tw-w-72 md:tw-block lg:tw-w-80" />
+        <HiringIllustration className="relative hidden w-72 md:block lg:w-80" />
       </Box>
     </motion.div>
   );

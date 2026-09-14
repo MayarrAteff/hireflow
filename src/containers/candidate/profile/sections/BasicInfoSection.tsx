@@ -50,9 +50,9 @@ export function BasicInfoSection({ profile }: BasicInfoSectionProps) {
         serverError: serverErrors.general,
       }}
     >
-      <Box className="tw-grid tw-items-start tw-gap-6 sm:tw-grid-cols-[auto_minmax(0,1fr)]">
+      <Box className="grid items-start gap-6 sm:grid-cols-[auto_minmax(0,1fr)]">
         <AvatarUploader profile={profile} />
-        <Box className="tw-grid tw-gap-4">
+        <Box className="grid gap-4">
           <FormTextField
             name="fullName"
             control={control}

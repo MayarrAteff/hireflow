@@ -20,7 +20,7 @@ export function LeaderMark({ label }: { label: string }) {
         role="img"
         aria-label={label}
         tabIndex={0}
-        className="tw-inline-flex tw-shrink-0"
+        className="inline-flex shrink-0"
         sx={{ color: ACCENT_COLORS.amber }}
       >
         <MdEmojiEvents size={18} />
@@ -42,7 +42,7 @@ export function CompareSectionTitle({ icon, title, open, onToggle }: CompareSect
     <ButtonBase
       onClick={onToggle}
       aria-expanded={open}
-      className="tw-sticky tw-start-3 tw-flex tw-w-fit tw-items-center tw-gap-2.5 tw-rounded-xl tw-py-1 tw-pe-2 tw-ps-1"
+      className="sticky start-3 flex w-fit items-center gap-2.5 rounded-xl py-1 pe-2 ps-1"
       sx={{ '&:hover': { bgcolor: 'action.hover' } }}
     >
       <IconTile icon={icon} size="sm" />
@@ -80,7 +80,7 @@ export function ExpandableText({ text, lines }: ExpandableTextProps) {
       <Typography
         ref={ref}
         variant="body2"
-        className="tw-whitespace-pre-line tw-break-words"
+        className="whitespace-pre-line break-words"
         sx={
           expanded
             ? undefined
@@ -90,7 +90,7 @@ export function ExpandableText({ text, lines }: ExpandableTextProps) {
         {text}
       </Typography>
       {(clamped || expanded) && (
-        <Button size="small" onClick={() => setExpanded((value) => !value)} className="-tw-ms-1 tw-mt-0.5 tw-px-1">
+        <Button size="small" onClick={() => setExpanded((value) => !value)} className="-ms-1 mt-0.5 px-1">
           {$t({ id: expanded ? 'compare.readLess' : 'compare.readMore' })}
         </Button>
       )}

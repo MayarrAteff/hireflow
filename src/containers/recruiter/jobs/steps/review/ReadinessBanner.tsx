@@ -31,13 +31,13 @@ export function ReadinessBanner({ readiness }: ReadinessBannerProps) {
   const { icon: StateIcon, color } = states[stateKey];
 
   const renderHint = (hint: ReadinessHint, required: boolean) => (
-    <Box component="li" key={hint.id} className="tw-flex tw-items-center tw-gap-2">
+    <Box component="li" key={hint.id} className="flex items-center gap-2">
       <Box
         component={required ? MdErrorOutline : MdInfoOutline}
-        className="tw-shrink-0"
+        className="shrink-0"
         sx={{ color: required ? ACCENT_COLORS.rose : 'text.secondary' }}
       />
-      <Typography variant="body2" className="tw-flex-1">
+      <Typography variant="body2" className="flex-1">
         {$t({ id: `jobs.readiness.hint.${hint.id}` })}
       </Typography>
       <Button
@@ -53,20 +53,20 @@ export function ReadinessBanner({ readiness }: ReadinessBannerProps) {
   return (
     <Box
       role="status"
-      className="tw-rounded-2xl tw-p-4 sm:tw-p-5"
+      className="rounded-2xl p-4 sm:p-5"
       sx={(theme) => ({
         border: `1px solid ${alpha(color, 0.35)}`,
         bgcolor: alpha(color, theme.palette.mode === 'dark' ? 0.14 : 0.08),
       })}
     >
-      <Box className="tw-flex tw-items-start tw-gap-3">
+      <Box className="flex items-start gap-3">
         <Box
-          className="tw-flex tw-h-10 tw-w-10 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-xl"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
           sx={{ bgcolor: color, color: '#fff' }}
         >
           <StateIcon size={22} />
         </Box>
-        <Box className="tw-min-w-0">
+        <Box className="min-w-0">
           <Typography fontWeight={700}>{$t({ id: `jobs.readiness.${stateKey}.title` })}</Typography>
           <Typography variant="body2" color="text.secondary">
             {$t({ id: `jobs.readiness.${stateKey}.body` })}
@@ -75,7 +75,7 @@ export function ReadinessBanner({ readiness }: ReadinessBannerProps) {
       </Box>
 
       {stateKey !== 'ready' && (
-        <Box component="ul" className="tw-m-0 tw-mt-3 tw-flex tw-list-none tw-flex-col tw-gap-1 tw-p-0 sm:tw-ps-[52px]">
+        <Box component="ul" className="m-0 mt-3 flex list-none flex-col gap-1 p-0 sm:ps-[52px]">
           {readiness.missing.map((hint) => renderHint(hint, true))}
           {readiness.suggestions.map((hint) => renderHint(hint, false))}
         </Box>

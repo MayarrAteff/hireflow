@@ -21,7 +21,7 @@ export function OfferSummary({ offer, onOpenDialog }: OfferSummaryProps) {
 
   if (!offer) {
     return (
-      <Box className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-2">
+      <Box className="flex flex-wrap items-center justify-between gap-2">
         <Typography variant="body2" color="text.disabled">
           {$t({ id: 'offer.summary.none' })}
         </Typography>
@@ -46,9 +46,9 @@ export function OfferSummary({ offer, onOpenDialog }: OfferSummaryProps) {
     : null;
 
   return (
-    <Box className="tw-flex tw-flex-col tw-gap-3 tw-rounded-2xl tw-p-3.5" sx={{ border: 1, borderColor: 'divider' }}>
-      <Box className="tw-flex tw-items-start tw-justify-between tw-gap-2">
-        <Box className="tw-min-w-0">
+    <Box className="flex flex-col gap-3 rounded-2xl p-3.5" sx={{ border: 1, borderColor: 'divider' }}>
+      <Box className="flex items-start justify-between gap-2">
+        <Box className="min-w-0">
           <Typography variant="h5" component="p">
             {formatNumber(offer.salary)} {offer.currency}
           </Typography>
@@ -66,7 +66,7 @@ export function OfferSummary({ offer, onOpenDialog }: OfferSummaryProps) {
       </Box>
 
       {status === 'sent' && (
-        <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1.5">
+        <Typography variant="body2" color="text.secondary" className="flex items-center gap-1.5">
           {minutesSinceViewed === null ? <MdVisibilityOff /> : <MdVisibility />}
           {minutesSinceViewed === null
             ? $t({ id: 'offer.summary.notViewed' })
@@ -83,17 +83,17 @@ export function OfferSummary({ offer, onOpenDialog }: OfferSummaryProps) {
       )}
 
       {offer.status === 'declined' && (
-        <Box className="tw-rounded-xl tw-p-2.5" sx={{ bgcolor: 'action.hover' }}>
-          <Typography variant="caption" color="text.secondary" fontWeight={600} className="tw-block">
+        <Box className="rounded-xl p-2.5" sx={{ bgcolor: 'action.hover' }}>
+          <Typography variant="caption" color="text.secondary" fontWeight={600} className="block">
             {$t({ id: 'offer.summary.declineReason' })}
           </Typography>
-          <Typography variant="body2" className="tw-whitespace-pre-line">
+          <Typography variant="body2" className="whitespace-pre-line">
             {offer.decline_reason || $t({ id: 'offer.summary.noReason' })}
           </Typography>
         </Box>
       )}
 
-      <Box className="tw-flex tw-flex-wrap tw-gap-2">
+      <Box className="flex flex-wrap gap-2">
         {offer.letter_path && (
           <Button
             size="small"

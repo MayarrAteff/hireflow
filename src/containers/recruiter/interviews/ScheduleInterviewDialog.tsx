@@ -172,15 +172,15 @@ export function ScheduleInterviewDialog({ target, onClose }: ScheduleInterviewDi
     <Dialog open={Boolean(target)} onClose={isBusy ? undefined : onClose} maxWidth="sm" fullWidth>
       <Box component="form" noValidate onSubmit={handleSubmit((values) => save.mutate(values))}>
         <DialogTitle>
-          <Typography variant="h4" component="span" className="tw-block">
+          <Typography variant="h4" component="span" className="block">
             {$t({ id: target?.interview ? 'interview.dialog.rescheduleTitle' : 'interview.dialog.title' })}
           </Typography>
-          <Typography color="text.secondary" component="span" className="tw-block">
+          <Typography color="text.secondary" component="span" className="block">
             {$t({ id: 'interview.dialog.with' }, { name: target?.candidateName })}
           </Typography>
         </DialogTitle>
 
-        <DialogContent className="tw-flex tw-flex-col tw-gap-5 tw-pt-2">
+        <DialogContent className="flex flex-col gap-5 pt-2">
           {serverError && <Alert severity="error">{serverError}</Alert>}
 
           <Controller
@@ -197,7 +197,7 @@ export function ScheduleInterviewDialog({ target, onClose }: ScheduleInterviewDi
                 {INTERVIEW_TYPES.map((interviewType) => {
                   const { icon, color } = INTERVIEW_TYPE_VISUALS[interviewType];
                   return (
-                    <ToggleButton key={interviewType} value={interviewType} className="tw-gap-2 tw-py-2.5">
+                    <ToggleButton key={interviewType} value={interviewType} className="gap-2 py-2.5">
                       <IconTile icon={icon} color={color} size="sm" />
                       {$t({ id: `interview.type.${interviewType}` })}
                     </ToggleButton>
@@ -207,7 +207,7 @@ export function ScheduleInterviewDialog({ target, onClose }: ScheduleInterviewDi
             )}
           />
 
-          <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-3">
+          <Box className="grid gap-4 sm:grid-cols-3">
             <Controller
               name="date"
               control={control}
@@ -293,7 +293,7 @@ export function ScheduleInterviewDialog({ target, onClose }: ScheduleInterviewDi
           )}
         </DialogContent>
 
-        <DialogActions className="tw-flex-wrap tw-gap-2 tw-px-6 tw-pb-5">
+        <DialogActions className="flex-wrap gap-2 px-6 pb-5">
           {target?.interview &&
             (confirmCancel ? (
               <Button
@@ -309,7 +309,7 @@ export function ScheduleInterviewDialog({ target, onClose }: ScheduleInterviewDi
                 {$t({ id: 'interview.cancel' })}
               </Button>
             ))}
-          <Box className="tw-flex-1" />
+          <Box className="flex-1" />
           <Button onClick={onClose} disabled={isBusy}>
             {$t({ id: 'profile.cancel' })}
           </Button>

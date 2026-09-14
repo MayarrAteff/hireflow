@@ -21,14 +21,14 @@ export function TipCard({ tipIds }: TipCardProps) {
 
   return (
     <Card
-      className="tw-h-full"
+      className="h-full"
       sx={{
         background: `linear-gradient(135deg, ${alpha(ACCENT_COLORS.amber, 0.16)} 0%, ${alpha(ACCENT_COLORS.pink, 0.1)} 100%)`,
       }}
     >
-      <CardContent className="tw-flex tw-h-full tw-flex-col tw-gap-3">
+      <CardContent className="flex h-full flex-col gap-3">
         <IconTile icon={MdLightbulb} color="amber" />
-        <Typography variant="overline" color="text.secondary" className="tw-leading-none">
+        <Typography variant="overline" color="text.secondary" className="leading-none">
           {$t({ id: 'dashboard.tip.title' })}
         </Typography>
         <Typography fontWeight={500}>{$t({ id: tipId })}</Typography>

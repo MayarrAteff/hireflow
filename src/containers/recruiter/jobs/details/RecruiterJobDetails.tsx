@@ -71,19 +71,19 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
 
   if (jobQuery.isPending) {
     return (
-      <Box className="tw-mx-auto tw-flex tw-max-w-7xl tw-flex-col tw-gap-6">
-        <Skeleton variant="rounded" height={260} className="tw-rounded-3xl" />
-        <Skeleton variant="rounded" height={320} className="tw-rounded-3xl" />
+      <Box className="mx-auto flex max-w-7xl flex-col gap-6">
+        <Skeleton variant="rounded" height={260} className="rounded-3xl" />
+        <Skeleton variant="rounded" height={320} className="rounded-3xl" />
       </Box>
     );
   }
 
   if (jobQuery.isError || !jobQuery.data) {
     return (
-      <Box className="tw-mx-auto tw-flex tw-max-w-3xl tw-flex-col tw-gap-6">
+      <Box className="mx-auto flex max-w-3xl flex-col gap-6">
         <Card>
-          <CardContent className="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
-            <EmptyJobsIllustration className="tw-mb-3 tw-w-44" />
+          <CardContent className="flex flex-col items-center py-12 text-center">
+            <EmptyJobsIllustration className="mb-3 w-44" />
             <Typography variant="h3">{$t({ id: 'jobs.form.loadError' })}</Typography>
           </CardContent>
         </Card>
@@ -94,7 +94,7 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
   const job = jobQuery.data;
 
   return (
-    <Box className="tw-mx-auto tw-flex tw-max-w-7xl tw-flex-col tw-gap-5">
+    <Box className="mx-auto flex max-w-7xl flex-col gap-5">
       <JobHeader job={job} applications={applications} loadingApplications={applicationsQuery.isPending} />
 
       <Tabs
@@ -117,7 +117,7 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
                   ? `${$t({ id: 'jobs.details.tab.applicants' })} (${applications.length})`
                   : $t({ id: `jobs.details.tab.${key}` })
               }
-              className="tw-min-h-12"
+              className="min-h-12"
             />
           );
         })}
@@ -136,9 +136,9 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
       )}
       {tab === 'board' &&
         (applicationsQuery.isPending ? (
-          <Box className="tw-flex tw-gap-3 tw-overflow-hidden">
+          <Box className="flex gap-3 overflow-hidden">
             {Array.from({ length: 4 }, (_, index) => (
-              <Skeleton key={index} variant="rounded" width={272} height={320} className="tw-shrink-0 tw-rounded-2xl" />
+              <Skeleton key={index} variant="rounded" width={272} height={320} className="shrink-0 rounded-2xl" />
             ))}
           </Box>
         ) : (

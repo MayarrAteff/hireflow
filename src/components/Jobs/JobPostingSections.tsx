@@ -25,16 +25,16 @@ export function JobPostingSections({ job, matchedSkills }: JobPostingSectionsPro
     <>
       {description && (
         <SectionCard icon={MdDescription} color="violet" titleId="jobs.details.aboutRole">
-          <Typography className="tw-whitespace-pre-line tw-leading-relaxed">{description}</Typography>
+          <Typography className="whitespace-pre-line leading-relaxed">{description}</Typography>
         </SectionCard>
       )}
 
       {requirements.length > 0 && (
         <SectionCard icon={MdRule} color="amber" titleId="jobs.field.requirements">
-          <Box component="ul" className="tw-m-0 tw-flex tw-list-none tw-flex-col tw-gap-2.5 tw-p-0">
+          <Box component="ul" className="m-0 flex list-none flex-col gap-2.5 p-0">
             {requirements.map((requirement, index) => (
-              <Box component="li" key={index} className="tw-flex tw-items-start tw-gap-2.5">
-                <Box component={MdCheckCircle} className="tw-mt-0.5 tw-shrink-0" sx={{ color: ACCENT_COLORS.amber }} />
+              <Box component="li" key={index} className="flex items-start gap-2.5">
+                <Box component={MdCheckCircle} className="mt-0.5 shrink-0" sx={{ color: ACCENT_COLORS.amber }} />
                 <Typography>{requirement}</Typography>
               </Box>
             ))}
@@ -56,7 +56,7 @@ export function JobPostingSections({ job, matchedSkills }: JobPostingSectionsPro
             )
           }
         >
-          <Box className="tw-flex tw-flex-wrap tw-gap-2">
+          <Box className="flex flex-wrap gap-2">
             {job.skills.map((skill) =>
               matchedSkills?.has(skill) ? (
                 <Chip key={skill} color="success" icon={<MdCheckCircle />} label={skill} />

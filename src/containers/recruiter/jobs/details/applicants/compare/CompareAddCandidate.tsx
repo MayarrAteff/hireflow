@@ -48,9 +48,9 @@ export function CompareAddCandidate({ jobSkills, options, max, canAdd, onAdd }: 
         onClose={() => setAnchor(null)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        slotProps={{ paper: { className: 'tw-mt-2 tw-w-80 tw-max-w-[calc(100vw-32px)] tw-rounded-2xl tw-p-3' } }}
+        slotProps={{ paper: { className: 'mt-2 w-80 max-w-[calc(100vw-32px)] rounded-2xl p-3' } }}
       >
-        <Typography variant="caption" color="text.secondary" className="tw-mb-2 tw-block tw-px-1">
+        <Typography variant="caption" color="text.secondary" className="mb-2 block px-1">
           {$t({ id: 'compare.addCandidateHint' }, { max })}
         </Typography>
         <Autocomplete
@@ -66,9 +66,9 @@ export function CompareAddCandidate({ jobSkills, options, max, canAdd, onAdd }: 
           }}
           noOptionsText={$t({ id: 'applicants.noMatches' })}
           renderOption={({ key, ...props }, option) => (
-            <Box component="li" key={key} {...props} className={`${props.className} tw-flex tw-gap-2`}>
+            <Box component="li" key={key} {...props} className={`${props.className} flex gap-2`}>
               <ApplicantAvatar candidate={option.candidate} size={28} />
-              <Typography variant="body2" noWrap className="tw-min-w-0 tw-flex-1">
+              <Typography variant="body2" noWrap className="min-w-0 flex-1">
                 {option.candidate.full_name || option.candidate.email}
               </Typography>
               {jobSkills.length > 0 && (

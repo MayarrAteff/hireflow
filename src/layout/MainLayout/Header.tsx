@@ -54,17 +54,17 @@ export function Header({ onToggleSidebar }: HeaderProps) {
         backdropFilter: 'blur(12px)',
       })}
     >
-      <Toolbar className="tw-gap-2">
+      <Toolbar className="gap-2">
         <IconButton edge="start" aria-label={$t({ id: 'header.toggleSidebar' })} onClick={onToggleSidebar}>
           <MdMenu />
         </IconButton>
 
-        <Box className="tw-flex-1" />
+        <Box className="flex-1" />
 
         <LanguageSwitcher />
         <ThemeModeToggle />
 
-        <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} className="tw-ms-1">
+        <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} className="ms-1">
           <Avatar
             src={profile?.avatar_url ?? undefined}
             alt={profile?.full_name}
@@ -80,15 +80,15 @@ export function Header({ onToggleSidebar }: HeaderProps) {
           onClose={() => setAnchorEl(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          slotProps={{ paper: { className: 'tw-min-w-56' } }}
+          slotProps={{ paper: { className: 'min-w-56' } }}
         >
-          <Box className="tw-px-4 tw-py-2">
+          <Box className="px-4 py-2">
             <Typography fontWeight={600}>{profile?.full_name}</Typography>
             <Typography variant="body2" color="text.secondary">
               {profile?.email}
             </Typography>
             {profile && (
-              <Chip size="small" color="primary" className="tw-mt-2" label={$t({ id: `role.${profile.role}` })} />
+              <Chip size="small" color="primary" className="mt-2" label={$t({ id: `role.${profile.role}` })} />
             )}
           </Box>
           <Divider />

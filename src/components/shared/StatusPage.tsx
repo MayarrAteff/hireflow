@@ -16,17 +16,17 @@ export function StatusPage({ code, titleId, bodyId, action }: StatusPageProps) {
   const { $t } = useIntl();
 
   return (
-    <Box className="tw-flex tw-min-h-[70vh] tw-flex-col tw-items-center tw-justify-center tw-gap-3 tw-p-6 tw-text-center">
+    <Box className="flex min-h-[70vh] flex-col items-center justify-center gap-3 p-6 text-center">
       {code && (
-        <Typography variant="h1" color="primary" className="tw-text-7xl tw-font-bold">
+        <Typography variant="h1" color="primary" className="text-7xl font-bold">
           {code}
         </Typography>
       )}
       <Typography variant="h3">{$t({ id: titleId })}</Typography>
-      <Typography color="text.secondary" className="tw-max-w-md">
+      <Typography color="text.secondary" className="max-w-md">
         {$t({ id: bodyId })}
       </Typography>
-      <Box className="tw-mt-4 tw-flex tw-gap-2">
+      <Box className="mt-4 flex gap-2">
         {action}
         <Button variant="contained" component={Link} to="/">
           {$t({ id: 'error.goHome' })}

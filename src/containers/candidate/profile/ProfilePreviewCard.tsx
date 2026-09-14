@@ -31,17 +31,17 @@ export function ProfilePreviewCard({ profile }: ProfilePreviewCardProps) {
   ].filter((link) => link.url);
 
   return (
-    <Card className="tw-overflow-hidden">
-      <Box className="tw-relative tw-h-20" sx={(theme) => ({ background: brandGradient(theme) })}>
+    <Card className="overflow-hidden">
+      <Box className="relative h-20" sx={(theme) => ({ background: brandGradient(theme) })}>
         <Chip
           size="small"
           icon={<MdVisibility />}
           label={$t({ id: 'profile.preview.title' })}
-          className="tw-absolute tw-end-3 tw-top-3"
+          className="absolute end-3 top-3"
           sx={{ bgcolor: alpha('#fff', 0.2), color: '#fff', '& .MuiChip-icon': { color: '#fff' } }}
         />
       </Box>
-      <CardContent className="-tw-mt-12 tw-flex tw-flex-col tw-gap-3">
+      <CardContent className="-mt-12 flex flex-col gap-3">
         <Avatar
           src={profile.avatar_url ?? undefined}
           sx={{
@@ -59,7 +59,7 @@ export function ProfilePreviewCard({ profile }: ProfilePreviewCardProps) {
         </Avatar>
 
         <Box>
-          <Typography variant="h5" className="tw-break-words">
+          <Typography variant="h5" className="break-words">
             {profile.full_name || profile.email}
           </Typography>
           <Typography color={profile.headline ? 'text.secondary' : 'text.disabled'}>
@@ -68,14 +68,14 @@ export function ProfilePreviewCard({ profile }: ProfilePreviewCardProps) {
         </Box>
 
         {(profile.location || profile.years_of_experience != null) && (
-          <Box className="tw-flex tw-flex-wrap tw-gap-x-4 tw-gap-y-1">
+          <Box className="flex flex-wrap gap-x-4 gap-y-1">
             {profile.location && (
-              <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1">
+              <Typography variant="body2" color="text.secondary" className="flex items-center gap-1">
                 <MdPlace /> {profile.location}
               </Typography>
             )}
             {profile.years_of_experience != null && (
-              <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1">
+              <Typography variant="body2" color="text.secondary" className="flex items-center gap-1">
                 <MdWorkHistory />
                 {$t({ id: 'profile.preview.experience' }, { years: profile.years_of_experience })}
               </Typography>
@@ -84,13 +84,13 @@ export function ProfilePreviewCard({ profile }: ProfilePreviewCardProps) {
         )}
 
         {profile.bio && (
-          <Typography variant="body2" className="tw-line-clamp-3 tw-whitespace-pre-line">
+          <Typography variant="body2" className="line-clamp-3 whitespace-pre-line">
             {profile.bio}
           </Typography>
         )}
 
         {skills.length > 0 && (
-          <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+          <Box className="flex flex-wrap gap-1.5">
             {skills.slice(0, PREVIEW_SKILLS_LIMIT).map((skill) => (
               <Chip key={skill} size="small" color="primary" variant="outlined" label={skill} />
             ))}
@@ -100,7 +100,7 @@ export function ProfilePreviewCard({ profile }: ProfilePreviewCardProps) {
           </Box>
         )}
 
-        <Box className="tw-flex tw-items-center tw-justify-between tw-gap-2">
+        <Box className="flex items-center justify-between gap-2">
           <Chip
             size="small"
             icon={<MdAttachFile />}
@@ -108,7 +108,7 @@ export function ProfilePreviewCard({ profile }: ProfilePreviewCardProps) {
             variant={profile.cv_path ? 'filled' : 'outlined'}
             label={$t({ id: profile.cv_path ? 'profile.preview.cvAttached' : 'profile.preview.noCv' })}
           />
-          <Box className="tw-flex">
+          <Box className="flex">
             {links.map((link) => (
               <Tooltip key={link.labelId} title={$t({ id: link.labelId })}>
                 <IconButton

@@ -23,10 +23,10 @@ export function SectionCard({ icon, color, titleId, action, children }: SectionC
 
   return (
     <Card>
-      <CardContent className="tw-p-5 sm:tw-p-6">
-        <Box className="tw-mb-4 tw-flex tw-flex-wrap tw-items-center tw-gap-3">
+      <CardContent className="p-5 sm:p-6">
+        <Box className="mb-4 flex flex-wrap items-center gap-3">
           <IconTile icon={icon} color={color} size="sm" />
-          <Typography variant="h5" className="tw-flex-1">
+          <Typography variant="h5" className="flex-1">
             {$t({ id: titleId })}
           </Typography>
           {action}

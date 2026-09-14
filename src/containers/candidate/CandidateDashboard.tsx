@@ -79,7 +79,7 @@ export function CandidateDashboard() {
   ] as const;
 
   return (
-    <Box className="tw-mx-auto tw-flex tw-max-w-6xl tw-flex-col tw-gap-6">
+    <Box className="mx-auto flex max-w-6xl flex-col gap-6">
       <DashboardHero
         subtitleId="dashboard.candidate.subtitle"
         actions={
@@ -96,7 +96,7 @@ export function CandidateDashboard() {
             </Button>
             {openJobs > 0 && (
               <Box
-                className="tw-flex tw-items-center tw-gap-2 tw-rounded-full tw-px-4 tw-py-2 tw-font-semibold"
+                className="flex items-center gap-2 rounded-full px-4 py-2 font-semibold"
                 sx={{ bgcolor: alpha('#fff', 0.18), border: `1px solid ${alpha('#fff', 0.35)}` }}
               >
                 🔥 {$t({ id: 'candidate.hero.openRoles' }, { count: openJobs })}
@@ -106,7 +106,7 @@ export function CandidateDashboard() {
         }
       />
 
-      <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2 lg:tw-grid-cols-4">
+      <Box className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <motion.div key={stat.labelId} {...appear(index)}>
             <StatCard {...stat} />
@@ -114,11 +114,11 @@ export function CandidateDashboard() {
         ))}
       </Box>
 
-      <Box className="tw-grid tw-gap-6 lg:tw-grid-cols-5">
-        <motion.div className="lg:tw-col-span-3" {...appear(4)}>
+      <Box className="grid gap-6 lg:grid-cols-5">
+        <motion.div className="lg:col-span-3" {...appear(4)}>
           <ApplicationsTracker applications={applications} loading={applicationsQuery.isLoading} />
         </motion.div>
-        <motion.div className="lg:tw-col-span-2" {...appear(5)}>
+        <motion.div className="lg:col-span-2" {...appear(5)}>
           <ProfileStrengthCard />
         </motion.div>
       </Box>

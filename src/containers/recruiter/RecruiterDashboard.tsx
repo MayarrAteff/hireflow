@@ -62,7 +62,7 @@ export function RecruiterDashboard() {
   ] as const;
 
   return (
-    <Box className="tw-mx-auto tw-flex tw-max-w-6xl tw-flex-col tw-gap-6">
+    <Box className="mx-auto flex max-w-6xl flex-col gap-6">
       <DashboardHero
         subtitleId="dashboard.recruiter.subtitle"
         actions={
@@ -91,7 +91,7 @@ export function RecruiterDashboard() {
         }
       />
 
-      <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2 lg:tw-grid-cols-4">
+      <Box className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <motion.div key={stat.labelId} {...appear(index)}>
             <StatCard {...stat} loading={isLoading} />
@@ -99,11 +99,11 @@ export function RecruiterDashboard() {
         ))}
       </Box>
 
-      <Box className="tw-grid tw-gap-6 lg:tw-grid-cols-5">
-        <motion.div className="lg:tw-col-span-2" {...appear(4)}>
+      <Box className="grid gap-6 lg:grid-cols-5">
+        <motion.div className="lg:col-span-2" {...appear(4)}>
           <GettingStartedCard jobs={jobs} />
         </motion.div>
-        <motion.div className="lg:tw-col-span-3" {...appear(5)}>
+        <motion.div className="lg:col-span-3" {...appear(5)}>
           <RecentJobsCard jobs={jobs} loading={isLoading} />
         </motion.div>
       </Box>

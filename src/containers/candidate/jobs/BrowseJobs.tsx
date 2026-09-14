@@ -37,8 +37,8 @@ function FilterChips<T extends string>({ labelId, options, optionLabelPrefix, va
   const { $t } = useIntl();
 
   return (
-    <Box className="tw-flex tw-flex-wrap tw-items-center tw-gap-1.5" role="group" aria-label={$t({ id: labelId })}>
-      <Typography variant="body2" color="text.secondary" className="tw-me-1">
+    <Box className="flex flex-wrap items-center gap-1.5" role="group" aria-label={$t({ id: labelId })}>
+      <Typography variant="body2" color="text.secondary" className="me-1">
         {$t({ id: labelId })}
       </Typography>
       <Chip
@@ -87,17 +87,17 @@ export function BrowseJobs() {
   };
 
   return (
-    <Box className="tw-mx-auto tw-flex tw-max-w-6xl tw-flex-col tw-gap-6">
+    <Box className="mx-auto flex max-w-6xl flex-col gap-6">
       <Box
-        className="tw-relative tw-overflow-hidden tw-rounded-3xl tw-p-6 tw-text-white sm:tw-p-10"
+        className="relative overflow-hidden rounded-3xl p-6 text-white sm:p-10"
         sx={(theme) => ({ background: brandGradient(theme) })}
       >
-        <Box aria-hidden className="tw-absolute -tw-end-16 -tw-top-24 tw-h-64 tw-w-64 tw-rounded-full tw-bg-white/10" />
-        <Box className="tw-relative tw-max-w-2xl">
-          <Typography variant="h2" className="tw-mb-2">
+        <Box aria-hidden className="absolute -end-16 -top-24 h-64 w-64 rounded-full bg-white/10" />
+        <Box className="relative max-w-2xl">
+          <Typography variant="h2" className="mb-2">
             {$t({ id: 'jobs.browse.title' })}
           </Typography>
-          <Typography className="tw-mb-6 tw-text-white/85">
+          <Typography className="mb-6 text-white/85">
             {$t({ id: 'jobs.browse.subtitle' }, { count: openJobsQuery.data ?? 0 })}
           </Typography>
           <TextField
@@ -139,7 +139,7 @@ export function BrowseJobs() {
       </Box>
 
       <Card>
-        <CardContent className="tw-flex tw-flex-col tw-gap-3 lg:tw-flex-row lg:tw-items-center lg:tw-gap-8">
+        <CardContent className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-8">
           <FilterChips
             labelId="jobs.field.employmentType"
             options={EMPLOYMENT_TYPES}
@@ -155,7 +155,7 @@ export function BrowseJobs() {
             onChange={setWorkMode}
           />
           {hasFilters && (
-            <Button size="small" onClick={clearFilters} className="lg:tw-ms-auto">
+            <Button size="small" onClick={clearFilters} className="lg:ms-auto">
               {$t({ id: 'jobs.browse.clearFilters' })}
             </Button>
           )}
@@ -163,21 +163,21 @@ export function BrowseJobs() {
       </Card>
 
       {jobsQuery.isPending && (
-        <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2 lg:tw-grid-cols-3">
+        <Box className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }, (_, index) => (
-            <Skeleton key={index} variant="rounded" height={150} className="tw-rounded-2xl" />
+            <Skeleton key={index} variant="rounded" height={150} className="rounded-2xl" />
           ))}
         </Box>
       )}
 
       {!jobsQuery.isPending && jobs.length === 0 && (
         <Card>
-          <CardContent className="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
-            <EmptyJobsIllustration className="tw-mb-3 tw-w-44" />
-            <Typography variant="h4" className="tw-mb-1">
+          <CardContent className="flex flex-col items-center py-12 text-center">
+            <EmptyJobsIllustration className="mb-3 w-44" />
+            <Typography variant="h4" className="mb-1">
               {$t({ id: hasFilters ? 'jobs.browse.noMatches.title' : 'jobs.browse.empty.title' })}
             </Typography>
-            <Typography color="text.secondary" className="tw-mb-5 tw-max-w-md">
+            <Typography color="text.secondary" className="mb-5 max-w-md">
               {$t({ id: hasFilters ? 'jobs.browse.noMatches.body' : 'jobs.browse.empty.body' })}
             </Typography>
             {hasFilters && (
@@ -190,7 +190,7 @@ export function BrowseJobs() {
       )}
 
       {jobs.length > 0 && (
-        <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2 lg:tw-grid-cols-3">
+        <Box className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {jobs.map((job, index) => (
             <motion.div
               key={job.id}
@@ -206,7 +206,7 @@ export function BrowseJobs() {
       )}
 
       {jobsQuery.hasNextPage && (
-        <Box className="tw-flex tw-justify-center">
+        <Box className="flex justify-center">
           <Button
             variant="outlined"
             size="large"

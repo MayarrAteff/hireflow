@@ -49,9 +49,9 @@ export function ProfileSectionCard({
       // Leave room for the sticky header when the checklist scrolls here.
       sx={{ scrollMarginTop: 96 }}
     >
-      <Box className="tw-flex tw-items-center tw-gap-3 tw-px-5 tw-pt-5 sm:tw-px-6">
+      <Box className="flex items-center gap-3 px-5 pt-5 sm:px-6">
         <IconTile icon={icon} color={color} />
-        <Box className="tw-min-w-0">
+        <Box className="min-w-0">
           <Typography variant="h5">{$t({ id: titleId })}</Typography>
           <Typography variant="body2" color="text.secondary">
             {$t({ id: subtitleId })}
@@ -59,9 +59,9 @@ export function ProfileSectionCard({
         </Box>
       </Box>
 
-      <CardContent className="tw-p-5 sm:tw-p-6">
+      <CardContent className="p-5 sm:p-6">
         {form?.serverError && (
-          <Alert severity="error" className="tw-mb-4">
+          <Alert severity="error" className="mb-4">
             {form.serverError}
           </Alert>
         )}
@@ -71,7 +71,7 @@ export function ProfileSectionCard({
       {form && (
         <>
           <Divider />
-          <Box className="tw-flex tw-items-center tw-justify-end tw-gap-3 tw-px-5 tw-py-3 sm:tw-px-6">
+          <Box className="flex items-center justify-end gap-3 px-5 py-3 sm:px-6">
             {form.isDirty && (
               <Typography variant="body2" color="text.secondary">
                 {$t({ id: 'profile.unsaved' })}

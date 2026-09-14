@@ -23,19 +23,19 @@ export function JobPreviewCard() {
   const salary = [values.salaryMin, values.salaryMax].filter(Boolean).map((amount) => formatNumber(Number(amount)));
 
   return (
-    <Card className="tw-overflow-hidden">
-      <Box className="tw-relative tw-h-14" sx={(theme) => ({ background: brandGradient(theme) })}>
+    <Card className="overflow-hidden">
+      <Box className="relative h-14" sx={(theme) => ({ background: brandGradient(theme) })}>
         <Chip
           size="small"
           icon={<MdVisibility />}
           label={$t({ id: 'jobs.preview.title' })}
-          className="tw-absolute tw-end-3 tw-top-3"
+          className="absolute end-3 top-3"
           sx={{ bgcolor: alpha('#fff', 0.2), color: '#fff', '& .MuiChip-icon': { color: '#fff' } }}
         />
       </Box>
-      <CardContent className="-tw-pt-6 tw-flex tw-flex-col tw-gap-3">
+      <CardContent className="-pt-6 flex flex-col gap-3">
         <Box
-          className="tw-flex tw-h-14 tw-w-14 tw-items-center tw-justify-center tw-rounded-2xl tw-text-xl tw-font-bold"
+          className="flex h-14 w-14 items-center justify-center rounded-2xl text-xl font-bold"
           sx={{
             bgcolor: 'background.paper',
             color: 'primary.main',
@@ -50,12 +50,12 @@ export function JobPreviewCard() {
           <Typography variant="body2" color="text.secondary">
             {profile?.company?.name || $t({ id: 'jobs.preview.companyPlaceholder' })}
           </Typography>
-          <Typography variant="h5" className="tw-break-words" color={values.title ? 'text.primary' : 'text.disabled'}>
+          <Typography variant="h5" className="break-words" color={values.title ? 'text.primary' : 'text.disabled'}>
             {values.title || $t({ id: 'jobs.preview.titlePlaceholder' })}
           </Typography>
         </Box>
 
-        <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+        <Box className="flex flex-wrap gap-1.5">
           {values.employmentType && (
             <Chip size="small" color="primary" label={$t({ id: `jobs.employmentType.${values.employmentType}` })} />
           )}
@@ -72,7 +72,7 @@ export function JobPreviewCard() {
         )}
 
         {!!values.skills?.length && (
-          <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+          <Box className="flex flex-wrap gap-1.5">
             {values.skills.slice(0, PREVIEW_SKILLS_LIMIT).map((skill) => (
               <Chip key={skill} size="small" variant="outlined" label={skill} />
             ))}

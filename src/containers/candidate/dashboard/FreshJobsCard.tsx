@@ -27,24 +27,24 @@ export function FreshJobsCard({ jobs, loading, appliedJobIds }: FreshJobsCardPro
 
   return (
     <Card>
-      <CardContent className="tw-p-6">
-        <Box className="tw-mb-5 tw-flex tw-flex-wrap tw-items-center tw-gap-3">
+      <CardContent className="p-6">
+        <Box className="mb-5 flex flex-wrap items-center gap-3">
           <IconTile icon={MdWhatshot} color="rose" />
-          <Box className="tw-min-w-0 tw-flex-1">
+          <Box className="min-w-0 flex-1">
             <Typography variant="h5">{$t({ id: 'candidate.freshJobs.title' })}</Typography>
             <Typography variant="body2" color="text.secondary">
               {$t({ id: 'candidate.freshJobs.subtitle' })}
             </Typography>
           </Box>
           {jobs.length > 0 && (
-            <Button component={Link} to="/candidate/jobs" endIcon={<MdArrowForward className="rtl:tw-rotate-180" />}>
+            <Button component={Link} to="/candidate/jobs" endIcon={<MdArrowForward className="rtl:rotate-180" />}>
               {$t({ id: 'candidate.freshJobs.viewAll' })}
             </Button>
           )}
         </Box>
 
         {loading && (
-          <Box className="tw-grid tw-gap-3 sm:tw-grid-cols-2 lg:tw-grid-cols-3">
+          <Box className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((item) => (
               <Skeleton key={item} variant="rounded" height={140} />
             ))}
@@ -52,13 +52,13 @@ export function FreshJobsCard({ jobs, loading, appliedJobIds }: FreshJobsCardPro
         )}
 
         {!loading && jobs.length === 0 && (
-          <Box className="tw-flex tw-flex-col tw-items-center tw-py-4 tw-text-center">
-            <EmptyJobsIllustration className="tw-mb-2 tw-w-36" />
+          <Box className="flex flex-col items-center py-4 text-center">
+            <EmptyJobsIllustration className="mb-2 w-36" />
             <Typography color="text.secondary">{$t({ id: 'candidate.freshJobs.empty' })}</Typography>
           </Box>
         )}
 
-        <Box className="tw-grid tw-gap-3 sm:tw-grid-cols-2 lg:tw-grid-cols-3">
+        <Box className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {jobs.map((job, index) => (
             <motion.div
               key={job.id}

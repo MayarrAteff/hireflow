@@ -17,7 +17,7 @@ export function EditJob({ jobId }: EditJobProps) {
 
   if (isPending) {
     return (
-      <Box className="tw-flex tw-justify-center tw-py-20">
+      <Box className="flex justify-center py-20">
         <CircularProgress />
       </Box>
     );
@@ -25,7 +25,7 @@ export function EditJob({ jobId }: EditJobProps) {
 
   if (isError) {
     return (
-      <Alert severity="error" className="tw-mx-auto tw-max-w-4xl">
+      <Alert severity="error" className="mx-auto max-w-4xl">
         {$t({ id: 'jobs.form.loadError' })}
       </Alert>
     );

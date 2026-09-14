@@ -18,14 +18,14 @@ export function SidebarPromo({ onNavigate }: SidebarPromoProps) {
 
   return (
     <Box
-      className="tw-relative tw-m-3 tw-overflow-hidden tw-rounded-2xl tw-p-4 tw-text-white"
+      className="relative m-3 overflow-hidden rounded-2xl p-4 text-white"
       sx={(theme) => ({ background: brandGradient(theme) })}
     >
-      <Box aria-hidden className="tw-absolute -tw-end-6 -tw-top-6 tw-h-20 tw-w-20 tw-rounded-full tw-bg-white/15" />
-      <Typography fontWeight={700} className="tw-relative tw-mb-1">
+      <Box aria-hidden className="absolute -end-6 -top-6 h-20 w-20 rounded-full bg-white/15" />
+      <Typography fontWeight={700} className="relative mb-1">
         {$t({ id: 'sidebar.promo.title' })} 🚀
       </Typography>
-      <Typography variant="body2" className="tw-relative tw-mb-3 tw-text-white/85">
+      <Typography variant="body2" className="relative mb-3 text-white/85">
         {$t({ id: 'sidebar.promo.body' })}
       </Typography>
       <Button

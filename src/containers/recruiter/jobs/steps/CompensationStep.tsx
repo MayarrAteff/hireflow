@@ -12,7 +12,7 @@ export function CompensationStep() {
   const amountInputProps = { htmlInput: { inputMode: 'decimal' as const, min: 0 } };
 
   return (
-    <Box className="tw-grid tw-gap-5 sm:tw-grid-cols-2">
+    <Box className="grid gap-5 sm:grid-cols-2">
       <FormTextField
         name="salaryMin"
         control={control}

@@ -61,7 +61,7 @@ export function ContactSection({ profile }: ContactSectionProps) {
         serverError: serverErrors.general,
       }}
     >
-      <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2">
+      <Box className="grid gap-4 sm:grid-cols-2">
         <ReadOnlyField
           labelId="field.email"
           value={profile.email}
@@ -97,7 +97,7 @@ export function ContactSection({ profile }: ContactSectionProps) {
           control={control}
           labelId="profile.field.portfolio"
           placeholder="yourwebsite.com"
-          className="sm:tw-col-span-2"
+          className="sm:col-span-2"
           slotProps={adornment(<MdLanguage />)}
         />
       </Box>

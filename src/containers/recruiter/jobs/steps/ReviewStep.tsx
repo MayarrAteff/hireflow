@@ -53,7 +53,7 @@ export function ReviewStep() {
     {
       labelId: 'jobs.review.jobType',
       value: (
-        <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+        <Box className="flex flex-wrap gap-1.5">
           <Chip size="small" color="primary" label={$t({ id: `jobs.employmentType.${values.employmentType}` })} />
           <Chip size="small" color="secondary" label={$t({ id: `jobs.workMode.${values.workMode}` })} />
         </Box>
@@ -62,8 +62,8 @@ export function ReviewStep() {
     {
       labelId: 'jobs.field.location',
       value: values.location ? (
-        <Typography className="tw-flex tw-items-center tw-gap-1.5">
-          <Box component={MdPlace} className="tw-shrink-0" sx={{ color: 'text.secondary' }} />
+        <Typography className="flex items-center gap-1.5">
+          <Box component={MdPlace} className="shrink-0" sx={{ color: 'text.secondary' }} />
           {values.location}
         </Typography>
       ) : (
@@ -78,12 +78,12 @@ export function ReviewStep() {
       value: description ? (
         <Box>
           <Typography
-            className={`tw-whitespace-pre-line ${isLongDescription && !descriptionExpanded ? 'tw-line-clamp-4' : ''}`}
+            className={`whitespace-pre-line ${isLongDescription && !descriptionExpanded ? 'line-clamp-4' : ''}`}
           >
             {description}
           </Typography>
           {isLongDescription && (
-            <Button size="small" className="-tw-ms-2 tw-mt-1" onClick={() => setDescriptionExpanded((open) => !open)}>
+            <Button size="small" className="-ms-2 mt-1" onClick={() => setDescriptionExpanded((open) => !open)}>
               {$t({ id: descriptionExpanded ? 'jobs.review.showLess' : 'jobs.review.showMore' })}
             </Button>
           )}
@@ -95,10 +95,10 @@ export function ReviewStep() {
     {
       labelId: 'jobs.field.requirements',
       value: requirements.length ? (
-        <Box component="ul" className="tw-m-0 tw-flex tw-list-none tw-flex-col tw-gap-1.5 tw-p-0">
+        <Box component="ul" className="m-0 flex list-none flex-col gap-1.5 p-0">
           {requirements.map((item, index) => (
-            <Box component="li" key={index} className="tw-flex tw-items-start tw-gap-2">
-              <Box component={MdCheckCircle} className="tw-mt-1 tw-shrink-0" sx={{ color: ACCENT_COLORS.amber }} />
+            <Box component="li" key={index} className="flex items-start gap-2">
+              <Box component={MdCheckCircle} className="mt-1 shrink-0" sx={{ color: ACCENT_COLORS.amber }} />
               <Typography>{item}</Typography>
             </Box>
           ))}
@@ -110,7 +110,7 @@ export function ReviewStep() {
     {
       labelId: 'jobs.field.skills',
       value: values.skills.length ? (
-        <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+        <Box className="flex flex-wrap gap-1.5">
           {values.skills.map((skill) => (
             <Chip key={skill} size="small" variant="outlined" label={skill} />
           ))}
@@ -128,7 +128,7 @@ export function ReviewStep() {
         <Typography
           component="span"
           fontWeight={700}
-          className="tw-inline-block tw-rounded-lg tw-px-2.5 tw-py-1 tw-text-lg"
+          className="inline-block rounded-lg px-2.5 py-1 text-lg"
           sx={(theme) => ({
             bgcolor: alpha(ACCENT_COLORS.emerald, theme.palette.mode === 'dark' ? 0.2 : 0.12),
             color: theme.palette.mode === 'dark' ? '#6EE7B7' : '#047857',
@@ -143,8 +143,8 @@ export function ReviewStep() {
     {
       labelId: 'jobs.field.deadline',
       value: deadline ? (
-        <Typography className="tw-flex tw-flex-wrap tw-items-center tw-gap-x-1.5">
-          <Box component={MdEvent} className="tw-shrink-0" sx={{ color: 'text.secondary' }} />
+        <Typography className="flex flex-wrap items-center gap-x-1.5">
+          <Box component={MdEvent} className="shrink-0" sx={{ color: 'text.secondary' }} />
           {formatDate(deadline.toDate(), { dateStyle: 'medium' })}
           <Typography component="span" variant="body2" color="text.secondary">
             (
@@ -161,7 +161,7 @@ export function ReviewStep() {
   ];
 
   return (
-    <Box className="tw-flex tw-flex-col tw-gap-4">
+    <Box className="flex flex-col gap-4">
       <ReadinessBanner readiness={getJobReadiness(values)} />
       <ReviewSection step="basics" rows={basics} />
       <ReviewSection step="details" rows={details} />

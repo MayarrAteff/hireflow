@@ -209,7 +209,7 @@ export function CompareDialog({
         <Typography
           variant="body2"
           color="text.secondary"
-          className="tw-sticky tw-start-3 tw-w-fit tw-max-w-[80vw] tw-px-4"
+          className="sticky start-3 w-fit max-w-[80vw] px-4"
         >
           {[
             sharedSkills.length > 0 && $t({ id: 'compare.sharedByAll' }, { skills: formatList(sharedSkills) }),
@@ -226,8 +226,8 @@ export function CompareDialog({
           hidden: job.skills.length === 0,
           render: (_application, index) => (
             <>
-              <Box className="tw-flex tw-items-center tw-gap-2">
-                <Box className="tw-min-w-0 tw-flex-1">
+              <Box className="flex items-center gap-2">
+                <Box className="min-w-0 flex-1">
                   <SkillMatchBar percent={fits[index].match.percent} />
                 </Box>
                 {skillLeaders.has(index) && <LeaderMark label={$t({ id: 'compare.strength.topMatch' })} />}
@@ -246,7 +246,7 @@ export function CompareDialog({
           label: $t({ id: 'compare.requiredSkills' }),
           hidden: shownSkills.length === 0,
           render: (_application, index) => (
-            <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+            <Box className="flex flex-wrap gap-1.5">
               {shownSkills.map((skill) =>
                 fits[index].match.matched.has(skill) ? (
                   <Chip key={skill} size="small" color="success" icon={<MdCheckCircle />} label={skill} />
@@ -270,7 +270,7 @@ export function CompareDialog({
           hidden: extraSkills.every((skills) => skills.length === 0),
           render: (_application, index) =>
             extraSkills[index].length ? (
-              <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+              <Box className="flex flex-wrap gap-1.5">
                 {extraSkills[index].slice(0, 6).map((skill) => (
                   <Chip key={skill} size="small" variant="outlined" label={skill} />
                 ))}
@@ -298,7 +298,7 @@ export function CompareDialog({
             if (value == null) return empty($t({ id: 'compare.notShared' }));
             return (
               <>
-                <Box className="tw-flex tw-items-center tw-gap-1.5">
+                <Box className="flex items-center gap-1.5">
                   <Typography fontWeight={700}>{$t({ id: 'applicants.years' }, { years: value })}</Typography>
                   {experienceLeaders.has(index) && (
                     <LeaderMark label={$t({ id: 'compare.strength.mostExperienced' })} />
@@ -306,11 +306,11 @@ export function CompareDialog({
                 </Box>
                 {maxYears > 0 && (
                   <Box
-                    className="tw-mt-1.5 tw-h-1.5 tw-overflow-hidden tw-rounded-full"
+                    className="mt-1.5 h-1.5 overflow-hidden rounded-full"
                     sx={(theme) => ({ bgcolor: alpha(theme.palette.primary.main, 0.12) })}
                   >
                     <Box
-                      className="tw-h-full tw-rounded-full"
+                      className="h-full rounded-full"
                       sx={{ width: `${(value / maxYears) * 100}%`, bgcolor: 'primary.main' }}
                     />
                   </Box>
@@ -327,8 +327,8 @@ export function CompareDialog({
             (onlyDifferences && allSame(compared.map((application) => application.candidate.location))),
           render: (application) =>
             application.candidate.location ? (
-              <Typography variant="body2" className="tw-flex tw-items-center tw-gap-1">
-                <MdPlace className="tw-shrink-0" /> {application.candidate.location}
+              <Typography variant="body2" className="flex items-center gap-1">
+                <MdPlace className="shrink-0" /> {application.candidate.location}
               </Typography>
             ) : (
               empty()
@@ -342,7 +342,7 @@ export function CompareDialog({
             const links = linksFor(application);
             if (!links.length) return empty();
             return (
-              <Box className="-tw-ms-2 tw-flex tw-gap-0.5">
+              <Box className="-ms-2 flex gap-0.5">
                 {links.map((link) => (
                   <Tooltip key={link.labelId} title={$t({ id: link.labelId })}>
                     <IconButton
@@ -432,16 +432,16 @@ export function CompareDialog({
             const next = getNextInterview(application.interviews);
             if (!next) {
               return (
-                <Button size="small" startIcon={<MdAdd />} onClick={() => onSchedule(application)} className="-tw-ms-1">
+                <Button size="small" startIcon={<MdAdd />} onClick={() => onSchedule(application)} className="-ms-1">
                   {$t({ id: 'interview.dialog.title' })}
                 </Button>
               );
             }
             const { icon, color } = INTERVIEW_TYPE_VISUALS[next.type];
             return (
-              <Box className="tw-flex tw-items-center tw-gap-2.5">
+              <Box className="flex items-center gap-2.5">
                 <IconTile icon={icon} color={color} size="sm" />
-                <Box className="tw-min-w-0">
+                <Box className="min-w-0">
                   <Typography variant="body2" fontWeight={600}>
                     {formatDate(next.scheduled_at, {
                       weekday: 'short',
@@ -464,7 +464,7 @@ export function CompareDialog({
           key: 'rating',
           label: $t({ id: 'compare.rating' }),
           render: (application, index) => (
-            <Box className="tw-flex tw-items-center tw-gap-2">
+            <Box className="flex items-center gap-2">
               <Rating
                 value={application.rating}
                 name={`rating-${application.id}`}
@@ -482,24 +482,24 @@ export function CompareDialog({
     const { strengths, gaps } = highlightsFor(application, index);
     return (
       <>
-        <Typography variant="caption" color="text.secondary" fontWeight={600} className="tw-mb-1.5 tw-block">
+        <Typography variant="caption" color="text.secondary" fontWeight={600} className="mb-1.5 block">
           {$t({ id: 'compare.atAGlance' })}
         </Typography>
         {strengths.length + gaps.length === 0 ? (
           empty($t({ id: 'compare.nothingStandsOut' }))
         ) : (
-          <Box className="tw-flex tw-flex-col tw-items-start tw-gap-1.5">
+          <Box className="flex flex-col items-start gap-1.5">
             {[
               ...strengths.map((text) => ({ text, icon: MdTrendingUp, color: 'emerald' as const })),
               ...gaps.map((text) => ({ text, icon: MdErrorOutline, color: 'amber' as const })),
             ].map(({ text, icon: Icon, color }) => (
               <Box
                 key={text}
-                className="tw-flex tw-max-w-full tw-items-center tw-gap-1.5 tw-rounded-lg tw-px-2 tw-py-1"
+                className="flex max-w-full items-center gap-1.5 rounded-lg px-2 py-1"
                 sx={(theme) => accentSoftSx(theme, color)}
               >
-                <Icon className="tw-shrink-0" />
-                <Typography variant="body2" fontWeight={600} className="tw-truncate">
+                <Icon className="shrink-0" />
+                <Typography variant="body2" fontWeight={600} className="truncate">
                   {text}
                 </Typography>
               </Box>
@@ -527,7 +527,7 @@ export function CompareDialog({
           divided: rowIndex > 0,
           render: (application, index) => (
             <>
-              <Typography variant="caption" color="text.secondary" fontWeight={600} className="tw-mb-1 tw-block">
+              <Typography variant="caption" color="text.secondary" fontWeight={600} className="mb-1 block">
                 {row.label}
               </Typography>
               {row.render(application, index)}
@@ -554,7 +554,7 @@ export function CompareDialog({
     <IconButton
       onClick={onClose}
       aria-label={$t({ id: 'profile.cancel' })}
-      className="tw-shrink-0 tw-rounded-xl"
+      className="shrink-0 rounded-xl"
       sx={{ bgcolor: 'action.hover' }}
     >
       <MdClose />
@@ -571,21 +571,21 @@ export function CompareDialog({
     >
       <Box
         component="header"
-        className="tw-shrink-0"
+        className="shrink-0"
         sx={{ bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}
       >
-        <Box className="tw-h-1" sx={(theme) => ({ background: brandGradient(theme, 90) })} />
-        <Box className="tw-flex tw-flex-wrap tw-items-center tw-gap-x-4 tw-gap-y-3 tw-px-4 tw-py-3 sm:tw-px-6 sm:tw-py-4">
-          <Box className="tw-flex tw-min-w-0 tw-flex-1 tw-items-center tw-gap-3">
-            <Box className="tw-hidden sm:tw-block">
+        <Box className="h-1" sx={(theme) => ({ background: brandGradient(theme, 90) })} />
+        <Box className="flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3 sm:px-6 sm:py-4">
+          <Box className="flex min-w-0 flex-1 items-center gap-3">
+            <Box className="hidden sm:block">
               <IconTile icon={MdCompareArrows} />
             </Box>
-            <Box className="tw-min-w-0 tw-flex-1">
+            <Box className="min-w-0 flex-1">
               <Typography id="compare-title" variant="h3" component="h2" noWrap>
                 {$t({ id: 'compare.title' })}
               </Typography>
-              <Box className="tw-mt-0.5 tw-flex tw-min-w-0 tw-items-center tw-gap-2">
-                <Box className="tw-flex tw-shrink-0 -tw-space-x-1.5 rtl:tw-space-x-reverse">
+              <Box className="mt-0.5 flex min-w-0 items-center gap-2">
+                <Box className="flex shrink-0 -space-x-1.5 rtl:space-x-reverse">
                   {compared.map((application) => (
                     <ApplicantAvatar
                       key={application.id}
@@ -600,10 +600,10 @@ export function CompareDialog({
                 </Typography>
               </Box>
             </Box>
-            <Box className="sm:tw-hidden">{closeButton}</Box>
+            <Box className="sm:hidden">{closeButton}</Box>
           </Box>
 
-          <Box className="tw-flex tw-w-full tw-flex-wrap tw-items-center tw-gap-2 sm:tw-w-auto">
+          <Box className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
             <ToggleButtonGroup
               exclusive
               size="small"
@@ -613,11 +613,11 @@ export function CompareDialog({
               }
               aria-label={$t({ id: 'compare.view' })}
             >
-              <ToggleButton value="all" className="tw-gap-1.5 tw-px-3">
+              <ToggleButton value="all" className="gap-1.5 px-3">
                 <MdViewAgenda />
                 {$t({ id: 'compare.view.all' })}
               </ToggleButton>
-              <ToggleButton value="differences" className="tw-gap-1.5 tw-px-3">
+              <ToggleButton value="differences" className="gap-1.5 px-3">
                 <MdDifference />
                 {$t({ id: 'compare.view.differences' })}
               </ToggleButton>
@@ -629,17 +629,17 @@ export function CompareDialog({
               canAdd={canAdd}
               onAdd={(applicationId) => onSelectionChange([...selectedIds, applicationId])}
             />
-            <Box className="tw-hidden sm:tw-block">{closeButton}</Box>
+            <Box className="hidden sm:block">{closeButton}</Box>
           </Box>
         </Box>
       </Box>
 
       <Box
-        className="tw-min-h-0 tw-flex-1 tw-overflow-auto tw-px-3 tw-py-4 sm:tw-px-6 sm:tw-py-6"
+        className="min-h-0 flex-1 overflow-auto px-3 py-4 sm:px-6 sm:py-6"
         sx={{ scrollSnapType: { xs: 'x mandatory', md: 'none' }, scrollPaddingInline: 12 }}
       >
         <Card
-          className="tw-mx-auto tw-grid"
+          className="mx-auto grid"
           sx={{
             width: 'fit-content',
             // `clip` keeps the rounded corners without breaking the sticky header and actions.
@@ -652,7 +652,7 @@ export function CompareDialog({
             <Box
               key={`divider-${application.id}`}
               aria-hidden
-              className="tw-pointer-events-none"
+              className="pointer-events-none"
               sx={{ gridColumn: index + 2, gridRow: `1 / span ${actionsRow}`, borderInlineStart: columnDivider }}
             />
           ))}
@@ -660,7 +660,7 @@ export function CompareDialog({
           {compared.map((application, index) => (
             <Box
               key={application.id}
-              className="tw-sticky tw-top-0 tw-z-[2]"
+              className="sticky top-0 z-[2]"
               sx={{
                 ...columnSx(index, 1),
                 bgcolor: 'background.paper',
@@ -687,7 +687,7 @@ export function CompareDialog({
               return (
                 <Box
                   key={row.key}
-                  className="tw-px-3 tw-pb-1 tw-pt-4"
+                  className="px-3 pb-1 pt-4"
                   sx={{ gridColumn: '1 / -1', gridRow, borderTop: 1, borderColor: 'divider' }}
                 >
                   <CompareSectionTitle
@@ -701,7 +701,7 @@ export function CompareDialog({
             }
             if (row.kind === 'note') {
               return (
-                <Box key={row.key} className="tw-pb-1" sx={{ gridColumn: '1 / -1', gridRow }}>
+                <Box key={row.key} className="pb-1" sx={{ gridColumn: '1 / -1', gridRow }}>
                   {row.node}
                 </Box>
               );
@@ -709,7 +709,7 @@ export function CompareDialog({
             return compared.map((application, index) => (
               <Box
                 key={`${row.key}-${application.id}`}
-                className="tw-relative tw-px-4 tw-py-3"
+                className="relative px-4 py-3"
                 sx={{
                   ...columnSx(index, gridRow),
                   ...(row.divided && {
@@ -732,7 +732,7 @@ export function CompareDialog({
           {compared.map((application, index) => (
             <Box
               key={application.id}
-              className="tw-sticky tw-bottom-0 tw-z-[2]"
+              className="sticky bottom-0 z-[2]"
               sx={{
                 ...columnSx(index, actionsRow),
                 bgcolor: 'background.paper',

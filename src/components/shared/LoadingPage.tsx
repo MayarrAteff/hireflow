@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 export function LoadingPage() {
   return (
-    <Box className="tw-flex tw-min-h-[60vh] tw-w-full tw-items-center tw-justify-center">
+    <Box className="flex min-h-[60vh] w-full items-center justify-center">
       <CircularProgress />
     </Box>
   );

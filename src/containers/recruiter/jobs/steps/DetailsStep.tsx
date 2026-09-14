@@ -10,7 +10,7 @@ export function DetailsStep() {
   const { control } = useFormContext<JobFormValues>();
 
   return (
-    <Box className="tw-grid tw-gap-6">
+    <Box className="grid gap-6">
       <FormTextField name="description" control={control} labelId="jobs.field.description" multiline minRows={6} />
       <FormListField
         name="requirements"

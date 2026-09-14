@@ -29,29 +29,29 @@ export function ReadOnlyField({ labelId, value, icon: Icon, badgeId, hintId }: R
       <Box
         role="group"
         aria-describedby={hintId ? hintElementId : undefined}
-        className="tw-flex tw-min-h-14 tw-items-center tw-gap-3 tw-rounded-xl tw-px-3.5 tw-py-2"
+        className="flex min-h-14 items-center gap-3 rounded-xl px-3.5 py-2"
         sx={(theme) => ({
           bgcolor: alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.12 : 0.06),
           border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
         })}
       >
         <Box
-          className="tw-flex tw-h-8 tw-w-8 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-lg"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
           sx={{ bgcolor: 'primary.light', color: 'primary.main' }}
         >
           <Icon size={18} />
         </Box>
-        <Box className="tw-min-w-0 tw-flex-1">
+        <Box className="min-w-0 flex-1">
           <Typography
             variant="caption"
             color="text.secondary"
             component="p"
-            className="tw-flex tw-items-center tw-gap-1.5 tw-leading-tight"
+            className="flex items-center gap-1.5 leading-tight"
           >
             {$t({ id: labelId })}
             <Box
               component="span"
-              className="tw-inline-flex tw-items-center tw-gap-0.5 tw-rounded-full tw-px-1.5"
+              className="inline-flex items-center gap-0.5 rounded-full px-1.5"
               sx={{ bgcolor: 'background.paper', color: 'text.secondary' }}
             >
               <MdLock size={11} />
@@ -64,7 +64,7 @@ export function ReadOnlyField({ labelId, value, icon: Icon, badgeId, hintId }: R
         </Box>
       </Box>
       {hintId && (
-        <FormHelperText id={hintElementId} className="tw-mx-3.5">
+        <FormHelperText id={hintElementId} className="mx-3.5">
           {$t({ id: hintId })}
         </FormHelperText>
       )}

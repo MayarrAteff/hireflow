@@ -114,29 +114,29 @@ export function JobForm({ job }: JobFormProps) {
     Boolean(job) || index <= activeStep || completedSteps.includes(JOB_FORM_STEPS[index]);
 
   return (
-    <Box className="tw-mx-auto tw-max-w-6xl">
-      <Box className="tw-mb-8 tw-flex tw-items-center tw-gap-4">
+    <Box className="mx-auto max-w-6xl">
+      <Box className="mb-8 flex items-center gap-4">
         <IconTile icon={job ? MdEditNote : MdPostAdd} size="lg" />
-        <Box className="tw-min-w-0 tw-flex-1">
-          <Typography variant="h2" className="tw-mb-1">
+        <Box className="min-w-0 flex-1">
+          <Typography variant="h2" className="mb-1">
             {$t({ id: job ? 'jobs.form.editTitle' : 'jobs.form.newTitle' })}
           </Typography>
           <Typography color="text.secondary">{$t({ id: 'jobs.form.subtitle' })}</Typography>
         </Box>
         <Chip
           color="primary"
-          className="tw-hidden sm:tw-flex"
+          className="hidden sm:flex"
           label={$t({ id: 'jobs.form.stepCount' }, { current: activeStep + 1, total: JOB_FORM_STEPS.length })}
         />
       </Box>
 
-      <Stepper nonLinear activeStep={activeStep} alternativeLabel className="tw-mb-6">
+      <Stepper nonLinear activeStep={activeStep} alternativeLabel className="mb-6">
         {JOB_FORM_STEPS.map((key, index) => (
           <Step key={key} completed={completedSteps.includes(key) && index !== activeStep}>
             <StepButton disabled={!canOpenStep(index)} onClick={() => dispatch(goToStep(index))}>
               <StepLabel
                 optional={
-                  <Typography variant="caption" color="text.secondary" className="tw-hidden sm:tw-block">
+                  <Typography variant="caption" color="text.secondary" className="hidden sm:block">
                     {$t({ id: `jobs.step.${key}.description` })}
                   </Typography>
                 }
@@ -149,11 +149,11 @@ export function JobForm({ job }: JobFormProps) {
       </Stepper>
 
       <FormProvider {...methods}>
-        <Box className="tw-grid tw-items-start tw-gap-6 lg:tw-grid-cols-[minmax(0,1fr)_320px]">
+        <Box className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <Card component="form" noValidate onSubmit={(event) => event.preventDefault()}>
-            <CardContent className="tw-p-5 sm:tw-p-8">
+            <CardContent className="p-5 sm:p-8">
               {serverErrors.general && (
-                <Alert severity="error" className="tw-mb-5">
+                <Alert severity="error" className="mb-5">
                   {serverErrors.general}
                 </Alert>
               )}
@@ -173,11 +173,11 @@ export function JobForm({ job }: JobFormProps) {
 
             <Divider />
 
-            <Box className="tw-flex tw-flex-wrap tw-items-center tw-gap-2 tw-p-4 sm:tw-px-8">
+            <Box className="flex flex-wrap items-center gap-2 p-4 sm:px-8">
               <Button disabled={activeStep === 0 || isPending} onClick={() => dispatch(previousStep())}>
                 {$t({ id: 'jobs.form.back' })}
               </Button>
-              <Box className="tw-flex-1" />
+              <Box className="flex-1" />
               {!isPublished && (
                 <Button
                   variant="outlined"
@@ -205,7 +205,7 @@ export function JobForm({ job }: JobFormProps) {
             </Box>
           </Card>
 
-          <Box component="aside" className="tw-flex tw-flex-col tw-gap-4 lg:tw-sticky lg:tw-top-24">
+          <Box component="aside" className="flex flex-col gap-4 lg:sticky lg:top-24">
             <JobPreviewCard />
             {/* The review step runs its own readiness check, so the tip would only repeat it. */}
             {!isLastStep && <StepTipCard step={step} />}

@@ -49,9 +49,9 @@ function DrawerSection({ titleId, children, action }: { titleId: string; childre
   const { $t } = useIntl();
 
   return (
-    <Box className="tw-px-5 tw-py-4">
-      <Box className="tw-mb-2 tw-flex tw-items-center tw-justify-between tw-gap-2">
-        <Typography variant="overline" color="text.secondary" className="tw-leading-none">
+    <Box className="px-5 py-4">
+      <Box className="mb-2 flex items-center justify-between gap-2">
+        <Typography variant="overline" color="text.secondary" className="leading-none">
           {$t({ id: titleId })}
         </Typography>
         {action}
@@ -91,44 +91,44 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
       onClose={onClose}
       // Same layer as dialogs so it opens on top of the comparison instead of behind it.
       sx={{ zIndex: 'modal' }}
-      slotProps={{ paper: { className: 'tw-w-full sm:tw-w-[460px]' } }}
+      slotProps={{ paper: { className: 'w-full sm:w-[460px]' } }}
     >
       {application && candidate && (
-        <Box className="tw-flex tw-min-h-full tw-flex-col">
-          <Box className="tw-relative tw-h-20 tw-shrink-0" sx={(theme) => ({ background: brandGradient(theme) })}>
+        <Box className="flex min-h-full flex-col">
+          <Box className="relative h-20 shrink-0" sx={(theme) => ({ background: brandGradient(theme) })}>
             <IconButton
               onClick={onClose}
               aria-label={$t({ id: 'profile.cancel' })}
-              className="tw-absolute tw-end-2 tw-top-2"
+              className="absolute end-2 top-2"
               sx={{ color: '#fff' }}
             >
               <MdClose />
             </IconButton>
           </Box>
 
-          <Box className="-tw-mt-10 tw-px-5">
+          <Box className="-mt-10 px-5">
             <ApplicantAvatar
               candidate={candidate}
               size={80}
               sx={{ border: 4, borderColor: 'background.paper', fontSize: 30 }}
             />
-            <Typography variant="h4" className="tw-mt-2 tw-break-words">
+            <Typography variant="h4" className="mt-2 break-words">
               {candidate.full_name || candidate.email}
             </Typography>
             {candidate.headline && <Typography color="text.secondary">{candidate.headline}</Typography>}
-            <Box className="tw-mt-2 tw-flex tw-flex-wrap tw-gap-x-4 tw-gap-y-1">
+            <Box className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
               {candidate.location && (
-                <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1">
+                <Typography variant="body2" color="text.secondary" className="flex items-center gap-1">
                   <MdPlace /> {candidate.location}
                 </Typography>
               )}
               {candidate.years_of_experience != null && (
-                <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1">
+                <Typography variant="body2" color="text.secondary" className="flex items-center gap-1">
                   <MdWorkHistory /> {$t({ id: 'applicants.years' }, { years: candidate.years_of_experience })}
                 </Typography>
               )}
             </Box>
-            <Box className="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-1">
+            <Box className="mt-2 flex flex-wrap items-center gap-1">
               <Tooltip title={candidate.email}>
                 <IconButton
                   size="small"
@@ -168,7 +168,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
             </Box>
           </Box>
 
-          <Box className="tw-grid tw-grid-cols-2 tw-gap-3 tw-px-5 tw-pt-4">
+          <Box className="grid grid-cols-2 gap-3 px-5 pt-4">
             <TextField
               select
               size="small"
@@ -184,7 +184,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
                 </MenuItem>
               ))}
             </TextField>
-            <Box className="tw-flex tw-flex-col tw-justify-center">
+            <Box className="flex flex-col justify-center">
               <Typography variant="caption" color="text.secondary">
                 {$t({ id: 'applicants.yourRating' })}
               </Typography>
@@ -195,7 +195,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
             </Box>
           </Box>
 
-          <Box className="tw-flex tw-flex-wrap tw-gap-2 tw-px-5 tw-py-4">
+          <Box className="flex flex-wrap gap-2 px-5 py-4">
             {application.cv_path && (
               <Button
                 variant="outlined"
@@ -215,13 +215,13 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
 
           {job.skills.length > 0 && (
             <DrawerSection titleId="compare.skillMatch">
-              <Box className="tw-mb-3 tw-flex tw-items-center tw-gap-3">
-                <Box className="tw-relative tw-shrink-0">
+              <Box className="mb-3 flex items-center gap-3">
+                <Box className="relative shrink-0">
                   <ProgressRing value={match.percent} size={56} stroke={6} />
                   <Typography
                     variant="caption"
                     fontWeight={700}
-                    className="tw-absolute tw-inset-0 tw-flex tw-items-center tw-justify-center"
+                    className="absolute inset-0 flex items-center justify-center"
                   >
                     {formatNumber(match.percent / 100, { style: 'percent' })}
                   </Typography>
@@ -230,7 +230,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
                   {$t({ id: 'jobs.details.skillsMatched' }, { matched: match.matchedCount, total: match.total })}
                 </Typography>
               </Box>
-              <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+              <Box className="flex flex-wrap gap-1.5">
                 {job.skills.map((skill) =>
                   match.matched.has(skill) ? (
                     <Chip key={skill} size="small" color="success" icon={<MdCheckCircle />} label={skill} />
@@ -254,18 +254,18 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
                 {$t({ id: 'compare.noInterview' })}
               </Typography>
             ) : (
-              <Box className="tw-flex tw-flex-col tw-gap-2">
+              <Box className="flex flex-col gap-2">
                 {interviews.map((interview) => {
                   const { icon, color } = INTERVIEW_TYPE_VISUALS[interview.type];
                   const isPast = new Date(interview.scheduled_at).getTime() < Date.now();
                   return (
                     <Box
                       key={interview.id}
-                      className="tw-flex tw-items-center tw-gap-3 tw-rounded-xl tw-p-2.5"
+                      className="flex items-center gap-3 rounded-xl p-2.5"
                       sx={{ border: 1, borderColor: 'divider', opacity: isPast ? 0.7 : 1 }}
                     >
                       <IconTile icon={icon} color={color} size="sm" />
-                      <Box className="tw-min-w-0 tw-flex-1">
+                      <Box className="min-w-0 flex-1">
                         <Typography variant="body2" fontWeight={600}>
                           {formatDate(interview.scheduled_at, {
                             weekday: 'short',
@@ -275,7 +275,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
                             minute: '2-digit',
                           })}
                         </Typography>
-                        <Typography variant="caption" color="text.secondary" noWrap className="tw-block">
+                        <Typography variant="caption" color="text.secondary" noWrap className="block">
                           {$t({ id: `interview.type.${interview.type}` })} ·{' '}
                           {$t({ id: 'interview.minutes' }, { minutes: interview.duration_minutes })}
                           {interview.location_or_link &&
@@ -309,7 +309,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
 
           {candidate.bio && (
             <DrawerSection titleId="profile.section.about.title">
-              <Typography variant="body2" className="tw-whitespace-pre-line">
+              <Typography variant="body2" className="whitespace-pre-line">
                 {candidate.bio}
               </Typography>
             </DrawerSection>
@@ -319,13 +319,13 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
             <Typography
               variant="body2"
               color={application.cover_letter ? 'text.primary' : 'text.disabled'}
-              className="tw-whitespace-pre-line"
+              className="whitespace-pre-line"
             >
               {application.cover_letter || $t({ id: 'compare.noCoverLetter' })}
             </Typography>
           </DrawerSection>
 
-          <Box className="tw-mt-auto tw-px-5 tw-pb-5">
+          <Box className="mt-auto px-5 pb-5">
             <Typography variant="caption" color="text.secondary">
               {$t(
                 { id: 'applicants.appliedOn' },
@@ -336,7 +336,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
               )}
             </Typography>
             {candidate.email && (
-              <Link href={`mailto:${candidate.email}`} variant="caption" className="tw-ms-2">
+              <Link href={`mailto:${candidate.email}`} variant="caption" className="ms-2">
                 {candidate.email}
               </Link>
             )}

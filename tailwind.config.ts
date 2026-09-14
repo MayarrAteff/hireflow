@@ -5,7 +5,6 @@ import { createThemes } from 'tw-colors';
 import { portalThemeColors } from './src/styles/themes/portalThemeColors';
 
 export default {
-  prefix: 'tw-',
   important: 'body',
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],

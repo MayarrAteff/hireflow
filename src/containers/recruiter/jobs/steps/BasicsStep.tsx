@@ -13,8 +13,8 @@ export function BasicsStep() {
   const workMode = useWatch({ control, name: 'workMode' });
 
   return (
-    <Box className="tw-grid tw-gap-5 sm:tw-grid-cols-2">
-      <FormTextField name="title" control={control} labelId="jobs.field.title" autoFocus className="sm:tw-col-span-2" />
+    <Box className="grid gap-5 sm:grid-cols-2">
+      <FormTextField name="title" control={control} labelId="jobs.field.title" autoFocus className="sm:col-span-2" />
       <FormTextField select name="employmentType" control={control} labelId="jobs.field.employmentType">
         {EMPLOYMENT_TYPES.map((type) => (
           <MenuItem key={type} value={type}>
@@ -33,7 +33,7 @@ export function BasicsStep() {
         name="location"
         control={control}
         labelId="jobs.field.location"
-        className="sm:tw-col-span-2"
+        className="sm:col-span-2"
         helperText={workMode === 'remote' ? $t({ id: 'jobs.field.location.remoteHint' }) : undefined}
       />
     </Box>

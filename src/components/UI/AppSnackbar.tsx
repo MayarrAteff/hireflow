@@ -42,7 +42,7 @@ export const AppSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(functi
   return (
     <SnackbarContent ref={ref} role={variant === 'error' ? 'alert' : 'status'} style={style} className={className}>
       <Box
-        className="tw-relative tw-flex tw-w-full tw-items-start tw-gap-3 tw-overflow-hidden tw-rounded-2xl tw-p-3.5 tw-pe-2 sm:tw-w-[380px]"
+        className="relative flex w-full items-start gap-3 overflow-hidden rounded-2xl p-3.5 pe-2 sm:w-[380px]"
         sx={(theme) => ({
           bgcolor: 'background.paper',
           border: `1px solid ${alpha(color, 0.3)}`,
@@ -53,7 +53,7 @@ export const AppSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(functi
         })}
       >
         <Box
-          className="tw-flex tw-h-10 tw-w-10 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-xl"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
           sx={{
             bgcolor: color,
             color: '#fff',
@@ -65,17 +65,17 @@ export const AppSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(functi
           <Icon size={22} />
         </Box>
 
-        <Box className="tw-min-w-0 tw-flex-1 tw-pt-0.5">
-          <Typography fontWeight={700} className="tw-leading-snug">
+        <Box className="min-w-0 flex-1 pt-0.5">
+          <Typography fontWeight={700} className="leading-snug">
             {$t({ id: titleId })}
           </Typography>
-          <Typography variant="body2" color="text.secondary" className="tw-break-words">
+          <Typography variant="body2" color="text.secondary" className="break-words">
             {message}
           </Typography>
         </Box>
 
         {action && (
-          <Box className="tw-shrink-0 tw-self-center">{typeof action === 'function' ? action(id) : action}</Box>
+          <Box className="shrink-0 self-center">{typeof action === 'function' ? action(id) : action}</Box>
         )}
 
         <IconButton size="small" aria-label={$t({ id: 'snackbar.close' })} onClick={() => closeSnackbar(id)}>
@@ -85,7 +85,7 @@ export const AppSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(functi
         {showCountdown && (
           <Box
             aria-hidden
-            className="snackbar-countdown tw-absolute tw-inset-x-0 tw-bottom-0 tw-h-[3px]"
+            className="snackbar-countdown absolute inset-x-0 bottom-0 h-[3px]"
             sx={{
               bgcolor: alpha(color, 0.7),
               transformOrigin: 'var(--countdown-origin)',

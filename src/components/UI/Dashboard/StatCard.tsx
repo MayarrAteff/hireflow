@@ -35,10 +35,10 @@ export function StatCard({ icon, color, labelId, value, loading }: StatCardProps
   const { $t } = useIntl();
 
   return (
-    <Card className="tw-h-full">
-      <CardContent className="tw-flex tw-items-center tw-gap-4">
+    <Card className="h-full">
+      <CardContent className="flex items-center gap-4">
         <IconTile icon={icon} color={color} size="lg" />
-        <Box className="tw-min-w-0">
+        <Box className="min-w-0">
           <Typography variant="h3" component="p">
             {loading ? <Skeleton width={40} /> : <CountUp value={value} />}
           </Typography>

@@ -58,8 +58,8 @@ export function FileDropzone({ accept, onFile, titleId, captionId, captionValues
         }}
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
-        className={`tw-flex tw-cursor-pointer tw-items-center tw-rounded-2xl tw-text-center tw-transition-colors ${
-          compact ? 'tw-gap-3 tw-p-4 tw-text-start' : 'tw-flex-col tw-gap-2 tw-px-6 tw-py-10'
+        className={`flex cursor-pointer items-center rounded-2xl text-center transition-colors ${
+          compact ? 'gap-3 p-4 text-start' : 'flex-col gap-2 px-6 py-10'
         }`}
         sx={(theme) => {
           const borderColor = error ? theme.palette.error.main : theme.palette.divider;
@@ -75,7 +75,7 @@ export function FileDropzone({ accept, onFile, titleId, captionId, captionValues
         }}
       >
         <IconTile icon={MdCloudUpload} size={compact ? 'md' : 'lg'} />
-        <Box className="tw-min-w-0">
+        <Box className="min-w-0">
           <Typography fontWeight={600}>{$t({ id: titleId })}</Typography>
           {!compact && (
             <Typography variant="body2" color="text.secondary">

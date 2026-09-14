@@ -34,18 +34,18 @@ export function OverviewTab({ job, applications, onOpenBoard }: OverviewTabProps
   const maxCount = Math.max(1, ...FUNNEL_STAGES.map((stage) => applications.filter((a) => a.stage === stage).length));
 
   return (
-    <Box className="tw-grid tw-items-start tw-gap-6 lg:tw-grid-cols-[minmax(0,1fr)_320px]">
-      <Box className="tw-flex tw-flex-col tw-gap-6">
+    <Box className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <Box className="flex flex-col gap-6">
         {hasPostingContent ? (
           <JobPostingSections job={job} />
         ) : (
           <Card>
-            <CardContent className="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
-              <EmptyJobsIllustration className="tw-mb-3 tw-w-40" />
-              <Typography variant="h4" className="tw-mb-1">
+            <CardContent className="flex flex-col items-center py-12 text-center">
+              <EmptyJobsIllustration className="mb-3 w-40" />
+              <Typography variant="h4" className="mb-1">
                 {$t({ id: 'jobs.details.noContent.title' })}
               </Typography>
-              <Typography color="text.secondary" className="tw-mb-5 tw-max-w-md">
+              <Typography color="text.secondary" className="mb-5 max-w-md">
                 {$t({ id: 'jobs.details.noContent.body' })}
               </Typography>
               <ButtonLink
@@ -61,27 +61,27 @@ export function OverviewTab({ job, applications, onOpenBoard }: OverviewTabProps
         )}
       </Box>
 
-      <Card className="lg:tw-sticky lg:tw-top-24">
-        <CardContent className="tw-p-5">
-          <Box className="tw-mb-4 tw-flex tw-items-center tw-gap-2">
+      <Card className="lg:sticky lg:top-24">
+        <CardContent className="p-5">
+          <Box className="mb-4 flex items-center gap-2">
             <IconTile icon={MdInsights} size="sm" />
             <Typography variant="h6">{$t({ id: 'jobs.details.pipeline' })}</Typography>
           </Box>
-          <Box component="ul" className="tw-m-0 tw-flex tw-list-none tw-flex-col tw-gap-3 tw-p-0">
+          <Box component="ul" className="m-0 flex list-none flex-col gap-3 p-0">
             {FUNNEL_STAGES.map((stage) => {
               const count = applications.filter((application) => application.stage === stage).length;
               const color = ACCENT_COLORS[APPLICATION_STAGE_COLOR[stage]];
               return (
                 <li key={stage}>
-                  <Box className="tw-mb-1 tw-flex tw-justify-between tw-gap-2">
+                  <Box className="mb-1 flex justify-between gap-2">
                     <Typography variant="body2">{$t({ id: `application.stage.${stage}` })}</Typography>
                     <Typography variant="body2" fontWeight={700}>
                       {formatNumber(count)}
                     </Typography>
                   </Box>
-                  <Box className="tw-h-2 tw-overflow-hidden tw-rounded-full" sx={{ bgcolor: alpha(color, 0.14) }}>
+                  <Box className="h-2 overflow-hidden rounded-full" sx={{ bgcolor: alpha(color, 0.14) }}>
                     <Box
-                      className="tw-h-full tw-rounded-full tw-transition-all"
+                      className="h-full rounded-full transition-all"
                       sx={{ width: `${(count / maxCount) * 100}%`, bgcolor: color }}
                     />
                   </Box>
@@ -89,7 +89,7 @@ export function OverviewTab({ job, applications, onOpenBoard }: OverviewTabProps
               );
             })}
           </Box>
-          <Button fullWidth variant="outlined" startIcon={<MdViewKanban />} onClick={onOpenBoard} className="tw-mt-5">
+          <Button fullWidth variant="outlined" startIcon={<MdViewKanban />} onClick={onOpenBoard} className="mt-5">
             {$t({ id: 'jobs.details.openBoard' })}
           </Button>
         </CardContent>

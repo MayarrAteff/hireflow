@@ -60,7 +60,7 @@ function CvOption({ selected, onSelect, fileName, captionId, onClear }: CvOption
       tabIndex={0}
       onClick={onSelect}
       onKeyDown={(event) => (event.key === 'Enter' || event.key === ' ') && onSelect()}
-      className="tw-flex tw-cursor-pointer tw-items-center tw-gap-3 tw-rounded-2xl tw-p-3"
+      className="flex cursor-pointer items-center gap-3 rounded-2xl p-3"
       sx={(theme) => ({
         border: `2px solid ${selected ? theme.palette.primary.main : theme.palette.divider}`,
         bgcolor: selected ? alpha(theme.palette.primary.main, 0.06) : 'transparent',
@@ -69,7 +69,7 @@ function CvOption({ selected, onSelect, fileName, captionId, onClear }: CvOption
       })}
     >
       <IconTile icon={isPdf ? MdPictureAsPdf : MdDescription} color={isPdf ? 'rose' : 'sky'} />
-      <Box className="tw-min-w-0 tw-flex-1">
+      <Box className="min-w-0 flex-1">
         <Typography fontWeight={600} noWrap>
           {fileName}
         </Typography>
@@ -90,7 +90,7 @@ function CvOption({ selected, onSelect, fileName, captionId, onClear }: CvOption
         </IconButton>
       )}
       <Box
-        className="tw-flex tw-h-5 tw-w-5 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-full"
+        className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
         sx={selected ? { bgcolor: 'primary.main', color: '#fff' } : { border: 2, borderColor: 'divider' }}
       >
         {selected && <MdCheck size={14} />}
@@ -161,23 +161,23 @@ export function ApplyDialog({ job, open, onClose }: ApplyDialogProps) {
   if (isSuccess) {
     return (
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
-        <DialogContent className="tw-flex tw-flex-col tw-items-center tw-px-6 tw-py-10 tw-text-center">
+        <DialogContent className="flex flex-col items-center px-6 py-10 text-center">
           <motion.div
             initial={{ scale: 0, rotate: -20 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: 'spring', stiffness: 260, damping: 16 }}
-            className="tw-mb-5 tw-flex tw-h-20 tw-w-20 tw-items-center tw-justify-center tw-rounded-full tw-text-white"
+            className="mb-5 flex h-20 w-20 items-center justify-center rounded-full text-white"
             style={{ backgroundColor: ACCENT_COLORS.emerald, boxShadow: `0 16px 32px -12px ${ACCENT_COLORS.emerald}` }}
           >
             <MdCheck size={44} />
           </motion.div>
-          <Typography variant="h3" className="tw-mb-2">
+          <Typography variant="h3" className="mb-2">
             {$t({ id: 'apply.success.title' })}
           </Typography>
-          <Typography color="text.secondary" className="tw-mb-6">
+          <Typography color="text.secondary" className="mb-6">
             {$t({ id: 'apply.success.body' }, { company: company || job.title })}
           </Typography>
-          <Box className="tw-flex tw-flex-wrap tw-justify-center tw-gap-2">
+          <Box className="flex flex-wrap justify-center gap-2">
             <Button variant="outlined" onClick={handleClose}>
               {$t({ id: 'apply.success.backToJob' })}
             </Button>
@@ -192,13 +192,13 @@ export function ApplyDialog({ job, open, onClose }: ApplyDialogProps) {
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth scroll="body">
-      <Box className="tw-h-1.5" sx={(theme) => ({ background: brandGradient(theme, 90) })} />
-      <DialogTitle className="tw-flex tw-items-start tw-gap-3 tw-pe-14">
-        <Box className="tw-min-w-0">
-          <Typography variant="h4" component="span" className="tw-block">
+      <Box className="h-1.5" sx={(theme) => ({ background: brandGradient(theme, 90) })} />
+      <DialogTitle className="flex items-start gap-3 pe-14">
+        <Box className="min-w-0">
+          <Typography variant="h4" component="span" className="block">
             {$t({ id: 'apply.title' })}
           </Typography>
-          <Typography color="text.secondary" component="span" className="tw-block">
+          <Typography color="text.secondary" component="span" className="block">
             {job.title}
             {company && ` · ${company}`}
           </Typography>
@@ -206,24 +206,24 @@ export function ApplyDialog({ job, open, onClose }: ApplyDialogProps) {
         <IconButton
           onClick={handleClose}
           aria-label={$t({ id: 'profile.cancel' })}
-          className="tw-absolute tw-end-3 tw-top-3"
+          className="absolute end-3 top-3"
           disabled={isPending}
         >
           <MdClose />
         </IconButton>
       </DialogTitle>
 
-      <DialogContent className="tw-flex tw-flex-col tw-gap-5">
+      <DialogContent className="flex flex-col gap-5">
         {serverErrors.general && <Alert severity="error">{serverErrors.general}</Alert>}
 
-        <Box className="tw-flex tw-items-center tw-gap-3 tw-rounded-2xl tw-p-3" sx={{ bgcolor: 'action.hover' }}>
+        <Box className="flex items-center gap-3 rounded-2xl p-3" sx={{ bgcolor: 'action.hover' }}>
           <Avatar
             src={profile?.avatar_url ?? undefined}
             sx={{ width: 48, height: 48, bgcolor: 'primary.light', color: 'primary.main' }}
           >
             {(profile?.full_name || profile?.email || '?').slice(0, 1).toUpperCase()}
           </Avatar>
-          <Box className="tw-min-w-0 tw-flex-1">
+          <Box className="min-w-0 flex-1">
             <Typography fontWeight={700} noWrap>
               {profile?.full_name}
             </Typography>
@@ -231,7 +231,7 @@ export function ApplyDialog({ job, open, onClose }: ApplyDialogProps) {
               {profile?.headline || profile?.email}
             </Typography>
           </Box>
-          <Link component={RouterLink} to="/candidate/profile" variant="body2" fontWeight={600} className="tw-shrink-0">
+          <Link component={RouterLink} to="/candidate/profile" variant="body2" fontWeight={600} className="shrink-0">
             {$t({ id: 'apply.profile.edit' })}
           </Link>
         </Box>
@@ -243,10 +243,10 @@ export function ApplyDialog({ job, open, onClose }: ApplyDialogProps) {
         )}
 
         <Box>
-          <Typography fontWeight={600} className="tw-mb-2">
+          <Typography fontWeight={600} className="mb-2">
             {$t({ id: 'apply.cv.title' })}
           </Typography>
-          <Box role="radiogroup" aria-label={$t({ id: 'apply.cv.title' })} className="tw-flex tw-flex-col tw-gap-2">
+          <Box role="radiogroup" aria-label={$t({ id: 'apply.cv.title' })} className="flex flex-col gap-2">
             {profileCvPath && (
               <CvOption
                 selected={cvChoice === 'profile'}
@@ -309,7 +309,7 @@ export function ApplyDialog({ job, open, onClose }: ApplyDialogProps) {
 
         {isPending && cvChoice === 'upload' && (
           <Box>
-            <Typography variant="body2" color="text.secondary" className="tw-mb-1">
+            <Typography variant="body2" color="text.secondary" className="mb-1">
               {$t({ id: 'apply.uploading' }, { percent: progress })}
             </Typography>
             <LinearProgress variant={progress < 100 ? 'determinate' : 'indeterminate'} value={progress} />
@@ -317,14 +317,14 @@ export function ApplyDialog({ job, open, onClose }: ApplyDialogProps) {
         )}
       </DialogContent>
 
-      <DialogActions className="tw-px-6 tw-pb-5">
+      <DialogActions className="px-6 pb-5">
         <Button onClick={handleClose} disabled={isPending}>
           {$t({ id: 'profile.cancel' })}
         </Button>
         <Button
           variant="contained"
           size="large"
-          endIcon={<MdSend className="rtl:tw-rotate-180" />}
+          endIcon={<MdSend className="rtl:rotate-180" />}
           onClick={handleSubmit}
           loading={isPending}
         >

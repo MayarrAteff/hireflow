@@ -58,27 +58,27 @@ export function InterviewsPage() {
   };
 
   return (
-    <Box className="tw-mx-auto tw-flex tw-max-w-5xl tw-flex-col tw-gap-6">
-      <Box className="tw-flex tw-flex-wrap tw-items-center tw-gap-4">
+    <Box className="mx-auto flex max-w-5xl flex-col gap-6">
+      <Box className="flex flex-wrap items-center gap-4">
         <IconTile icon={MdEventAvailable} size="lg" />
-        <Box className="tw-min-w-0 tw-flex-1">
-          <Typography variant="h2" className="tw-mb-1">
+        <Box className="min-w-0 flex-1">
+          <Typography variant="h2" className="mb-1">
             {$t({ id: 'interviews.title' })}
           </Typography>
           <Typography color="text.secondary">{$t({ id: 'interviews.subtitle' })}</Typography>
         </Box>
         <ToggleButtonGroup exclusive size="small" value={view} onChange={(_event, next) => next && setView(next)}>
-          <ToggleButton value="upcoming" className="tw-px-4">
+          <ToggleButton value="upcoming" className="px-4">
             {$t({ id: 'interviews.upcoming' })}
           </ToggleButton>
-          <ToggleButton value="past" className="tw-px-4">
+          <ToggleButton value="past" className="px-4">
             {$t({ id: 'interviews.past' })}
           </ToggleButton>
         </ToggleButtonGroup>
       </Box>
 
       {view === 'upcoming' && !isPending && interviews.length > 0 && (
-        <Box className="tw-flex tw-flex-wrap tw-gap-2">
+        <Box className="flex flex-wrap gap-2">
           <Chip color="primary" label={$t({ id: 'interviews.today' }, { count: todayCount })} />
           <Chip variant="outlined" label={$t({ id: 'interviews.thisWeek' }, { count: weekCount })} />
         </Box>
@@ -86,17 +86,17 @@ export function InterviewsPage() {
 
       {isPending &&
         Array.from({ length: 3 }, (_, index) => (
-          <Skeleton key={index} variant="rounded" height={96} className="tw-rounded-2xl" />
+          <Skeleton key={index} variant="rounded" height={96} className="rounded-2xl" />
         ))}
 
       {!isPending && interviews.length === 0 && (
         <Card>
-          <CardContent className="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
-            <EmptyJobsIllustration className="tw-mb-3 tw-w-44" />
-            <Typography variant="h4" className="tw-mb-1">
+          <CardContent className="flex flex-col items-center py-12 text-center">
+            <EmptyJobsIllustration className="mb-3 w-44" />
+            <Typography variant="h4" className="mb-1">
               {$t({ id: view === 'upcoming' ? 'interviews.empty.upcoming' : 'interviews.empty.past' })}
             </Typography>
-            <Typography color="text.secondary" className="tw-mb-5 tw-max-w-md">
+            <Typography color="text.secondary" className="mb-5 max-w-md">
               {$t({ id: 'interviews.empty.body' })}
             </Typography>
             <Button variant="outlined" component={RouterLink} to="/recruiter/jobs">
@@ -113,7 +113,7 @@ export function InterviewsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: Math.min(groupIndex, 6) * 0.05 }}
         >
-          <Typography variant="h6" className="tw-mb-2 tw-px-1 first-letter:tw-uppercase">
+          <Typography variant="h6" className="mb-2 px-1 first-letter:uppercase">
             {dayLabel(day)}
           </Typography>
           <Card>
@@ -126,10 +126,10 @@ export function InterviewsPage() {
               return (
                 <Box
                   key={interview.id}
-                  className="tw-flex tw-flex-wrap tw-items-center tw-gap-4 tw-p-4"
+                  className="flex flex-wrap items-center gap-4 p-4"
                   sx={{ borderTop: index === 0 ? 0 : 1, borderColor: 'divider' }}
                 >
-                  <Box className="tw-flex tw-w-28 tw-items-center tw-gap-3">
+                  <Box className="flex w-28 items-center gap-3">
                     <IconTile icon={icon} color={color} size="sm" />
                     <Box>
                       <Typography fontWeight={700}>
@@ -141,9 +141,9 @@ export function InterviewsPage() {
                     </Box>
                   </Box>
 
-                  <Box className="tw-flex tw-min-w-0 tw-flex-1 tw-items-center tw-gap-3">
+                  <Box className="flex min-w-0 flex-1 items-center gap-3">
                     <ApplicantAvatar candidate={application.candidate} />
-                    <Box className="tw-min-w-0">
+                    <Box className="min-w-0">
                       <Typography fontWeight={600} noWrap>
                         {application.candidate.full_name || application.candidate.email}
                       </Typography>
@@ -153,14 +153,14 @@ export function InterviewsPage() {
                         search={{ tab: 'board' }}
                         variant="body2"
                         underline="hover"
-                        className="tw-block tw-truncate"
+                        className="block truncate"
                       >
                         {application.job.title}
                       </MuiRouterLink>
                     </Box>
                   </Box>
 
-                  <Box className="tw-flex tw-items-center tw-gap-2">
+                  <Box className="flex items-center gap-2">
                     {isLive && <Chip size="small" color="error" label={$t({ id: 'interviews.now' })} />}
                     <StageChip stage={application.stage} />
                     {interview.location_or_link && !isMeetingUrl(interview.location_or_link) && (
@@ -170,7 +170,7 @@ export function InterviewsPage() {
                           variant="outlined"
                           icon={<MdPlace />}
                           label={interview.location_or_link}
-                          className="tw-max-w-40"
+                          className="max-w-40"
                         />
                       </Tooltip>
                     )}

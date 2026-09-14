@@ -42,14 +42,14 @@ export function Register() {
 
   return (
     <AuthLayout>
-      <Typography variant="h2" className="tw-mb-1">
+      <Typography variant="h2" className="mb-1">
         {$t({ id: 'auth.register.title' })}
       </Typography>
-      <Typography color="text.secondary" className="tw-mb-8">
+      <Typography color="text.secondary" className="mb-8">
         {$t({ id: 'auth.register.subtitle' })}
       </Typography>
 
-      <Box component="form" noValidate onSubmit={handleSubmit((values) => mutate(values))} className="tw-space-y-5">
+      <Box component="form" noValidate onSubmit={handleSubmit((values) => mutate(values))} className="space-y-5">
         {serverErrors.general && <Alert severity="error">{serverErrors.general}</Alert>}
         <Controller
           name="role"
@@ -77,7 +77,7 @@ export function Register() {
         </Button>
       </Box>
 
-      <Typography className="tw-mt-6 tw-text-center" color="text.secondary">
+      <Typography className="mt-6 text-center" color="text.secondary">
         {$t({ id: 'auth.register.haveAccount' })}{' '}
         <Link component={RouterLink} to="/login" fontWeight={600}>
           {$t({ id: 'auth.login.submit' })}

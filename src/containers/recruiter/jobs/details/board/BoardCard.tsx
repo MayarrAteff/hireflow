@@ -38,7 +38,7 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
   return (
     <Paper
       elevation={overlay ? 12 : 0}
-      className="tw-flex tw-flex-col tw-gap-2 tw-rounded-xl tw-p-3"
+      className="flex flex-col gap-2 rounded-xl p-3"
       sx={{
         border: 1,
         borderColor: 'divider',
@@ -47,13 +47,13 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
         '&:hover .board-card-open': { opacity: 1 },
       }}
     >
-      <Box className="tw-flex tw-items-center tw-gap-2.5">
+      <Box className="flex items-center gap-2.5">
         <ApplicantAvatar candidate={candidate} size={36} />
-        <Box className="tw-min-w-0 tw-flex-1">
+        <Box className="min-w-0 flex-1">
           <Typography variant="body2" fontWeight={700} noWrap>
             {candidate.full_name || candidate.email}
           </Typography>
-          <Typography variant="caption" color="text.secondary" noWrap className="tw-block">
+          <Typography variant="caption" color="text.secondary" noWrap className="block">
             {candidate.headline || formatRelativeDay(application.created_at)}
           </Typography>
         </Box>
@@ -61,7 +61,7 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
           <Tooltip title={$t({ id: 'board.openApplicant' })}>
             <IconButton
               size="small"
-              className="board-card-open tw-opacity-60"
+              className="board-card-open opacity-60"
               aria-label={$t({ id: 'board.openApplicant' })}
               // Keep clicks and key presses on the button from starting a drag.
               onPointerDown={(event) => event.stopPropagation()}
@@ -72,10 +72,10 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
             </IconButton>
           </Tooltip>
         )}
-        <Box component={MdDragIndicator} className="tw-shrink-0" sx={{ color: 'text.disabled' }} aria-hidden />
+        <Box component={MdDragIndicator} className="shrink-0" sx={{ color: 'text.disabled' }} aria-hidden />
       </Box>
 
-      <Box className="tw-flex tw-flex-wrap tw-items-center tw-gap-1.5">
+      <Box className="flex flex-wrap items-center gap-1.5">
         <Chip
           size="small"
           label={$t({ id: 'board.match' }, { percent: formatNumber(matchPercent / 100, { style: 'percent' }) })}
@@ -88,7 +88,7 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
       {nextInterview && (
         <Typography
           variant="caption"
-          className="tw-flex tw-items-center tw-gap-1"
+          className="flex items-center gap-1"
           sx={{ color: 'warning.main', fontWeight: 600 }}
         >
           <MdEventAvailable />
@@ -123,7 +123,7 @@ export function BoardCard({ application, matchPercent, onOpen }: BoardCardProps)
       aria-roledescription={$t({ id: 'board.a11y.card' })}
       // Opening with Enter would clash with the keyboard sensor, which uses Space/Enter to pick up.
       onDoubleClick={onOpen}
-      className="tw-touch-manipulation tw-rounded-xl tw-outline-none focus-visible:tw-ring-2 focus-visible:tw-ring-primary"
+      className="touch-manipulation rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary"
       style={{ transform: CSS.Translate.toString(transform), transition, opacity: isDragging ? 0.35 : 1 }}
     >
       <BoardCardContent application={application} matchPercent={matchPercent} onOpen={onOpen} />

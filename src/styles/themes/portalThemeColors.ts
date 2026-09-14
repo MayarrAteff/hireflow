@@ -1,6 +1,6 @@
 import type { PortalTheme } from '../../types/general.types';
 
-/** Per-portal brand colours. Consumed by tw-colors (`tw-bg-primary`, `tw-bg-accent`) and by the MUI palette. */
+/** Per-portal brand colours. Consumed by tw-colors (`bg-primary`, `bg-accent`) and by the MUI palette. */
 export const portalThemeColors: Record<
   PortalTheme,
   { primary: string; 'primary-dark': string; 'primary-light': string; accent: string }

@@ -79,18 +79,18 @@ export function JobHeader({ job, applications, loadingApplications }: JobHeaderP
   const daysLeft = job.deadline ? daysFromToday(job.deadline) : null;
 
   return (
-    <Card className="tw-overflow-hidden">
-      <Box className="tw-h-2" sx={(theme) => ({ background: brandGradient(theme, 90) })} />
-      <CardContent className="tw-flex tw-flex-col tw-gap-6 tw-p-5 sm:tw-p-8">
-        <Box className="tw-flex tw-flex-col tw-gap-3">
-          <Box className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-x-6 tw-gap-y-3">
-            <Box className="tw-flex tw-min-w-0 tw-flex-wrap tw-items-center tw-gap-3">
-              <Typography variant="h2" className="tw-break-words">
+    <Card className="overflow-hidden">
+      <Box className="h-2" sx={(theme) => ({ background: brandGradient(theme, 90) })} />
+      <CardContent className="flex flex-col gap-6 p-5 sm:p-8">
+        <Box className="flex flex-col gap-3">
+          <Box className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+            <Box className="flex min-w-0 flex-wrap items-center gap-3">
+              <Typography variant="h2" className="break-words">
                 {job.title}
               </Typography>
               <JobStatusChip status={job.status} size="medium" />
             </Box>
-            <Box className="tw-flex tw-shrink-0 tw-flex-wrap tw-gap-2">
+            <Box className="flex shrink-0 flex-wrap gap-2">
               {job.status !== 'draft' && (
                 <ButtonLink
                   variant="outlined"
@@ -128,24 +128,24 @@ export function JobHeader({ job, applications, loadingApplications }: JobHeaderP
               )}
             </Box>
           </Box>
-          <Box className="tw-flex tw-flex-wrap tw-gap-1.5">
+          <Box className="flex flex-wrap gap-1.5">
             <Chip variant="outlined" label={$t({ id: `jobs.employmentType.${job.employment_type}` })} />
             <Chip variant="outlined" label={$t({ id: `jobs.workMode.${job.work_mode}` })} />
             {salary && <Chip variant="outlined" label={salary} />}
           </Box>
-          <Box className="tw-flex tw-flex-wrap tw-gap-x-5 tw-gap-y-1">
+          <Box className="flex flex-wrap gap-x-5 gap-y-1">
             {job.location && (
-              <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1.5">
+              <Typography variant="body2" color="text.secondary" className="flex items-center gap-1.5">
                 <MdPlace /> {job.location}
               </Typography>
             )}
-            <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1.5">
+            <Typography variant="body2" color="text.secondary" className="flex items-center gap-1.5">
               <MdSchedule /> {$t({ id: 'jobs.details.posted' }, { when: formatRelativeDay(job.created_at) })}
             </Typography>
             {job.deadline && (
               <Typography
                 variant="body2"
-                className="tw-flex tw-items-center tw-gap-1.5"
+                className="flex items-center gap-1.5"
                 sx={{ color: daysLeft !== null && daysLeft <= 7 ? 'warning.main' : 'text.secondary' }}
               >
                 <MdEvent />
@@ -158,15 +158,15 @@ export function JobHeader({ job, applications, loadingApplications }: JobHeaderP
           </Box>
         </Box>
 
-        <Box className="tw-grid tw-grid-cols-2 tw-gap-3 lg:tw-grid-cols-4">
+        <Box className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {stats.map(({ icon, color, labelId, value }) => (
             <Box
               key={labelId}
-              className="tw-flex tw-items-center tw-gap-3 tw-rounded-2xl tw-p-3"
+              className="flex items-center gap-3 rounded-2xl p-3"
               sx={{ bgcolor: 'action.hover' }}
             >
               <IconTile icon={icon} color={color} />
-              <Box className="tw-min-w-0">
+              <Box className="min-w-0">
                 <Typography variant="h4" component="p">
                   {loadingApplications ? '–' : formatNumber(value)}
                 </Typography>
@@ -184,7 +184,7 @@ export function JobHeader({ job, applications, loadingApplications }: JobHeaderP
         <DialogContent>
           <DialogContentText>{$t({ id: 'jobs.details.closeBody' })}</DialogContentText>
         </DialogContent>
-        <DialogActions className="tw-px-6 tw-pb-4">
+        <DialogActions className="px-6 pb-4">
           <Button onClick={() => setConfirmClose(false)}>{$t({ id: 'profile.cancel' })}</Button>
           <Button
             color="error"

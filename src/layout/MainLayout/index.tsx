@@ -27,16 +27,16 @@ export function MainLayout() {
   return (
     // Floating illustrations and entrance animations stay still for users who prefer reduced motion.
     <MotionConfig reducedMotion="user">
-      <Box className="tw-flex tw-min-h-screen" sx={{ bgcolor: 'background.default' }}>
+      <Box className="flex min-h-screen" sx={{ bgcolor: 'background.default' }}>
         <DecorativeBackground />
         <Sidebar
           variant={isMobile ? 'temporary' : 'permanent'}
           open={isMobile ? mobileOpen : sidebarActive}
           onClose={() => setMobileOpen(false)}
         />
-        <Box className="tw-relative tw-z-[1] tw-flex tw-min-w-0 tw-flex-1 tw-flex-col">
+        <Box className="relative z-[1] flex min-w-0 flex-1 flex-col">
           <Header onToggleSidebar={toggleSidebar} />
-          <Box component="main" className="tw-flex-1 tw-p-4 md:tw-p-8">
+          <Box component="main" className="flex-1 p-4 md:p-8">
             <Outlet />
           </Box>
         </Box>

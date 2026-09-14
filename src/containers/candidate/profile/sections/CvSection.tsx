@@ -78,8 +78,8 @@ export function CvSection({ profile }: CvSectionProps) {
       subtitleId="profile.section.cv.subtitle"
     >
       {upload.isPending ? (
-        <Box className="tw-rounded-2xl tw-p-5" sx={{ border: 1, borderColor: 'divider' }}>
-          <Box className="tw-mb-3 tw-flex tw-items-center tw-justify-between tw-gap-3">
+        <Box className="rounded-2xl p-5" sx={{ border: 1, borderColor: 'divider' }}>
+          <Box className="mb-3 flex items-center justify-between gap-3">
             <Typography fontWeight={600} noWrap>
               {upload.variables?.name}
             </Typography>
@@ -91,19 +91,19 @@ export function CvSection({ profile }: CvSectionProps) {
         </Box>
       ) : profile.cv_path ? (
         <Box
-          className="tw-flex tw-flex-wrap tw-items-center tw-gap-4 tw-rounded-2xl tw-p-4"
+          className="flex flex-wrap items-center gap-4 rounded-2xl p-4"
           sx={{ border: 1, borderColor: 'divider', bgcolor: 'action.hover' }}
         >
           <IconTile icon={isPdf ? MdPictureAsPdf : MdDescription} color={isPdf ? 'rose' : 'sky'} size="lg" />
-          <Box className="tw-min-w-0 tw-flex-1">
-            <Typography fontWeight={600} className="tw-break-all">
+          <Box className="min-w-0 flex-1">
+            <Typography fontWeight={600} className="break-all">
               {fileName}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {$t({ id: 'profile.cv.privacy' })}
             </Typography>
           </Box>
-          <Box className="tw-flex tw-flex-wrap tw-gap-1">
+          <Box className="flex flex-wrap gap-1">
             <Button
               size="small"
               startIcon={<MdOpenInNew />}
@@ -137,7 +137,7 @@ export function CvSection({ profile }: CvSectionProps) {
         <DialogContent>
           <DialogContentText>{$t({ id: 'profile.cv.removeBody' })}</DialogContentText>
         </DialogContent>
-        <DialogActions className="tw-px-6 tw-pb-4">
+        <DialogActions className="px-6 pb-4">
           <Button onClick={() => setConfirmRemove(false)}>{$t({ id: 'profile.cancel' })}</Button>
           <Button
             color="error"

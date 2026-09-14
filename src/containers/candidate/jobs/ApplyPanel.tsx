@@ -42,7 +42,7 @@ function StageProgress({ stage }: { stage: ApplicationStage }) {
 
   return (
     <Box>
-      <Box className="tw-mb-1.5 tw-flex tw-items-center tw-justify-between tw-gap-2">
+      <Box className="mb-1.5 flex items-center justify-between gap-2">
         <Typography variant="caption" color="text.secondary">
           {$t({ id: 'apply.status.stage' })}
         </Typography>
@@ -56,13 +56,13 @@ function StageProgress({ stage }: { stage: ApplicationStage }) {
           { id: 'apply.status.stageProgress' },
           { current: currentIndex + 1, total: APPLICATION_PIPELINE.length, stage: stageLabel },
         )}
-        className="tw-grid tw-gap-1"
+        className="grid gap-1"
         sx={{ gridTemplateColumns: `repeat(${APPLICATION_PIPELINE.length}, minmax(0, 1fr))` }}
       >
         {APPLICATION_PIPELINE.map((pipelineStage, index) => (
           <Box
             key={pipelineStage}
-            className="tw-h-1.5 tw-rounded-full"
+            className="h-1.5 rounded-full"
             sx={{ bgcolor: index <= currentIndex ? color : 'divider' }}
           />
         ))}
@@ -78,18 +78,18 @@ function InterviewNotice({ interview }: { interview: Interview }) {
 
   return (
     <Box
-      className="tw-flex tw-flex-col tw-gap-2 tw-rounded-xl tw-p-3"
+      className="flex flex-col gap-2 rounded-xl p-3"
       sx={(theme) => ({ bgcolor: alpha(ACCENT_COLORS[color], theme.palette.mode === 'dark' ? 0.18 : 0.1) })}
     >
-      <Box className="tw-flex tw-items-center tw-gap-2.5">
+      <Box className="flex items-center gap-2.5">
         <Box
-          className="tw-flex tw-h-9 tw-w-9 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-lg tw-text-white"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white"
           sx={{ bgcolor: ACCENT_COLORS[color] }}
         >
           <Icon size={20} />
         </Box>
-        <Box className="tw-min-w-0">
-          <Typography variant="caption" color="text.secondary" className="tw-block tw-leading-tight">
+        <Box className="min-w-0">
+          <Typography variant="caption" color="text.secondary" className="block leading-tight">
             {$t({ id: 'apply.interview.title' })}
           </Typography>
           <Typography variant="body2" fontWeight={700}>
@@ -101,7 +101,7 @@ function InterviewNotice({ interview }: { interview: Interview }) {
               minute: '2-digit',
             })}
           </Typography>
-          <Typography variant="caption" color="text.secondary" className="tw-block">
+          <Typography variant="caption" color="text.secondary" className="block">
             {$t({ id: `interview.type.${interview.type}` })} ·{' '}
             {$t({ id: 'interview.minutes' }, { minutes: interview.duration_minutes })}
             {interview.location_or_link &&
@@ -135,10 +135,10 @@ function OfferNotice({ offer }: { offer: Offer }) {
   if (status !== 'sent') {
     return (
       <Box
-        className="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-rounded-xl tw-p-3"
+        className="flex items-center justify-between gap-2 rounded-xl p-3"
         sx={{ bgcolor: 'action.hover' }}
       >
-        <Box className="tw-flex tw-min-w-0 tw-items-center tw-gap-2">
+        <Box className="flex min-w-0 items-center gap-2">
           <Typography variant="body2" fontWeight={600} noWrap>
             {$t({ id: 'apply.offer.title' })}
           </Typography>
@@ -153,21 +153,21 @@ function OfferNotice({ offer }: { offer: Offer }) {
 
   return (
     <Box
-      className="tw-flex tw-flex-col tw-gap-2 tw-rounded-xl tw-p-3"
+      className="flex flex-col gap-2 rounded-xl p-3"
       sx={(theme) => ({ bgcolor: alpha(ACCENT_COLORS.emerald, theme.palette.mode === 'dark' ? 0.18 : 0.1) })}
     >
-      <Box className="tw-flex tw-items-center tw-gap-2.5">
+      <Box className="flex items-center gap-2.5">
         <Box
-          className="tw-flex tw-h-9 tw-w-9 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-lg tw-text-white"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white"
           sx={{ bgcolor: ACCENT_COLORS.emerald }}
         >
           <MdCelebration size={20} />
         </Box>
-        <Box className="tw-min-w-0">
+        <Box className="min-w-0">
           <Typography variant="body2" fontWeight={700}>
             {$t({ id: 'apply.offer.received' })}
           </Typography>
-          <Typography variant="caption" color="text.secondary" className="tw-block">
+          <Typography variant="caption" color="text.secondary" className="block">
             {$t({ id: 'apply.offer.respondBy' }, { date: formatDate(offer.expires_at, { dateStyle: 'medium' }) })}
           </Typography>
         </Box>
@@ -204,20 +204,20 @@ function ApplicationStatusCard({ application }: { application: JobApplication })
 
   return (
     <Box
-      className="tw-flex tw-w-full tw-flex-col tw-gap-4 tw-rounded-2xl tw-p-4 md:tw-w-80"
+      className="flex w-full flex-col gap-4 rounded-2xl p-4 md:w-80"
       sx={(theme) => ({
         border: `1px solid ${alpha(ACCENT_COLORS.emerald, 0.35)}`,
         bgcolor: alpha(ACCENT_COLORS.emerald, theme.palette.mode === 'dark' ? 0.12 : 0.06),
       })}
     >
-      <Box className="tw-flex tw-items-center tw-gap-3">
+      <Box className="flex items-center gap-3">
         <Box
-          className="tw-flex tw-h-10 tw-w-10 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-xl tw-text-white"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
           sx={{ bgcolor: ACCENT_COLORS.emerald, boxShadow: `0 8px 18px -8px ${ACCENT_COLORS.emerald}` }}
         >
           <MdCheck size={24} />
         </Box>
-        <Box className="tw-min-w-0">
+        <Box className="min-w-0">
           <Typography fontWeight={700}>{$t({ id: 'apply.status.sent' })}</Typography>
           <Typography variant="body2" color="text.secondary">
             {$t(
@@ -232,7 +232,7 @@ function ApplicationStatusCard({ application }: { application: JobApplication })
       </Box>
 
       {isRejected ? (
-        <Typography variant="body2" className="tw-rounded-xl tw-p-3" sx={{ bgcolor: 'action.hover' }}>
+        <Typography variant="body2" className="rounded-xl p-3" sx={{ bgcolor: 'action.hover' }}>
           {$t({ id: 'apply.status.rejected' })}
         </Typography>
       ) : (
@@ -253,7 +253,7 @@ function ApplicationStatusCard({ application }: { application: JobApplication })
           >
             {$t({ id: 'apply.withdraw.cta' })}
           </Button>
-          <Typography variant="caption" color="text.secondary" className="tw-mt-1 tw-block tw-text-center">
+          <Typography variant="caption" color="text.secondary" className="mt-1 block text-center">
             {$t({ id: 'apply.withdraw.hint' })}
           </Typography>
         </Box>
@@ -274,7 +274,7 @@ function ApplicationStatusCard({ application }: { application: JobApplication })
         <DialogContent>
           <DialogContentText>{$t({ id: 'apply.withdraw.body' })}</DialogContentText>
         </DialogContent>
-        <DialogActions className="tw-px-6 tw-pb-4">
+        <DialogActions className="px-6 pb-4">
           <Button onClick={() => setConfirmWithdraw(false)}>{$t({ id: 'profile.cancel' })}</Button>
           <Button
             color="error"
@@ -303,7 +303,7 @@ export function ApplyPanel({ job, onApply }: ApplyPanelProps) {
   const applicationQuery = useCandidateApplicationForJob(profile?.id, job.id);
 
   if (applicationQuery.isPending) {
-    return <Skeleton variant="rounded" height={48} className="tw-w-full tw-rounded-xl md:tw-w-44" />;
+    return <Skeleton variant="rounded" height={48} className="w-full rounded-xl md:w-44" />;
   }
 
   if (applicationQuery.data) {
@@ -311,16 +311,16 @@ export function ApplyPanel({ job, onApply }: ApplyPanelProps) {
   }
 
   if (job.deadline !== null && daysFromToday(job.deadline) < 0) {
-    return <Chip icon={<MdSchedule />} label={$t({ id: 'apply.status.closed' })} className="tw-h-10 tw-px-2" />;
+    return <Chip icon={<MdSchedule />} label={$t({ id: 'apply.status.closed' })} className="h-10 px-2" />;
   }
 
   return (
     <Button
       variant="contained"
       size="large"
-      endIcon={<MdSend className="rtl:tw-rotate-180" />}
+      endIcon={<MdSend className="rtl:rotate-180" />}
       onClick={onApply}
-      className="tw-w-full tw-px-8 tw-py-3 tw-text-base md:tw-w-auto"
+      className="w-full px-8 py-3 text-base md:w-auto"
     >
       {$t({ id: 'apply.cta' })}
     </Button>

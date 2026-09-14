@@ -56,9 +56,9 @@ export function AvatarUploader({ profile }: AvatarUploaderProps) {
   const initials = (profile.full_name || profile.email).slice(0, 1).toUpperCase();
 
   return (
-    <Box className="tw-flex tw-flex-col tw-items-center tw-gap-2">
-      <Box className="tw-relative">
-        <Box className="tw-rounded-full tw-p-1" sx={(theme) => ({ background: brandGradient(theme) })}>
+    <Box className="flex flex-col items-center gap-2">
+      <Box className="relative">
+        <Box className="rounded-full p-1" sx={(theme) => ({ background: brandGradient(theme) })}>
           <Avatar
             src={profile.avatar_url ?? undefined}
             alt={profile.full_name}
@@ -77,7 +77,7 @@ export function AvatarUploader({ profile }: AvatarUploaderProps) {
           </Avatar>
         </Box>
         {isBusy && (
-          <Box className="tw-absolute tw-inset-1 tw-flex tw-items-center tw-justify-center tw-rounded-full tw-bg-black/40">
+          <Box className="absolute inset-1 flex items-center justify-center rounded-full bg-black/40">
             <CircularProgress size={32} sx={{ color: '#fff' }} />
           </Box>
         )}
@@ -86,7 +86,7 @@ export function AvatarUploader({ profile }: AvatarUploaderProps) {
             onClick={() => inputRef.current?.click()}
             disabled={isBusy}
             aria-label={$t({ id: profile.avatar_url ? 'profile.photo.change' : 'profile.photo.upload' })}
-            className="tw-absolute tw-bottom-1 tw-end-1"
+            className="absolute bottom-1 end-1"
             sx={{
               bgcolor: 'primary.main',
               color: '#fff',

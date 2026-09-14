@@ -35,11 +35,11 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
   const countFor = (stage: string) => applications.filter((application) => application.stage === stage).length;
 
   return (
-    <Card className="tw-h-full">
-      <CardContent className="tw-p-6">
-        <Box className="tw-mb-5 tw-flex tw-items-center tw-gap-3">
+    <Card className="h-full">
+      <CardContent className="p-6">
+        <Box className="mb-5 flex items-center gap-3">
           <IconTile icon={MdTimeline} />
-          <Box className="tw-min-w-0 tw-flex-1">
+          <Box className="min-w-0 flex-1">
             <Typography variant="h5">{$t({ id: 'candidate.applications.title' })}</Typography>
             <Typography variant="body2" color="text.secondary">
               {$t({ id: 'candidate.applications.subtitle' })}
@@ -47,7 +47,7 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
           </Box>
         </Box>
 
-        <Box component="ol" className="tw-m-0 tw-mb-5 tw-grid tw-list-none tw-grid-cols-5 tw-gap-1.5 tw-p-0">
+        <Box component="ol" className="m-0 mb-5 grid list-none grid-cols-5 gap-1.5 p-0">
           {APPLICATION_PIPELINE.map((stage) => {
             const color = ACCENT_COLORS[APPLICATION_STAGE_COLOR[stage]];
             const count = countFor(stage);
@@ -55,7 +55,7 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
               <Box
                 component="li"
                 key={stage}
-                className="tw-flex tw-min-w-0 tw-flex-col tw-items-center tw-gap-1 tw-rounded-xl tw-px-1 tw-py-2.5 tw-text-center"
+                className="flex min-w-0 flex-col items-center gap-1 rounded-xl px-1 py-2.5 text-center"
                 sx={(theme) => ({
                   bgcolor: alpha(color, count ? (theme.palette.mode === 'dark' ? 0.22 : 0.14) : 0.05),
                   borderTop: `3px solid ${count ? color : alpha(color, 0.3)}`,
@@ -64,7 +64,7 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
                 <Typography variant="h4" component="span" sx={{ color: count ? color : 'text.disabled' }}>
                   {loading ? <Skeleton width={20} /> : count}
                 </Typography>
-                <Typography variant="caption" color="text.secondary" noWrap className="tw-w-full">
+                <Typography variant="caption" color="text.secondary" noWrap className="w-full">
                   {$t({ id: `application.stage.${stage}` })}
                 </Typography>
               </Box>
@@ -76,18 +76,18 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
 
         {!loading && applications.length === 0 && (
           <Box
-            className="tw-flex tw-flex-col tw-items-center tw-rounded-2xl tw-py-4 tw-text-center"
+            className="flex flex-col items-center rounded-2xl py-4 text-center"
             sx={{ bgcolor: 'action.hover' }}
           >
-            <EmptyJobsIllustration className="tw-mb-1 tw-w-32" />
+            <EmptyJobsIllustration className="mb-1 w-32" />
             <Typography fontWeight={600}>{$t({ id: 'candidate.applications.empty.title' })}</Typography>
-            <Typography variant="body2" color="text.secondary" className="tw-max-w-sm tw-px-4">
+            <Typography variant="body2" color="text.secondary" className="max-w-sm px-4">
               {$t({ id: 'candidate.applications.empty.body' })}
             </Typography>
           </Box>
         )}
 
-        <Box className="tw-flex tw-flex-col tw-gap-1">
+        <Box className="flex flex-col gap-1">
           {recent.map((application) => {
             const title = application.job?.title ?? $t({ id: 'candidate.applications.unavailableJob' });
             const company = application.job?.company?.name;
@@ -100,14 +100,14 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
               ? ({ to: '/candidate/offers/$offerId', params: { offerId: pendingOffer.id } } as const)
               : ({ to: '/candidate/jobs/$jobId', params: { jobId: application.job_id } } as const);
             return (
-              <ListItemLink key={application.id} {...link} className="tw-gap-3 tw-p-2">
+              <ListItemLink key={application.id} {...link} className="gap-3 p-2">
                 <Avatar
                   variant="rounded"
                   sx={(theme) => ({ ...accentSoftSx(theme, accentFor(company ?? title)), fontWeight: 600 })}
                 >
                   {(company ?? title).slice(0, 1).toUpperCase()}
                 </Avatar>
-                <Box className="tw-min-w-0 tw-flex-1">
+                <Box className="min-w-0 flex-1">
                   <Typography fontWeight={600} noWrap>
                     {title}
                   </Typography>

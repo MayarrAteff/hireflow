@@ -17,7 +17,7 @@ export function ProgressRing({ value, size = 112, stroke = 10 }: ProgressRingPro
   const circumference = 2 * Math.PI * radius;
 
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-tw-rotate-90" aria-hidden>
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90" aria-hidden>
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor={palette.primary.main} />

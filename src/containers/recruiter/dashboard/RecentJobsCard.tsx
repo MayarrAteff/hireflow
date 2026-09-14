@@ -28,16 +28,16 @@ export function RecentJobsCard({ jobs, loading }: RecentJobsCardProps) {
   const recent = jobs.slice(0, RECENT_JOBS_LIMIT);
 
   return (
-    <Card className="tw-h-full">
-      <CardContent className="tw-p-6">
-        <Box className="tw-mb-3 tw-flex tw-items-center tw-justify-between tw-gap-2">
+    <Card className="h-full">
+      <CardContent className="p-6">
+        <Box className="mb-3 flex items-center justify-between gap-2">
           <Typography variant="h5">{$t({ id: 'dashboard.recentJobs.title' })}</Typography>
           {jobs.length > 0 && (
             <Button
               size="small"
               component={Link}
               to="/recruiter/jobs"
-              endIcon={<MdArrowForward className="rtl:tw-rotate-180" />}
+              endIcon={<MdArrowForward className="rtl:rotate-180" />}
             >
               {$t({ id: 'dashboard.recentJobs.viewAll' })}
             </Button>
@@ -47,19 +47,19 @@ export function RecentJobsCard({ jobs, loading }: RecentJobsCardProps) {
         {loading && [0, 1, 2].map((row) => <Skeleton key={row} height={56} />)}
 
         {!loading && recent.length === 0 && (
-          <Box className="tw-flex tw-flex-col tw-items-center tw-py-4 tw-text-center">
-            <EmptyJobsIllustration className="tw-mb-2 tw-w-40" />
+          <Box className="flex flex-col items-center py-4 text-center">
+            <EmptyJobsIllustration className="mb-2 w-40" />
             <Typography color="text.secondary">{$t({ id: 'dashboard.recentJobs.empty' })}</Typography>
           </Box>
         )}
 
-        <Box className="tw-flex tw-flex-col tw-gap-1">
+        <Box className="flex flex-col gap-1">
           {recent.map((job) => (
             <ListItemLink
               key={job.id}
               to="/recruiter/jobs/$jobId"
               params={{ jobId: job.id }}
-              className="tw-gap-3 tw-px-2"
+              className="gap-3 px-2"
             >
               <Avatar
                 variant="rounded"
@@ -67,7 +67,7 @@ export function RecentJobsCard({ jobs, loading }: RecentJobsCardProps) {
               >
                 {job.title.slice(0, 1).toUpperCase()}
               </Avatar>
-              <Box className="tw-min-w-0 tw-flex-1">
+              <Box className="min-w-0 flex-1">
                 <Typography fontWeight={600} noWrap>
                   {job.title}
                 </Typography>

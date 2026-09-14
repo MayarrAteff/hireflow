@@ -4,9 +4,9 @@ import type { IconType } from 'react-icons';
 import { type AccentColor, accentSoftSx } from '@/styles/themes/accents';
 
 const sizes = {
-  sm: { box: 'tw-h-9 tw-w-9 tw-rounded-lg', icon: 18 },
-  md: { box: 'tw-h-11 tw-w-11 tw-rounded-xl', icon: 22 },
-  lg: { box: 'tw-h-14 tw-w-14 tw-rounded-2xl', icon: 28 },
+  sm: { box: 'h-9 w-9 rounded-lg', icon: 18 },
+  md: { box: 'h-11 w-11 rounded-xl', icon: 22 },
+  lg: { box: 'h-14 w-14 rounded-2xl', icon: 28 },
 };
 
 type IconTileProps = {
@@ -21,7 +21,7 @@ export function IconTile({ icon: Icon, color = 'primary', size = 'md' }: IconTil
 
   return (
     <Box
-      className={`tw-flex tw-shrink-0 tw-items-center tw-justify-center ${box}`}
+      className={`flex shrink-0 items-center justify-center ${box}`}
       sx={(theme) =>
         color === 'primary' ? { bgcolor: 'primary.light', color: 'primary.main' } : accentSoftSx(theme, color)
       }

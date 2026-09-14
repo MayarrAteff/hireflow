@@ -29,9 +29,9 @@ const popIn = keyframes`
   100% { transform: scale(1) rotate(0); }
 `;
 
-/** Card-style toast used for every notistack variant: coloured icon, title, message and a countdown bar. */
+/** Card-style toast used for every notistack variant: coloured icon, title, message, optional action and a countdown bar. */
 export const AppSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(function AppSnackbar(
-  { id, message, variant, autoHideDuration, persist, style, className },
+  { id, message, variant, autoHideDuration, persist, style, className, action },
   ref,
 ) {
   const { $t } = useIntl();
@@ -73,6 +73,10 @@ export const AppSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(functi
             {message}
           </Typography>
         </Box>
+
+        {action && (
+          <Box className="tw-shrink-0 tw-self-center">{typeof action === 'function' ? action(id) : action}</Box>
+        )}
 
         <IconButton size="small" aria-label={$t({ id: 'snackbar.close' })} onClick={() => closeSnackbar(id)}>
           <MdClose size={18} />

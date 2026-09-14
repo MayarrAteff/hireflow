@@ -120,6 +120,7 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
           applications={applications}
           loading={applicationsQuery.isPending}
           onOpenApplicant={setDrawerApplicationId}
+          onSchedule={scheduleFor}
         />
       )}
       {tab === 'board' &&

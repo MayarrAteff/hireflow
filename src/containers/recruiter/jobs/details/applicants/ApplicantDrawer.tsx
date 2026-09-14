@@ -86,6 +86,8 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule }: Appli
       anchor="right"
       open={Boolean(application)}
       onClose={onClose}
+      // Same layer as dialogs so it opens on top of the comparison instead of behind it.
+      sx={{ zIndex: 'modal' }}
       slotProps={{ paper: { className: 'tw-w-full sm:tw-w-[460px]' } }}
     >
       {application && candidate && (

@@ -5,6 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
+import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
@@ -14,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
-import { MdCompareArrows, MdEventAvailable, MdSearch } from 'react-icons/md';
+import { MdAdd, MdAutoAwesome, MdClose, MdCompareArrows, MdEventAvailable, MdSearch } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { StageChip } from '@/components/Jobs/StageChip';
@@ -22,14 +23,16 @@ import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { getNextInterview } from '@/constants/interviews';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
 import type { Job } from '@/types/job.types';
+import { getCandidateFits } from '@/utils/candidateFit';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { getSkillMatch } from '@/utils/skillMatch';
 
 import { ApplicantAvatar } from './ApplicantAvatar';
-import { CompareDialog } from './CompareDialog';
+import { CompareDialog, MAX_COMPARE } from './compare/CompareDialog';
 import { SkillMatchBar } from './SkillMatchBar';
 
-export const MAX_COMPARE = 3;
+/** How many applicants "Compare top matches" picks. */
+const TOP_MATCHES = 3;
 
 type SortKey = 'newest' | 'match' | 'rating';
 const SORT_KEYS: SortKey[] = ['newest', 'match', 'rating'];
@@ -48,9 +51,10 @@ type ApplicantsTabProps = {
   applications: RecruiterApplication[];
   loading: boolean;
   onOpenApplicant: (applicationId: string) => void;
+  onSchedule: (application: RecruiterApplication) => void;
 };
 
-export function ApplicantsTab({ job, applications, loading, onOpenApplicant }: ApplicantsTabProps) {
+export function ApplicantsTab({ job, applications, loading, onOpenApplicant, onSchedule }: ApplicantsTabProps) {
   const { $t, formatDate } = useIntl();
   const { formatRelativeDay } = useJobFormatters();
   const [search, setSearch] = useState('');
@@ -103,6 +107,17 @@ export function ApplicantsTab({ job, applications, loading, onOpenApplicant }: A
           ? [...current, applicationId]
           : current,
     );
+
+  const compareTopMatches = () => {
+    const fits = getCandidateFits(job.skills, visible);
+    const top = visible
+      .map((application, index) => ({ id: application.id, score: fits[index].score }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, TOP_MATCHES)
+      .map(({ id }) => id);
+    setSelectedIds(top);
+    setCompareOpen(true);
+  };
 
   if (!loading && applications.length === 0) {
     return (
@@ -177,10 +192,21 @@ export function ApplicantsTab({ job, applications, loading, onOpenApplicant }: A
         </CardContent>
       </Card>
 
-      <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1.5 tw-px-1">
-        <MdCompareArrows />
-        {$t({ id: 'applicants.compareHint' }, { max: MAX_COMPARE })}
-      </Typography>
+      <Box className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-2 tw-px-1">
+        <Typography variant="body2" color="text.secondary" className="tw-flex tw-items-center tw-gap-1.5">
+          <MdCompareArrows className="tw-shrink-0" />
+          {$t({ id: 'applicants.compareHint' }, { max: MAX_COMPARE })}
+        </Typography>
+        <Button
+          variant="outlined"
+          size="small"
+          startIcon={<MdAutoAwesome />}
+          disabled={visible.length < 2}
+          onClick={compareTopMatches}
+        >
+          {$t({ id: 'applicants.compareTopMatches' })}
+        </Button>
+      </Box>
 
       <Card>
         {visible.length === 0 ? (
@@ -291,19 +317,51 @@ export function ApplicantsTab({ job, applications, loading, onOpenApplicant }: A
             exit={{ opacity: 0, y: 24 }}
             className="tw-sticky tw-bottom-4 tw-z-10 tw-flex tw-justify-center"
           >
-            <Paper elevation={8} className="tw-flex tw-items-center tw-gap-3 tw-rounded-full tw-py-2 tw-pe-2 tw-ps-4">
-              <Box className="tw-flex -tw-space-x-2 rtl:tw-space-x-reverse">
-                {selected.map((application) => (
-                  <ApplicantAvatar
-                    key={application.id}
-                    candidate={application.candidate}
-                    size={32}
-                    sx={{ border: 2, borderColor: 'background.paper' }}
-                  />
-                ))}
+            <Paper elevation={8} className="tw-flex tw-items-center tw-gap-3 tw-rounded-full tw-py-2 tw-pe-2 tw-ps-3">
+              <Box className="tw-flex tw-gap-1.5">
+                {Array.from({ length: MAX_COMPARE }, (_, slot) => {
+                  const application = selected[slot];
+                  if (!application) {
+                    return (
+                      <Box
+                        key={`empty-${slot}`}
+                        aria-hidden
+                        className="tw-flex tw-h-9 tw-w-9 tw-items-center tw-justify-center tw-rounded-full"
+                        sx={{ border: 2, borderStyle: 'dashed', borderColor: 'divider', color: 'text.disabled' }}
+                      >
+                        <MdAdd />
+                      </Box>
+                    );
+                  }
+                  const name = application.candidate.full_name || application.candidate.email;
+                  return (
+                    <Box key={application.id} className="tw-relative">
+                      <Tooltip title={name}>
+                        <Box component="span" className="tw-block">
+                          <ApplicantAvatar candidate={application.candidate} size={36} />
+                        </Box>
+                      </Tooltip>
+                      <IconButton
+                        size="small"
+                        onClick={() => toggleSelected(application.id)}
+                        aria-label={$t({ id: 'compare.remove' }, { name })}
+                        className="tw-absolute -tw-end-1.5 -tw-top-1.5 tw-h-[18px] tw-w-[18px] tw-p-0"
+                        sx={{
+                          bgcolor: 'text.primary',
+                          color: 'background.paper',
+                          '&:hover': { bgcolor: 'text.secondary' },
+                        }}
+                      >
+                        <MdClose size={12} />
+                      </IconButton>
+                    </Box>
+                  );
+                })}
               </Box>
               <Typography variant="body2" fontWeight={600} className="tw-hidden sm:tw-block">
-                {$t({ id: 'applicants.selected' }, { count: selected.length, max: MAX_COMPARE })}
+                {selected.length < 2
+                  ? $t({ id: 'applicants.pickMore' }, { count: 2 - selected.length })
+                  : $t({ id: 'applicants.selected' }, { count: selected.length, max: MAX_COMPARE })}
               </Typography>
               <Button size="small" onClick={() => setSelectedIds([])}>
                 {$t({ id: 'applicants.clearSelection' })}
@@ -326,12 +384,12 @@ export function ApplicantsTab({ job, applications, loading, onOpenApplicant }: A
       <CompareDialog
         open={compareOpen && selected.length >= 2}
         job={job}
-        applications={selected}
+        applications={applications}
+        selectedIds={selected.map((application) => application.id)}
+        onSelectionChange={setSelectedIds}
         onClose={() => setCompareOpen(false)}
-        onOpenApplicant={(applicationId) => {
-          setCompareOpen(false);
-          onOpenApplicant(applicationId);
-        }}
+        onOpenApplicant={onOpenApplicant}
+        onSchedule={onSchedule}
       />
     </Box>
   );

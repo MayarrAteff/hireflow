@@ -11,12 +11,14 @@ import { MdArticle, MdGroups, MdViewKanban } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
+import { getCurrentOffer } from '@/constants/offers';
 import { useJobApplications, useJobApplicationsRealtime } from '@/hooks/useApplications';
 import { useJob } from '@/hooks/useJobs';
 import type { RecruiterApplication } from '@/types/application.types';
 import type { Interview } from '@/types/interview.types';
 
 import { type InterviewTarget, ScheduleInterviewDialog } from '../../interviews/ScheduleInterviewDialog';
+import { OfferDialog, type OfferTarget } from '../../offers/OfferDialog';
 import { ApplicantDrawer } from './applicants/ApplicantDrawer';
 import { ApplicantsTab } from './applicants/ApplicantsTab';
 import { HiringBoard } from './board/HiringBoard';
@@ -42,6 +44,7 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
 
   const [drawerApplicationId, setDrawerApplicationId] = useState<string | null>(null);
   const [interviewTarget, setInterviewTarget] = useState<InterviewTarget | null>(null);
+  const [offerTarget, setOfferTarget] = useState<OfferTarget | null>(null);
 
   const applications = applicationsQuery.data ?? [];
   // Looked up by id so the drawer always shows the latest cached data after edits.
@@ -57,6 +60,13 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
       candidateName: application.candidate.full_name || application.candidate.email,
       stage: application.stage,
       interview,
+    });
+
+  const makeOfferFor = (application: RecruiterApplication) =>
+    setOfferTarget({
+      applicationId: application.id,
+      candidateName: application.candidate.full_name || application.candidate.email,
+      current: getCurrentOffer(application.offers),
     });
 
   if (jobQuery.isPending) {
@@ -121,6 +131,7 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
           loading={applicationsQuery.isPending}
           onOpenApplicant={setDrawerApplicationId}
           onSchedule={scheduleFor}
+          onMakeOffer={makeOfferFor}
         />
       )}
       {tab === 'board' &&
@@ -136,6 +147,7 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
             applications={applications}
             onOpenApplicant={setDrawerApplicationId}
             onSuggestInterview={(application) => scheduleFor(application)}
+            onSuggestOffer={makeOfferFor}
           />
         ))}
 
@@ -144,8 +156,10 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
         job={job}
         onClose={() => setDrawerApplicationId(null)}
         onSchedule={scheduleFor}
+        onMakeOffer={makeOfferFor}
       />
       <ScheduleInterviewDialog target={interviewTarget} onClose={() => setInterviewTarget(null)} />
+      <OfferDialog job={job} target={offerTarget} onClose={() => setOfferTarget(null)} />
     </Box>
   );
 }

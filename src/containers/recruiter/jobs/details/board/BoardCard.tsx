@@ -10,7 +10,9 @@ import Typography from '@mui/material/Typography';
 import { MdDragIndicator, MdEventAvailable, MdOpenInFull } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { OfferStatusChip } from '@/components/Offers/OfferStatusChip';
 import { getNextInterview } from '@/constants/interviews';
+import { getCurrentOffer } from '@/constants/offers';
 import type { RecruiterApplication } from '@/types/application.types';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 
@@ -31,6 +33,7 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
   const { candidate } = application;
   const nextInterview = getNextInterview(application.interviews);
   const color = matchColor(matchPercent);
+  const offer = getCurrentOffer(application.offers);
 
   return (
     <Paper
@@ -79,6 +82,7 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
           sx={{ bgcolor: `${color}22`, color, fontWeight: 700 }}
         />
         {application.rating ? <Rating value={application.rating} readOnly size="small" /> : null}
+        {offer && ['offer', 'hired'].includes(application.stage) && <OfferStatusChip offer={offer} />}
       </Box>
 
       {nextInterview && (

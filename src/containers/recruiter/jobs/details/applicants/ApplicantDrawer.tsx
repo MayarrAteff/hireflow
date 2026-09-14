@@ -30,6 +30,7 @@ import { IconTile } from '@/components/UI/IconTile';
 import { ProgressRing } from '@/components/UI/ProgressRing';
 import { APPLICATION_PIPELINE } from '@/constants/applications';
 import { INTERVIEW_TYPE_VISUALS, isMeetingUrl } from '@/constants/interviews';
+import { getCurrentOffer } from '@/constants/offers';
 import { useApplicationMoves } from '@/hooks/useApplicationMutations';
 import { useOpenCv } from '@/hooks/useOpenCv';
 import { brandGradient } from '@/styles/themes/accents';
@@ -39,6 +40,7 @@ import type { Job } from '@/types/job.types';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { getSkillMatch } from '@/utils/skillMatch';
 
+import { OfferSummary } from '../../../offers/OfferSummary';
 import { ApplicantAvatar } from './ApplicantAvatar';
 
 const ALL_STAGES: ApplicationStage[] = [...APPLICATION_PIPELINE, 'rejected'];
@@ -64,9 +66,10 @@ type ApplicantDrawerProps = {
   job: Job;
   onClose: () => void;
   onSchedule: (application: RecruiterApplication, interview?: Interview) => void;
+  onMakeOffer: (application: RecruiterApplication) => void;
 };
 
-export function ApplicantDrawer({ application, job, onClose, onSchedule }: ApplicantDrawerProps) {
+export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeOffer }: ApplicantDrawerProps) {
   const { $t, formatDate, formatNumber } = useIntl();
   const { formatRelativeDay } = useJobFormatters();
   const { openCv, openingPath } = useOpenCv();
@@ -236,6 +239,12 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule }: Appli
                   ),
                 )}
               </Box>
+            </DrawerSection>
+          )}
+
+          {application && (application.offers.length > 0 || ['interview', 'offer'].includes(application.stage)) && (
+            <DrawerSection titleId="offer.section.title">
+              <OfferSummary offer={getCurrentOffer(application.offers)} onOpenDialog={() => onMakeOffer(application)} />
             </DrawerSection>
           )}
 

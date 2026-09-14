@@ -3,7 +3,7 @@ import axios from 'axios';
 import { config } from '@/config';
 import { supabase } from '@/network/supabase';
 
-export type StorageBucket = 'avatars' | 'cvs';
+export type StorageBucket = 'avatars' | 'cvs' | 'offer-letters';
 
 type UploadRequest = {
   bucket: StorageBucket;

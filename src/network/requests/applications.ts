@@ -9,17 +9,18 @@ import type {
 
 import { SINGLE_OBJECT_HEADERS } from './profile';
 
-const CANDIDATE_APPLICATION_SELECT = 'id,stage,created_at,cv_path,cover_letter,interviews(*)';
+const CANDIDATE_APPLICATION_SELECT = 'id,stage,created_at,cv_path,cover_letter,interviews(*),offers(*)';
 
 const APPLICANT_COLUMNS =
   'id,full_name,email,phone,avatar_url,headline,bio,location,skills,years_of_experience,linkedin_url,portfolio_url,github_url';
-const RECRUITER_APPLICATION_SELECT = `*,candidate:profiles(${APPLICANT_COLUMNS}),interviews(*)`;
+const RECRUITER_APPLICATION_SELECT = `*,candidate:profiles(${APPLICANT_COLUMNS}),interviews(*),offers(*)`;
 
 export function getCandidateApplicationsRequest(candidateId: string) {
   return axiosInstance.get<CandidateApplication[]>('/applications', {
     params: {
       candidate_id: `eq.${candidateId}`,
-      select: 'id,job_id,stage,created_at,updated_at,job:jobs(title,company:companies(name))',
+      select:
+        'id,job_id,stage,created_at,updated_at,job:jobs(title,company:companies(name)),offers(id,status,expires_at,created_at)',
       order: 'updated_at.desc',
     },
   });

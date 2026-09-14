@@ -10,6 +10,7 @@ import {
   MdArrowForward,
   MdCheckCircle,
   MdEventAvailable,
+  MdLocalOffer,
   MdMoreVert,
   MdOpenInNew,
   MdPerson,
@@ -19,6 +20,7 @@ import {
 import { useIntl } from 'react-intl';
 
 import { APPLICATION_PIPELINE } from '@/constants/applications';
+import { getCurrentOffer } from '@/constants/offers';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
 
 type CompareActionsProps = {
@@ -26,6 +28,7 @@ type CompareActionsProps = {
   onMove: (stage: ApplicationStage) => void;
   onOpenProfile: () => void;
   onSchedule: () => void;
+  onMakeOffer: () => void;
   onViewCv: () => void;
   openingCv: boolean;
 };
@@ -36,6 +39,7 @@ export function CompareActions({
   onMove,
   onOpenProfile,
   onSchedule,
+  onMakeOffer,
   onViewCv,
   openingCv,
 }: CompareActionsProps) {
@@ -107,6 +111,14 @@ export function CompareActions({
           </ListItemIcon>
           {$t({ id: 'interview.dialog.title' })}
         </MenuItem>
+        {stage !== 'hired' && (
+          <MenuItem onClick={closeMenuAnd(onMakeOffer)}>
+            <ListItemIcon>
+              <MdLocalOffer />
+            </ListItemIcon>
+            {$t({ id: getCurrentOffer(application.offers) ? 'offer.action.manage' : 'offer.action.make' })}
+          </MenuItem>
+        )}
         {application.cv_path && (
           <MenuItem onClick={closeMenuAnd(onViewCv)} disabled={openingCv}>
             <ListItemIcon>

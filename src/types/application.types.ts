@@ -1,5 +1,6 @@
 import type { Profile } from './auth.types';
 import type { Interview } from './interview.types';
+import type { Offer, OfferSummary } from './offer.types';
 
 export type ApplicationStage = 'applied' | 'screening' | 'interview' | 'offer' | 'hired' | 'rejected';
 
@@ -12,6 +13,7 @@ export type CandidateApplication = {
   updated_at: string;
   /** Null when the job is no longer visible to the candidate (e.g. closed). */
   job: { title: string; company: { name: string } | null } | null;
+  offers: OfferSummary[];
 };
 
 /** The candidate's own application for one job, as shown on the job page. */
@@ -22,6 +24,8 @@ export type JobApplication = {
   cv_path: string | null;
   cover_letter: string | null;
   interviews: Interview[];
+  /** Never includes drafts; row-level security hides them from candidates. */
+  offers: Offer[];
 };
 
 /** The applicant details a recruiter sees; readable only for people who applied to their company. */
@@ -56,6 +60,7 @@ export type RecruiterApplication = {
   updated_at: string;
   candidate: ApplicantProfile;
   interviews: Interview[];
+  offers: Offer[];
 };
 
 export type ApplicationUpdatePayload = Partial<Pick<RecruiterApplication, 'stage' | 'position' | 'rating'>>;

@@ -88,6 +88,7 @@ type CompareDialogProps = {
   onClose: () => void;
   onOpenApplicant: (applicationId: string) => void;
   onSchedule: (application: RecruiterApplication) => void;
+  onMakeOffer: (application: RecruiterApplication) => void;
 };
 
 /** Full-screen workspace for weighing 2–4 applicants against each other and deciding on the spot. */
@@ -100,6 +101,7 @@ export function CompareDialog({
   onClose,
   onOpenApplicant,
   onSchedule,
+  onMakeOffer,
 }: CompareDialogProps) {
   const { $t, formatDate, formatList } = useIntl();
   const theme = useTheme();
@@ -741,7 +743,9 @@ export function CompareDialog({
             >
               <CompareActions
                 application={application}
-                onMove={(stage) => moveTo(application, stage)}
+                // An offer is made through its dialog; sending it moves the applicant to Offer.
+                onMove={(stage) => (stage === 'offer' ? onMakeOffer(application) : moveTo(application, stage))}
+                onMakeOffer={() => onMakeOffer(application)}
                 onOpenProfile={() => onOpenApplicant(application.id)}
                 onSchedule={() => onSchedule(application)}
                 onViewCv={() => openCv(application.cv_path as string)}

@@ -26,6 +26,7 @@ import { useIntl } from 'react-intl';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { APPLICATION_PIPELINE } from '@/constants/applications';
 import { getNextInterview } from '@/constants/interviews';
+import { getCurrentOffer, isOfferLive } from '@/constants/offers';
 import { type ApplicationMove, useApplicationMoves } from '@/hooks/useApplicationMutations';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
 import type { Job } from '@/types/job.types';
@@ -54,9 +55,17 @@ type HiringBoardProps = {
   onOpenApplicant: (applicationId: string) => void;
   /** Called when a card lands in Interview without an upcoming interview, to offer scheduling one. */
   onSuggestInterview: (application: RecruiterApplication) => void;
+  /** Called when a card lands in Offer without a draft or pending offer, to open the offer dialog. */
+  onSuggestOffer: (application: RecruiterApplication) => void;
 };
 
-export function HiringBoard({ job, applications, onOpenApplicant, onSuggestInterview }: HiringBoardProps) {
+export function HiringBoard({
+  job,
+  applications,
+  onOpenApplicant,
+  onSuggestInterview,
+  onSuggestOffer,
+}: HiringBoardProps) {
   const { $t } = useIntl();
   const { enqueueSnackbar } = useSnackbar();
   const moves = useApplicationMoves(job.id);
@@ -175,6 +184,7 @@ export function HiringBoard({ job, applications, onOpenApplicant, onSuggestInter
         { variant: 'success' },
       );
       if (stage === 'interview' && !getNextInterview(moved.interviews)) onSuggestInterview({ ...moved, stage });
+      if (stage === 'offer' && !isOfferLive(getCurrentOffer(moved.offers))) onSuggestOffer({ ...moved, stage });
     }
   };
 

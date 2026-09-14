@@ -10,23 +10,28 @@ import Skeleton from '@mui/material/Skeleton';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { useQueryClient } from '@tanstack/react-query';
-import { Link as RouterLink } from '@tanstack/react-router';
+import { createLink, Link as RouterLink } from '@tanstack/react-router';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import { MdCheck, MdOpenInNew, MdSchedule, MdSend, MdTimeline, MdUndo } from 'react-icons/md';
+import { MdCelebration, MdCheck, MdOpenInNew, MdSchedule, MdSend, MdTimeline, MdUndo } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { OfferStatusChip } from '@/components/Offers/OfferStatusChip';
 import { APPLICATION_PIPELINE, APPLICATION_STAGE_COLOR } from '@/constants/applications';
 import { getNextInterview, INTERVIEW_TYPE_VISUALS, isMeetingUrl } from '@/constants/interviews';
+import { getCurrentOffer, getOfferDisplayStatus } from '@/constants/offers';
 import { applicationsQueryKey, useCandidateApplicationForJob } from '@/hooks/useApplications';
 import { withdrawApplication } from '@/services/applications.service';
 import { ACCENT_COLORS } from '@/styles/themes/accents';
 import type { ApplicationStage, JobApplication } from '@/types/application.types';
 import type { Interview } from '@/types/interview.types';
 import type { JobWithCompany } from '@/types/job.types';
+import type { Offer } from '@/types/offer.types';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useFormMutation } from '@/utils/hooks/useFormMutation';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
+
+const ButtonLink = createLink(Button);
 
 /** Segmented bar showing how far along the pipeline the application is. */
 function StageProgress({ stage }: { stage: ApplicationStage }) {
@@ -121,6 +126,59 @@ function InterviewNotice({ interview }: { interview: Interview }) {
   );
 }
 
+/** A pending offer gets a prominent call to action; an answered or closed one a quiet status line. */
+function OfferNotice({ offer }: { offer: Offer }) {
+  const { $t, formatDate } = useIntl();
+  const status = getOfferDisplayStatus(offer);
+  const link = { to: '/candidate/offers/$offerId', params: { offerId: offer.id } } as const;
+
+  if (status !== 'sent') {
+    return (
+      <Box
+        className="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-rounded-xl tw-p-3"
+        sx={{ bgcolor: 'action.hover' }}
+      >
+        <Box className="tw-flex tw-min-w-0 tw-items-center tw-gap-2">
+          <Typography variant="body2" fontWeight={600} noWrap>
+            {$t({ id: 'apply.offer.title' })}
+          </Typography>
+          <OfferStatusChip offer={offer} />
+        </Box>
+        <ButtonLink size="small" {...link}>
+          {$t({ id: 'apply.offer.view' })}
+        </ButtonLink>
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      className="tw-flex tw-flex-col tw-gap-2 tw-rounded-xl tw-p-3"
+      sx={(theme) => ({ bgcolor: alpha(ACCENT_COLORS.emerald, theme.palette.mode === 'dark' ? 0.18 : 0.1) })}
+    >
+      <Box className="tw-flex tw-items-center tw-gap-2.5">
+        <Box
+          className="tw-flex tw-h-9 tw-w-9 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-lg tw-text-white"
+          sx={{ bgcolor: ACCENT_COLORS.emerald }}
+        >
+          <MdCelebration size={20} />
+        </Box>
+        <Box className="tw-min-w-0">
+          <Typography variant="body2" fontWeight={700}>
+            {$t({ id: 'apply.offer.received' })}
+          </Typography>
+          <Typography variant="caption" color="text.secondary" className="tw-block">
+            {$t({ id: 'apply.offer.respondBy' }, { date: formatDate(offer.expires_at, { dateStyle: 'medium' }) })}
+          </Typography>
+        </Box>
+      </Box>
+      <ButtonLink size="small" variant="contained" color="success" {...link}>
+        {$t({ id: 'apply.offer.view' })}
+      </ButtonLink>
+    </Box>
+  );
+}
+
 function ApplicationStatusCard({ application }: { application: JobApplication }) {
   const { $t, formatDate } = useIntl();
   const { enqueueSnackbar } = useSnackbar();
@@ -140,6 +198,7 @@ function ApplicationStatusCard({ application }: { application: JobApplication })
 
   const isRejected = application.stage === 'rejected';
   const nextInterview = getNextInterview(application.interviews);
+  const offer = getCurrentOffer(application.offers);
   // Withdrawing only makes sense before the recruiter has started reviewing.
   const canWithdraw = application.stage === 'applied';
 
@@ -180,6 +239,7 @@ function ApplicationStatusCard({ application }: { application: JobApplication })
         <StageProgress stage={application.stage} />
       )}
 
+      {offer && <OfferNotice offer={offer} />}
       {nextInterview && <InterviewNotice interview={nextInterview} />}
 
       {canWithdraw ? (

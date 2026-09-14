@@ -8,12 +8,13 @@ import Skeleton from '@mui/material/Skeleton';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { createLink } from '@tanstack/react-router';
-import { MdTimeline } from 'react-icons/md';
+import { MdCelebration, MdTimeline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { IconTile } from '@/components/UI/IconTile';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { APPLICATION_PIPELINE, APPLICATION_STAGE_COLOR } from '@/constants/applications';
+import { getCurrentOffer, getOfferDisplayStatus } from '@/constants/offers';
 import { ACCENT_COLORS, accentFor, accentSoftSx } from '@/styles/themes/accents';
 import type { CandidateApplication } from '@/types/application.types';
 import { dayjs } from '@/utils/dayjs';
@@ -92,13 +93,14 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
             const company = application.job?.company?.name;
             const isRejected = application.stage === 'rejected';
             const daysAgo = dayjs(application.updated_at).startOf('day').diff(dayjs().startOf('day'), 'day');
+            const offer = getCurrentOffer(application.offers);
+            const pendingOffer = offer && getOfferDisplayStatus(offer) === 'sent' ? offer : undefined;
+            // A pending offer is the most useful place to land, so the whole row goes straight to it.
+            const link = pendingOffer
+              ? ({ to: '/candidate/offers/$offerId', params: { offerId: pendingOffer.id } } as const)
+              : ({ to: '/candidate/jobs/$jobId', params: { jobId: application.job_id } } as const);
             return (
-              <ListItemLink
-                key={application.id}
-                to="/candidate/jobs/$jobId"
-                params={{ jobId: application.job_id }}
-                className="tw-gap-3 tw-p-2"
-              >
+              <ListItemLink key={application.id} {...link} className="tw-gap-3 tw-p-2">
                 <Avatar
                   variant="rounded"
                   sx={(theme) => ({ ...accentSoftSx(theme, accentFor(company ?? title)), fontWeight: 600 })}
@@ -113,18 +115,31 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
                     {[company, formatRelativeTime(daysAgo, 'day', { numeric: 'auto' })].filter(Boolean).join(' · ')}
                   </Typography>
                 </Box>
-                <Chip
-                  size="small"
-                  label={$t({ id: `application.stage.${application.stage}` })}
-                  sx={
-                    isRejected
-                      ? undefined
-                      : {
-                          bgcolor: ACCENT_COLORS[APPLICATION_STAGE_COLOR[application.stage]],
-                          color: '#fff',
-                        }
-                  }
-                />
+                {pendingOffer ? (
+                  <Chip
+                    size="small"
+                    icon={<MdCelebration />}
+                    label={$t({ id: 'candidate.applications.offerReceived' })}
+                    sx={(theme) => ({
+                      ...accentSoftSx(theme, 'emerald'),
+                      fontWeight: 700,
+                      '& .MuiChip-icon': { color: 'inherit' },
+                    })}
+                  />
+                ) : (
+                  <Chip
+                    size="small"
+                    label={$t({ id: `application.stage.${application.stage}` })}
+                    sx={
+                      isRejected
+                        ? undefined
+                        : {
+                            bgcolor: ACCENT_COLORS[APPLICATION_STAGE_COLOR[application.stage]],
+                            color: '#fff',
+                          }
+                    }
+                  />
+                )}
               </ListItemLink>
             );
           })}

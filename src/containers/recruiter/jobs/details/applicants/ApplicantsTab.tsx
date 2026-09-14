@@ -52,9 +52,17 @@ type ApplicantsTabProps = {
   loading: boolean;
   onOpenApplicant: (applicationId: string) => void;
   onSchedule: (application: RecruiterApplication) => void;
+  onMakeOffer: (application: RecruiterApplication) => void;
 };
 
-export function ApplicantsTab({ job, applications, loading, onOpenApplicant, onSchedule }: ApplicantsTabProps) {
+export function ApplicantsTab({
+  job,
+  applications,
+  loading,
+  onOpenApplicant,
+  onSchedule,
+  onMakeOffer,
+}: ApplicantsTabProps) {
   const { $t, formatDate } = useIntl();
   const { formatRelativeDay } = useJobFormatters();
   const [search, setSearch] = useState('');
@@ -390,6 +398,7 @@ export function ApplicantsTab({ job, applications, loading, onOpenApplicant, onS
         onClose={() => setCompareOpen(false)}
         onOpenApplicant={onOpenApplicant}
         onSchedule={onSchedule}
+        onMakeOffer={onMakeOffer}
       />
     </Box>
   );

@@ -5,6 +5,7 @@ import { supabase } from '@/network/supabase';
 import {
   getCandidateApplicationForJob,
   getCandidateApplications,
+  getCompanyNewApplicants,
   getJobApplications,
 } from '@/services/applications.service';
 
@@ -23,6 +24,19 @@ export function useCandidateApplicationForJob(candidateId: string | undefined, j
     queryKey: [...applicationsQueryKey, 'candidate', candidateId, 'job', jobId],
     queryFn: () => getCandidateApplicationForJob(candidateId as string, jobId),
     enabled: Boolean(candidateId),
+  });
+}
+
+const NEW_APPLICANTS_REFRESH_MS = 60_000;
+
+/** Unseen applicants for the dashboard; polls because realtime can't filter applications by company. */
+export function useCompanyNewApplicants(companyId: string | null | undefined, limit: number) {
+  return useQuery({
+    queryKey: [...applicationsQueryKey, 'company', companyId, 'new', limit],
+    queryFn: () => getCompanyNewApplicants(companyId as string, limit),
+    enabled: Boolean(companyId),
+    refetchInterval: NEW_APPLICANTS_REFRESH_MS,
+    refetchOnWindowFocus: true,
   });
 }
 

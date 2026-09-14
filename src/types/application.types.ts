@@ -56,11 +56,19 @@ export type RecruiterApplication = {
   rating: number | null;
   cover_letter: string | null;
   cv_path: string | null;
+  /** When someone at the company first opened this applicant; null means it is still new. */
+  viewed_at: string | null;
   created_at: string;
   updated_at: string;
   candidate: ApplicantProfile;
   interviews: Interview[];
   offers: Offer[];
+};
+
+/** An applicant nobody at the company has opened yet, as listed on the recruiter dashboard. */
+export type NewApplicant = Pick<RecruiterApplication, 'id' | 'job_id' | 'created_at'> & {
+  job: { title: string };
+  candidate: Pick<ApplicantProfile, 'full_name' | 'email' | 'avatar_url' | 'headline'>;
 };
 
 export type ApplicationUpdatePayload = Partial<Pick<RecruiterApplication, 'stage' | 'position' | 'rating'>>;

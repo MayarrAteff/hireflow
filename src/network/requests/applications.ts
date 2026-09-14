@@ -4,6 +4,7 @@ import type {
   CandidateApplication,
   CreateApplicationPayload,
   JobApplication,
+  NewApplicant,
   RecruiterApplication,
 } from '@/types/application.types';
 
@@ -55,4 +56,26 @@ export function getJobApplicationsRequest(jobId: string) {
 
 export function updateApplicationRequest(applicationId: string, payload: ApplicationUpdatePayload) {
   return axiosInstance.patch('/applications', payload, { params: { id: `eq.${applicationId}` } });
+}
+
+/** Only touches applications nobody has opened yet, so the first view time is kept. */
+export function markApplicationViewedRequest(applicationId: string) {
+  return axiosInstance.patch(
+    '/applications',
+    { viewed_at: new Date().toISOString() },
+    { params: { id: `eq.${applicationId}`, viewed_at: 'is.null' } },
+  );
+}
+
+/** Newest unseen applicants across the company's jobs; `!inner` makes the job's company filter drop other rows. */
+export function getCompanyNewApplicantsRequest(companyId: string, limit: number) {
+  return axiosInstance.get<NewApplicant[]>('/applications', {
+    params: {
+      select: 'id,job_id,created_at,job:jobs!inner(title),candidate:profiles(full_name,email,avatar_url,headline)',
+      viewed_at: 'is.null',
+      'job.company_id': `eq.${companyId}`,
+      order: 'created_at.desc',
+      limit,
+    },
+  });
 }

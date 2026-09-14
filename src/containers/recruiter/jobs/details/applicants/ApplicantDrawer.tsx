@@ -10,7 +10,7 @@ import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import {
   MdAdd,
@@ -31,7 +31,7 @@ import { ProgressRing } from '@/components/UI/ProgressRing';
 import { APPLICATION_PIPELINE } from '@/constants/applications';
 import { INTERVIEW_TYPE_VISUALS, isMeetingUrl } from '@/constants/interviews';
 import { getCurrentOffer } from '@/constants/offers';
-import { useApplicationMoves } from '@/hooks/useApplicationMutations';
+import { useApplicationMoves, useMarkApplicationViewed } from '@/hooks/useApplicationMutations';
 import { useOpenCv } from '@/hooks/useOpenCv';
 import { brandGradient } from '@/styles/themes/accents';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
@@ -74,6 +74,12 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
   const { formatRelativeDay } = useJobFormatters();
   const { openCv, openingPath } = useOpenCv();
   const moves = useApplicationMoves(job.id);
+  const { mutate: markViewed } = useMarkApplicationViewed(job.id);
+
+  const unseenApplicationId = application && !application.viewed_at ? application.id : null;
+  useEffect(() => {
+    if (unseenApplicationId) markViewed(unseenApplicationId);
+  }, [unseenApplicationId, markViewed]);
 
   const candidate = application?.candidate;
   const match = getSkillMatch(job.skills, candidate?.skills ?? []);

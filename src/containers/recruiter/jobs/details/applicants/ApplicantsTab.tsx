@@ -18,6 +18,7 @@ import { useMemo, useState } from 'react';
 import { MdAdd, MdAutoAwesome, MdClose, MdCompareArrows, MdEventAvailable, MdSearch } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { NewApplicantDot } from '@/components/Jobs/NewApplicantDot';
 import { StageChip } from '@/components/Jobs/StageChip';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { getNextInterview } from '@/constants/interviews';
@@ -261,9 +262,12 @@ export function ApplicantsTab({
                     <Box className="flex min-w-0 items-center gap-3">
                       <ApplicantAvatar candidate={candidate} />
                       <Box className="min-w-0">
-                        <Typography fontWeight={600} noWrap>
-                          {candidate.full_name || candidate.email}
-                        </Typography>
+                        <Box className="flex min-w-0 items-center gap-2">
+                          <Typography fontWeight={600} noWrap>
+                            {candidate.full_name || candidate.email}
+                          </Typography>
+                          {!application.viewed_at && <NewApplicantDot />}
+                        </Box>
                         <Typography variant="body2" color="text.secondary" noWrap>
                           {[
                             candidate.headline,
@@ -281,11 +285,7 @@ export function ApplicantsTab({
                     <Box className="hidden md:flex md:flex-col md:items-start md:gap-0.5">
                       <StageChip stage={application.stage} />
                       {nextInterview && (
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                          className="flex items-center gap-1"
-                        >
+                        <Typography variant="caption" color="text.secondary" className="flex items-center gap-1">
                           <MdEventAvailable />
                           {formatDate(nextInterview.scheduled_at, { month: 'short', day: 'numeric' })}
                         </Typography>

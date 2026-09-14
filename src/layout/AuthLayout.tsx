@@ -2,7 +2,8 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
-import { MdCalendarMonth, MdNotificationsActive, MdViewKanban } from 'react-icons/md';
+import { MdCalendarMonth, MdNotificationsActive } from 'react-icons/md';
+import { PiKanbanDuotone } from 'react-icons/pi';
 import { useIntl } from 'react-intl';
 
 import { LanguageSwitcher } from '@/components/UI/LanguageSwitcher';
@@ -12,7 +13,7 @@ import { brandGradient } from '@/styles/themes/accents';
 import type { ChildProp } from '@/types/general.types';
 
 const highlights = [
-  { icon: MdViewKanban, id: 'dashboard.recruiter.next.board' },
+  { icon: PiKanbanDuotone, id: 'dashboard.recruiter.next.board' },
   { icon: MdCalendarMonth, id: 'dashboard.recruiter.next.interviews' },
   { icon: MdNotificationsActive, id: 'dashboard.candidate.next.track' },
 ];

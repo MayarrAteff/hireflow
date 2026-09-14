@@ -19,14 +19,18 @@ import Typography from '@mui/material/Typography';
 import { createLink, Link as RouterLink } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { MdAdd, MdEdit, MdGroups, MdViewKanban } from 'react-icons/md';
+import { MdAdd, MdEdit } from 'react-icons/md';
+import { PiKanbanDuotone } from 'react-icons/pi';
 import { useIntl } from 'react-intl';
 
 import { JobStatusChip } from '@/components/Jobs/JobStatusChip';
+import { countNewApplicants, NewApplicantsBadge } from '@/components/Jobs/NewApplicantsBadge';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
+import { APPLICATION_STAGE_COLOR } from '@/constants/applications';
 import { useCompanyJobs } from '@/hooks/useJobs';
-import { accentFor, accentSoftSx } from '@/styles/themes/accents';
-import type { JobStatus } from '@/types/job.types';
+import { ACCENT_COLORS, accentFor, accentSoftSx } from '@/styles/themes/accents';
+import type { ApplicationStage } from '@/types/application.types';
+import type { JobStatus, JobWithApplicantStages } from '@/types/job.types';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import { CompanySetupCard } from './CompanySetupCard';
@@ -34,12 +38,76 @@ import { JobStepsJourney } from './JobStepsJourney';
 
 const IconButtonLink = createLink(IconButton);
 const MuiRouterLink = createLink(Link);
+const BoxLink = createLink(Box);
 
 type StatusFilter = JobStatus | 'all';
 const STATUS_FILTERS: StatusFilter[] = ['all', 'published', 'draft', 'closed'];
+const BREAKDOWN_STAGES: ApplicationStage[] = ['applied', 'screening', 'interview', 'offer', 'hired', 'rejected'];
+
+/** Total applicants, how many nobody has opened yet, and a mini stage bar that opens the hiring board. */
+function ApplicantsCell({ job }: { job: JobWithApplicantStages }) {
+  const { $t, formatNumber } = useIntl();
+  const applications = job.applications ?? [];
+  const total = applications.length;
+
+  if (total === 0) {
+    return (
+      <Typography variant="body2" color="text.disabled" className="whitespace-nowrap">
+        {$t({ id: 'jobs.list.applicants.none' })}
+      </Typography>
+    );
+  }
+
+  const stageCounts = BREAKDOWN_STAGES.map((stage) => ({
+    stage,
+    count: applications.filter((application) => application.stage === stage).length,
+    color: ACCENT_COLORS[APPLICATION_STAGE_COLOR[stage]],
+  })).filter(({ count }) => count > 0);
+
+  const breakdown = (
+    <Box component="ul" className="m-0 flex list-none flex-col gap-1 p-1">
+      {stageCounts.map(({ stage, count, color }) => (
+        <Box component="li" key={stage} className="flex items-center gap-2">
+          <Box className="h-2 w-2 shrink-0 rounded-full" sx={{ bgcolor: color }} />
+          <span className="flex-1">{$t({ id: `application.stage.${stage}` })}</span>
+          <span className="ms-4 font-semibold tabular-nums">{formatNumber(count)}</span>
+        </Box>
+      ))}
+    </Box>
+  );
+
+  return (
+    <Tooltip title={breakdown} placement="bottom-start">
+      <BoxLink
+        to="/recruiter/jobs/$jobId"
+        params={{ jobId: job.id }}
+        search={{ tab: 'board' }}
+        aria-label={$t({ id: 'jobs.list.applicants.view' }, { count: total })}
+        className="-mx-2 flex w-36 flex-col gap-1.5 rounded-lg px-2 py-1.5 no-underline"
+        sx={(theme) => ({
+          color: 'text.primary',
+          transition: theme.transitions.create('background-color'),
+          '&:hover, &:focus-visible': { bgcolor: 'action.hover' },
+        })}
+      >
+        <Box className="flex items-center gap-2">
+          <Typography fontWeight={700} className="tabular-nums">
+            {formatNumber(total)}
+          </Typography>
+          <NewApplicantsBadge count={countNewApplicants(applications)} />
+        </Box>
+        <Box aria-hidden className="flex h-1.5 gap-px overflow-hidden rounded-full">
+          {stageCounts.map(({ stage, count, color }) => (
+            <Box key={stage} sx={{ flexGrow: count, bgcolor: color }} />
+          ))}
+        </Box>
+      </BoxLink>
+    </Tooltip>
+  );
+}
 
 export function JobsList() {
-  const { $t, formatDate, formatNumber } = useIntl();
+  const { $t, formatDate } = useIntl();
   const { profile } = useAuth();
   const { data: jobs = [], isPending } = useCompanyJobs(profile?.company_id);
   const [filter, setFilter] = useState<StatusFilter>('all');
@@ -166,12 +234,7 @@ export function JobsList() {
                         </Box>
                       </TableCell>
                       <TableCell>
-                        <Chip
-                          size="small"
-                          variant="outlined"
-                          icon={<MdGroups />}
-                          label={formatNumber(job.applications?.[0]?.count ?? 0)}
-                        />
+                        <ApplicantsCell job={job} />
                       </TableCell>
                       <TableCell>{$t({ id: `jobs.employmentType.${job.employment_type}` })}</TableCell>
                       <TableCell>
@@ -188,7 +251,7 @@ export function JobsList() {
                             search={{ tab: 'board' }}
                             aria-label={$t({ id: 'jobs.list.openBoard' })}
                           >
-                            <MdViewKanban />
+                            <PiKanbanDuotone />
                           </IconButtonLink>
                         </Tooltip>
                         <Tooltip title={$t({ id: 'jobs.edit' })}>

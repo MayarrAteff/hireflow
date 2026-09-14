@@ -7,7 +7,8 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { MdArticle, MdGroups, MdViewKanban } from 'react-icons/md';
+import { MdArticle, MdGroups } from 'react-icons/md';
+import { PiKanbanDuotone } from 'react-icons/pi';
 import { useIntl } from 'react-intl';
 
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
@@ -28,21 +29,22 @@ import { OverviewTab } from './OverviewTab';
 export const JOB_DETAIL_TABS = ['overview', 'applicants', 'board'] as const;
 export type JobDetailTab = (typeof JOB_DETAIL_TABS)[number];
 
-const TAB_ICONS = { overview: MdArticle, applicants: MdGroups, board: MdViewKanban };
+const TAB_ICONS = { overview: MdArticle, applicants: MdGroups, board: PiKanbanDuotone };
 
 type RecruiterJobDetailsProps = {
   jobId: string;
   tab: JobDetailTab;
+  initialApplicantId?: string;
 };
 
-export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
+export function RecruiterJobDetails({ jobId, tab, initialApplicantId }: RecruiterJobDetailsProps) {
   const { $t } = useIntl();
   const navigate = useNavigate();
   const jobQuery = useJob(jobId);
   const applicationsQuery = useJobApplications(jobId);
   useJobApplicationsRealtime(jobId);
 
-  const [drawerApplicationId, setDrawerApplicationId] = useState<string | null>(null);
+  const [drawerApplicationId, setDrawerApplicationId] = useState<string | null>(initialApplicantId ?? null);
   const [interviewTarget, setInterviewTarget] = useState<InterviewTarget | null>(null);
   const [offerTarget, setOfferTarget] = useState<OfferTarget | null>(null);
 
@@ -154,7 +156,11 @@ export function RecruiterJobDetails({ jobId, tab }: RecruiterJobDetailsProps) {
       <ApplicantDrawer
         application={drawerApplication}
         job={job}
-        onClose={() => setDrawerApplicationId(null)}
+        onClose={() => {
+          setDrawerApplicationId(null);
+          // Drop `?applicant=` so a refresh doesn't reopen the drawer.
+          if (initialApplicantId) setTab(tab);
+        }}
         onSchedule={scheduleFor}
         onMakeOffer={makeOfferFor}
       />

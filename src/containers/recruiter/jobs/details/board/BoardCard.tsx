@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { MdDragIndicator, MdEventAvailable, MdOpenInFull } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { NewApplicantDot } from '@/components/Jobs/NewApplicantDot';
 import { OfferStatusChip } from '@/components/Offers/OfferStatusChip';
 import { getNextInterview } from '@/constants/interviews';
 import { getCurrentOffer } from '@/constants/offers';
@@ -50,9 +51,12 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
       <Box className="flex items-center gap-2.5">
         <ApplicantAvatar candidate={candidate} size={36} />
         <Box className="min-w-0 flex-1">
-          <Typography variant="body2" fontWeight={700} noWrap>
-            {candidate.full_name || candidate.email}
-          </Typography>
+          <Box className="flex min-w-0 items-center gap-1.5">
+            <Typography variant="body2" fontWeight={700} noWrap>
+              {candidate.full_name || candidate.email}
+            </Typography>
+            {!application.viewed_at && <NewApplicantDot />}
+          </Box>
           <Typography variant="caption" color="text.secondary" noWrap className="block">
             {candidate.headline || formatRelativeDay(application.created_at)}
           </Typography>

@@ -6,7 +6,9 @@ import {
   deleteApplicationRequest,
   getCandidateApplicationForJobRequest,
   getCandidateApplicationsRequest,
+  getCompanyNewApplicantsRequest,
   getJobApplicationsRequest,
+  markApplicationViewedRequest,
   updateApplicationRequest,
 } from '@/network/requests/applications';
 import { removeFileRequest, uploadFileRequest } from '@/network/requests/storage';
@@ -78,4 +80,13 @@ export async function updateApplication(applicationId: string, payload: Applicat
 /** Saves several board moves at once; PostgREST has no bulk update without insert rights, so one PATCH per row. */
 export async function saveApplicationMoves(moves: { id: string; payload: ApplicationUpdatePayload }[]) {
   await Promise.all(moves.map(({ id, payload }) => updateApplicationRequest(id, payload)));
+}
+
+export async function markApplicationViewed(applicationId: string) {
+  await markApplicationViewedRequest(applicationId);
+}
+
+export async function getCompanyNewApplicants(companyId: string, limit: number) {
+  const response = await getCompanyNewApplicantsRequest(companyId, limit);
+  return response.data;
 }

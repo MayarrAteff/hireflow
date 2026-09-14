@@ -1,5 +1,6 @@
 import type { Dayjs } from 'dayjs';
 
+import type { ApplicationStage } from './application.types';
 import type { Company } from './auth.types';
 
 export type JobStatus = 'draft' | 'published' | 'closed';
@@ -25,8 +26,8 @@ export type Job = {
   created_at: string;
 };
 
-/** PostgREST returns an embedded count as a one-item array: `[{ count: 3 }]`. */
-export type JobWithApplicantCount = Job & { applications: [{ count: number }] };
+/** A company job with just enough of each application for per-stage and unseen counts in lists. */
+export type JobWithApplicantStages = Job & { applications: { stage: ApplicationStage; viewed_at: string | null }[] };
 
 /** Company details shown alongside a job; list views only fetch the name. */
 export type JobCompany = Pick<Company, 'name'> & Partial<Pick<Company, 'industry' | 'website' | 'size' | 'about'>>;

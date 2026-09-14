@@ -2,11 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useIntl } from 'react-intl';
 
-import { saveApplicationMoves } from '@/services/applications.service';
+import { markApplicationViewed, saveApplicationMoves } from '@/services/applications.service';
 import type { ApplicationUpdatePayload, RecruiterApplication } from '@/types/application.types';
 import { getErrorMessage } from '@/utils/hooks/useFormMutation';
 
-import { jobApplicationsQueryKey } from './useApplications';
+import { applicationsQueryKey, jobApplicationsQueryKey } from './useApplications';
+import { jobsQueryKey } from './useJobs';
 
 export type ApplicationMove = { id: string; payload: ApplicationUpdatePayload };
 
@@ -44,5 +45,29 @@ export function useApplicationMoves(jobId: string) {
         queryClient.invalidateQueries({ queryKey });
       }
     },
+  });
+}
+
+/** Marks an applicant as seen by the company. Silent: a failed write just leaves the "new" badge in place. */
+export function useMarkApplicationViewed(jobId: string) {
+  const queryClient = useQueryClient();
+  const queryKey = jobApplicationsQueryKey(jobId);
+
+  return useMutation({
+    mutationFn: markApplicationViewed,
+    onMutate: (applicationId) => {
+      const viewedAt = new Date().toISOString();
+      queryClient.setQueryData<RecruiterApplication[]>(queryKey, (current) =>
+        current?.map((application) =>
+          application.id === applicationId ? { ...application, viewed_at: viewedAt } : application,
+        ),
+      );
+    },
+    // The jobs list and the dashboard count and list unseen applicants.
+    onSettled: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: [...jobsQueryKey, 'company'] }),
+        queryClient.invalidateQueries({ queryKey: [...applicationsQueryKey, 'company'] }),
+      ]),
   });
 }

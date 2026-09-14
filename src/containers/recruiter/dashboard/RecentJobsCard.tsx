@@ -11,15 +11,16 @@ import { MdArrowForward } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { JobStatusChip } from '@/components/Jobs/JobStatusChip';
+import { countNewApplicants, NewApplicantsBadge } from '@/components/Jobs/NewApplicantsBadge';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { accentFor, accentSoftSx } from '@/styles/themes/accents';
-import type { Job } from '@/types/job.types';
+import type { JobWithApplicantStages } from '@/types/job.types';
 
 const ListItemLink = createLink(ListItemButton);
 const RECENT_JOBS_LIMIT = 4;
 
 type RecentJobsCardProps = {
-  jobs: Job[];
+  jobs: JobWithApplicantStages[];
   loading: boolean;
 };
 
@@ -55,12 +56,7 @@ export function RecentJobsCard({ jobs, loading }: RecentJobsCardProps) {
 
         <Box className="flex flex-col gap-1">
           {recent.map((job) => (
-            <ListItemLink
-              key={job.id}
-              to="/recruiter/jobs/$jobId"
-              params={{ jobId: job.id }}
-              className="gap-3 px-2"
-            >
+            <ListItemLink key={job.id} to="/recruiter/jobs/$jobId" params={{ jobId: job.id }} className="gap-3 px-2">
               <Avatar
                 variant="rounded"
                 sx={(theme) => ({ ...accentSoftSx(theme, accentFor(job.title)), fontWeight: 600 })}
@@ -75,6 +71,7 @@ export function RecentJobsCard({ jobs, loading }: RecentJobsCardProps) {
                   {$t({ id: `jobs.workMode.${job.work_mode}` })} · {formatDate(job.created_at, { dateStyle: 'medium' })}
                 </Typography>
               </Box>
+              <NewApplicantsBadge count={countNewApplicants(job.applications)} />
               <JobStatusChip status={job.status} />
             </ListItemLink>
           ))}

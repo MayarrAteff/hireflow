@@ -14,6 +14,7 @@ import {
 } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { countNewApplicants } from '@/components/Jobs/NewApplicantsBadge';
 import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
 import { AnalyticsPreview, NotificationsPreview } from '@/components/UI/Dashboard/FeaturePreviews';
@@ -23,6 +24,7 @@ import { dayjs } from '@/utils/dayjs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import { GettingStartedCard } from './dashboard/GettingStartedCard';
+import { NewApplicantsCard } from './dashboard/NewApplicantsCard';
 import { RecentJobsCard } from './dashboard/RecentJobsCard';
 
 const CLOSING_SOON_DAYS = 7;
@@ -41,6 +43,8 @@ export function RecruiterDashboard() {
 
   const today = dayjs().startOf('day');
   const published = jobs.filter((job) => job.status === 'published');
+  const hasGoneLive = jobs.some((job) => job.status !== 'draft');
+  const newApplicantsTotal = jobs.reduce((sum, job) => sum + countNewApplicants(job.applications), 0);
   const stats = [
     { icon: MdWorkOutline, color: 'violet', labelId: 'dashboard.stats.totalJobs', value: jobs.length },
     { icon: MdPublic, color: 'emerald', labelId: 'dashboard.stats.published', value: published.length },
@@ -99,14 +103,26 @@ export function RecruiterDashboard() {
         ))}
       </Box>
 
-      <Box className="grid gap-6 lg:grid-cols-5">
-        <motion.div className="lg:col-span-2" {...appear(4)}>
-          <GettingStartedCard jobs={jobs} />
-        </motion.div>
-        <motion.div className="lg:col-span-3" {...appear(5)}>
-          <RecentJobsCard jobs={jobs} loading={isLoading} />
-        </motion.div>
-      </Box>
+      {/* Applications only arrive once a job has gone live; until then onboarding is the more useful card. */}
+      {hasGoneLive ? (
+        <Box className="grid gap-6 lg:grid-cols-5">
+          <motion.div className="lg:col-span-3" {...appear(4)}>
+            <NewApplicantsCard total={newApplicantsTotal} loading={isLoading} />
+          </motion.div>
+          <motion.div className="lg:col-span-2" {...appear(5)}>
+            <RecentJobsCard jobs={jobs} loading={isLoading} />
+          </motion.div>
+        </Box>
+      ) : (
+        <Box className="grid gap-6 lg:grid-cols-5">
+          <motion.div className="lg:col-span-2" {...appear(4)}>
+            <GettingStartedCard jobs={jobs} />
+          </motion.div>
+          <motion.div className="lg:col-span-3" {...appear(5)}>
+            <RecentJobsCard jobs={jobs} loading={isLoading} />
+          </motion.div>
+        </Box>
+      )}
 
       <ComingNextSection
         subtitleId="dashboard.upNext.subtitle"

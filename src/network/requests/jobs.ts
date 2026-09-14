@@ -4,7 +4,7 @@ import type {
   Job,
   JobFields,
   JobSearchFilters,
-  JobWithApplicantCount,
+  JobWithApplicantStages,
   JobWithCompany,
 } from '@/types/job.types';
 
@@ -14,8 +14,8 @@ import { SINGLE_OBJECT_HEADERS } from './profile';
 const RETURN_SINGLE_HEADERS = { ...SINGLE_OBJECT_HEADERS, Prefer: 'return=representation' };
 
 export function getCompanyJobsRequest(companyId: string) {
-  return axiosInstance.get<JobWithApplicantCount[]>('/jobs', {
-    params: { company_id: `eq.${companyId}`, select: '*,applications(count)', order: 'created_at.desc' },
+  return axiosInstance.get<JobWithApplicantStages[]>('/jobs', {
+    params: { company_id: `eq.${companyId}`, select: '*,applications(stage,viewed_at)', order: 'created_at.desc' },
   });
 }
 

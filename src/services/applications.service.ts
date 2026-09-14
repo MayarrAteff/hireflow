@@ -6,9 +6,11 @@ import {
   deleteApplicationRequest,
   getCandidateApplicationForJobRequest,
   getCandidateApplicationsRequest,
+  getJobApplicationsRequest,
+  updateApplicationRequest,
 } from '@/network/requests/applications';
 import { removeFileRequest, uploadFileRequest } from '@/network/requests/storage';
-import type { ApplicationCv } from '@/types/application.types';
+import type { ApplicationCv, ApplicationUpdatePayload } from '@/types/application.types';
 import { getTranslation } from '@/utils/getTranslation';
 
 /** Postgres unique violation: the candidate already applied to this job. */
@@ -62,4 +64,18 @@ export async function applyToJob({ candidateId, jobId, cv, coverLetter, onUpload
 
 export async function withdrawApplication(applicationId: string) {
   await deleteApplicationRequest(applicationId);
+}
+
+export async function getJobApplications(jobId: string) {
+  const response = await getJobApplicationsRequest(jobId);
+  return response.data;
+}
+
+export async function updateApplication(applicationId: string, payload: ApplicationUpdatePayload) {
+  await updateApplicationRequest(applicationId, payload);
+}
+
+/** Saves several board moves at once; PostgREST has no bulk update without insert rights, so one PATCH per row. */
+export async function saveApplicationMoves(moves: { id: string; payload: ApplicationUpdatePayload }[]) {
+  await Promise.all(moves.map(({ id, payload }) => updateApplicationRequest(id, payload)));
 }

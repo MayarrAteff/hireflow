@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
-import { MdAccessTime, MdSearch } from 'react-icons/md';
+import { MdAccessTime, MdNotificationsActive, MdSearch } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { ACCENT_COLORS, type AccentColor } from '@/styles/themes/accents';
@@ -10,49 +9,9 @@ import { ACCENT_COLORS, type AccentColor } from '@/styles/themes/accents';
 
 const lineSx = { bgcolor: 'text.primary', opacity: 0.15 };
 
-const BOARD_COLUMNS: AccentColor[] = ['sky', 'amber', 'emerald'];
 const CALENDAR_DAYS = 14;
 const BOOKED_DAYS: Partial<Record<number, AccentColor>> = { 2: 'rose', 5: 'violet', 9: 'amber', 11: 'rose' };
 const PULSING_DAY = 9;
-
-function MockCandidate({ color }: { color: AccentColor }) {
-  return (
-    <Box
-      className="tw-flex tw-items-center tw-gap-1.5 tw-rounded-md tw-p-1.5"
-      sx={{ bgcolor: 'background.paper', boxShadow: 1 }}
-    >
-      <Box className="tw-h-3.5 tw-w-3.5 tw-shrink-0 tw-rounded-full" sx={{ bgcolor: ACCENT_COLORS[color] }} />
-      <Box className="tw-h-1.5 tw-flex-1 tw-rounded-full" sx={{ bgcolor: 'text.primary', opacity: 0.15 }} />
-    </Box>
-  );
-}
-
-/** Three pipeline columns with a candidate card sliding from the first stage to the second. */
-export function BoardPreview() {
-  const { direction } = useTheme();
-
-  return (
-    <Box className="tw-relative tw-grid tw-h-full tw-grid-cols-3">
-      {BOARD_COLUMNS.map((color, column) => (
-        <Box key={color} className="tw-flex tw-flex-col tw-gap-1.5 tw-px-1">
-          <Box className="tw-h-1.5 tw-rounded-full" sx={{ bgcolor: ACCENT_COLORS[color] }} />
-          {/* The top slot of the first two columns stays free for the card sliding between them. */}
-          {column < 2 && <Box className="tw-h-[26px] tw-shrink-0" />}
-          {Array.from({ length: column < 2 ? 1 : 2 }, (_, index) => (
-            <MockCandidate key={index} color={BOARD_COLUMNS[(column + index + 1) % BOARD_COLUMNS.length]} />
-          ))}
-        </Box>
-      ))}
-      <motion.div
-        className="tw-absolute tw-start-0 tw-top-3 tw-w-1/3 tw-px-1"
-        animate={{ x: ['0%', direction === 'rtl' ? '-100%' : '100%'], rotate: [0, 3, 0] }}
-        transition={{ duration: 1.4, repeat: Infinity, repeatType: 'reverse', repeatDelay: 1.2, ease: 'easeInOut' }}
-      >
-        <MockCandidate color="pink" />
-      </motion.div>
-    </Box>
-  );
-}
 
 /** Two weeks of days with a few booked interviews and a floating time slot. */
 export function CalendarPreview() {
@@ -128,6 +87,67 @@ export function SearchPreview() {
           </Box>
         </motion.div>
       ))}
+    </Box>
+  );
+}
+
+const CHART_BARS = [38, 62, 48, 80, 66, 92];
+
+/** Bars growing in turn, like a weekly hiring chart. */
+export function AnalyticsPreview() {
+  return (
+    <Box className="tw-flex tw-h-full tw-items-end tw-gap-2 tw-px-1">
+      {CHART_BARS.map((height, index) => (
+        <motion.div
+          key={height}
+          className="tw-flex-1 tw-rounded-t-md"
+          style={{
+            backgroundColor: index === CHART_BARS.length - 1 ? ACCENT_COLORS.emerald : ACCENT_COLORS.violet,
+            opacity: 0.45 + index * 0.1,
+          }}
+          animate={{ height: ['12%', `${height}%`, `${height}%`, '12%'] }}
+          transition={{
+            duration: 3.2,
+            repeat: Infinity,
+            times: [0, 0.35, 0.8, 1],
+            delay: index * 0.12,
+            ease: 'easeOut',
+          }}
+        />
+      ))}
+    </Box>
+  );
+}
+
+/** A bell with notifications sliding in beside it. */
+export function NotificationsPreview() {
+  return (
+    <Box className="tw-flex tw-h-full tw-items-center tw-gap-3">
+      <motion.div
+        className="tw-flex tw-h-12 tw-w-12 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-2xl tw-text-white"
+        style={{ backgroundColor: ACCENT_COLORS.pink }}
+        animate={{ rotate: [0, -14, 12, -8, 0, 0] }}
+        transition={{ duration: 2.4, repeat: Infinity, times: [0, 0.1, 0.2, 0.3, 0.4, 1] }}
+      >
+        <MdNotificationsActive size={26} />
+      </motion.div>
+      <Box className="tw-flex tw-min-w-0 tw-flex-1 tw-flex-col tw-gap-2">
+        {[ACCENT_COLORS.emerald, ACCENT_COLORS.amber].map((color, index) => (
+          <motion.div
+            key={color}
+            animate={{ opacity: [0, 0, 1, 1, 0], x: [16, 16, 0, 0, 0] }}
+            transition={{ duration: 2.4, repeat: Infinity, times: [0, 0.2 + index * 0.1, 0.35 + index * 0.1, 0.85, 1] }}
+          >
+            <Box
+              className="tw-flex tw-items-center tw-gap-2 tw-rounded-lg tw-p-1.5"
+              sx={{ bgcolor: 'background.paper', boxShadow: 1 }}
+            >
+              <Box className="tw-h-3.5 tw-w-3.5 tw-shrink-0 tw-rounded-full" sx={{ bgcolor: color }} />
+              <Box className="tw-h-1.5 tw-flex-1 tw-rounded-full" sx={lineSx} />
+            </Box>
+          </motion.div>
+        ))}
+      </Box>
     </Box>
   );
 }

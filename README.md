@@ -77,8 +77,8 @@ supabase/migrations/  database schema, RLS policies, storage and realtime
 ## Roadmap
 
 - [x] Project foundation, theming (portal colours, dark mode, RTL), auth with role-based portals
-- [ ] Candidate: profile + CV upload, job search, apply, my applications
-- [ ] Recruiter: company setup, multi-step job form, jobs table, hiring board, interviews
+- [x] Candidate: profile + CV upload, job search, apply, my applications
+- [x] Recruiter: company setup, multi-step job form, jobs table, hiring board, interviews
 - [ ] Real-time notifications
 - [ ] Dashboards with charts
 - [ ] Admin: users, companies, feature flags

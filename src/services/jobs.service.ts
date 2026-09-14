@@ -7,6 +7,7 @@ import {
   getPublishedJobRequest,
   searchPublishedJobsRequest,
   updateJobRequest,
+  updateJobStatusRequest,
 } from '@/network/requests/jobs';
 import type { CreateJobPayload, Job, JobFields, JobFormValues, JobSearchFilters, JobStatus } from '@/types/job.types';
 import { dayjs } from '@/utils/dayjs';
@@ -44,6 +45,11 @@ export async function getJob(jobId: string) {
 
 export async function createJob(payload: CreateJobPayload) {
   const response = await createJobRequest(payload);
+  return response.data;
+}
+
+export async function updateJobStatus(jobId: string, status: JobStatus) {
+  const response = await updateJobStatusRequest(jobId, status);
   return response.data;
 }
 

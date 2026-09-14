@@ -1,7 +1,19 @@
 import { axiosInstance } from '@/network/interceptor';
-import type { CandidateApplication, CreateApplicationPayload, JobApplication } from '@/types/application.types';
+import type {
+  ApplicationUpdatePayload,
+  CandidateApplication,
+  CreateApplicationPayload,
+  JobApplication,
+  RecruiterApplication,
+} from '@/types/application.types';
 
 import { SINGLE_OBJECT_HEADERS } from './profile';
+
+const CANDIDATE_APPLICATION_SELECT = 'id,stage,created_at,cv_path,cover_letter,interviews(*)';
+
+const APPLICANT_COLUMNS =
+  'id,full_name,email,phone,avatar_url,headline,bio,location,skills,years_of_experience,linkedin_url,portfolio_url,github_url';
+const RECRUITER_APPLICATION_SELECT = `*,candidate:profiles(${APPLICANT_COLUMNS}),interviews(*)`;
 
 export function getCandidateApplicationsRequest(candidateId: string) {
   return axiosInstance.get<CandidateApplication[]>('/applications', {
@@ -18,18 +30,28 @@ export function getCandidateApplicationForJobRequest(candidateId: string, jobId:
     params: {
       candidate_id: `eq.${candidateId}`,
       job_id: `eq.${jobId}`,
-      select: 'id,stage,created_at,cv_path,cover_letter',
+      select: CANDIDATE_APPLICATION_SELECT,
     },
   });
 }
 
 export function createApplicationRequest(payload: CreateApplicationPayload) {
   return axiosInstance.post<JobApplication>('/applications', payload, {
-    params: { select: 'id,stage,created_at,cv_path,cover_letter' },
+    params: { select: CANDIDATE_APPLICATION_SELECT },
     headers: { ...SINGLE_OBJECT_HEADERS, Prefer: 'return=representation' },
   });
 }
 
 export function deleteApplicationRequest(applicationId: string) {
   return axiosInstance.delete('/applications', { params: { id: `eq.${applicationId}` } });
+}
+
+export function getJobApplicationsRequest(jobId: string) {
+  return axiosInstance.get<RecruiterApplication[]>('/applications', {
+    params: { job_id: `eq.${jobId}`, select: RECRUITER_APPLICATION_SELECT, order: 'position.asc,created_at.asc' },
+  });
+}
+
+export function updateApplicationRequest(applicationId: string, payload: ApplicationUpdatePayload) {
+  return axiosInstance.patch('/applications', payload, { params: { id: `eq.${applicationId}` } });
 }

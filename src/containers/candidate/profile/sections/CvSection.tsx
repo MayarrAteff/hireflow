@@ -16,10 +16,10 @@ import { FileDropzone } from '@/components/Form/FileDropzone';
 import { IconTile } from '@/components/UI/IconTile';
 import { CV_FILE_TYPES, MAX_CV_SIZE_BYTES } from '@/constants/app';
 import { useFileUpload } from '@/hooks/useFileUpload';
+import { useOpenCv } from '@/hooks/useOpenCv';
 import { useProfileMutation } from '@/hooks/useProfileMutation';
-import { getCvFileName, getCvUrl, removeCv, uploadCv } from '@/services/profile.service';
+import { getCvFileName, removeCv, uploadCv } from '@/services/profile.service';
 import type { Profile } from '@/types/auth.types';
-import { getErrorMessage } from '@/utils/hooks/useFormMutation';
 
 import { ProfileSectionCard } from '../ProfileSectionCard';
 
@@ -36,7 +36,7 @@ export function CvSection({ profile }: CvSectionProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [progress, setProgress] = useState(0);
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [isOpening, setIsOpening] = useState(false);
+  const { openCv, openingPath } = useOpenCv();
 
   const upload = useProfileMutation({
     mutationKey: ['cv', 'upload'],
@@ -64,22 +64,6 @@ export function CvSection({ profile }: CvSectionProps) {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     startUpload(event.target.files?.[0]);
     event.target.value = '';
-  };
-
-  // Open the tab synchronously so pop-up blockers allow it, then point it at the short-lived link.
-  const handleView = async () => {
-    if (!profile.cv_path) return;
-    const tab = window.open('', '_blank');
-    setIsOpening(true);
-    try {
-      const url = await getCvUrl(profile.cv_path);
-      if (tab) tab.location.href = url;
-    } catch (viewError) {
-      tab?.close();
-      enqueueSnackbar(getErrorMessage(viewError) ?? $t({ id: 'error.generic.title' }), { variant: 'error' });
-    } finally {
-      setIsOpening(false);
-    }
   };
 
   const fileName = profile.cv_path ? getCvFileName(profile.cv_path) : '';
@@ -120,7 +104,12 @@ export function CvSection({ profile }: CvSectionProps) {
             </Typography>
           </Box>
           <Box className="tw-flex tw-flex-wrap tw-gap-1">
-            <Button size="small" startIcon={<MdOpenInNew />} onClick={handleView} loading={isOpening}>
+            <Button
+              size="small"
+              startIcon={<MdOpenInNew />}
+              onClick={() => profile.cv_path && openCv(profile.cv_path)}
+              loading={openingPath === profile.cv_path}
+            >
               {$t({ id: 'profile.cv.view' })}
             </Button>
             <Button size="small" startIcon={<MdSwapHoriz />} onClick={() => inputRef.current?.click()}>

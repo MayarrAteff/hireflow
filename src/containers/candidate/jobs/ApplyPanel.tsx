@@ -13,14 +13,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Link as RouterLink } from '@tanstack/react-router';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import { MdCheck, MdSchedule, MdSend, MdTimeline, MdUndo } from 'react-icons/md';
+import { MdCheck, MdOpenInNew, MdSchedule, MdSend, MdTimeline, MdUndo } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { APPLICATION_PIPELINE, APPLICATION_STAGE_COLOR } from '@/constants/applications';
+import { getNextInterview, INTERVIEW_TYPE_VISUALS, isMeetingUrl } from '@/constants/interviews';
 import { applicationsQueryKey, useCandidateApplicationForJob } from '@/hooks/useApplications';
 import { withdrawApplication } from '@/services/applications.service';
 import { ACCENT_COLORS } from '@/styles/themes/accents';
 import type { ApplicationStage, JobApplication } from '@/types/application.types';
+import type { Interview } from '@/types/interview.types';
 import type { JobWithCompany } from '@/types/job.types';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useFormMutation } from '@/utils/hooks/useFormMutation';
@@ -64,6 +66,61 @@ function StageProgress({ stage }: { stage: ApplicationStage }) {
   );
 }
 
+/** The candidate's next interview, with a join button for online meetings. */
+function InterviewNotice({ interview }: { interview: Interview }) {
+  const { $t, formatDate } = useIntl();
+  const { icon: Icon, color } = INTERVIEW_TYPE_VISUALS[interview.type];
+
+  return (
+    <Box
+      className="tw-flex tw-flex-col tw-gap-2 tw-rounded-xl tw-p-3"
+      sx={(theme) => ({ bgcolor: alpha(ACCENT_COLORS[color], theme.palette.mode === 'dark' ? 0.18 : 0.1) })}
+    >
+      <Box className="tw-flex tw-items-center tw-gap-2.5">
+        <Box
+          className="tw-flex tw-h-9 tw-w-9 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-lg tw-text-white"
+          sx={{ bgcolor: ACCENT_COLORS[color] }}
+        >
+          <Icon size={20} />
+        </Box>
+        <Box className="tw-min-w-0">
+          <Typography variant="caption" color="text.secondary" className="tw-block tw-leading-tight">
+            {$t({ id: 'apply.interview.title' })}
+          </Typography>
+          <Typography variant="body2" fontWeight={700}>
+            {formatDate(interview.scheduled_at, {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: '2-digit',
+            })}
+          </Typography>
+          <Typography variant="caption" color="text.secondary" className="tw-block">
+            {$t({ id: `interview.type.${interview.type}` })} ·{' '}
+            {$t({ id: 'interview.minutes' }, { minutes: interview.duration_minutes })}
+            {interview.location_or_link &&
+              !isMeetingUrl(interview.location_or_link) &&
+              ` · ${interview.location_or_link}`}
+          </Typography>
+        </Box>
+      </Box>
+      {isMeetingUrl(interview.location_or_link) && (
+        <Button
+          size="small"
+          variant="contained"
+          startIcon={<MdOpenInNew />}
+          href={interview.location_or_link as string}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {$t({ id: 'interview.join' })}
+        </Button>
+      )}
+    </Box>
+  );
+}
+
 function ApplicationStatusCard({ application }: { application: JobApplication }) {
   const { $t, formatDate } = useIntl();
   const { enqueueSnackbar } = useSnackbar();
@@ -82,6 +139,7 @@ function ApplicationStatusCard({ application }: { application: JobApplication })
   });
 
   const isRejected = application.stage === 'rejected';
+  const nextInterview = getNextInterview(application.interviews);
   // Withdrawing only makes sense before the recruiter has started reviewing.
   const canWithdraw = application.stage === 'applied';
 
@@ -121,6 +179,8 @@ function ApplicationStatusCard({ application }: { application: JobApplication })
       ) : (
         <StageProgress stage={application.stage} />
       )}
+
+      {nextInterview && <InterviewNotice interview={nextInterview} />}
 
       {canWithdraw ? (
         <Box>

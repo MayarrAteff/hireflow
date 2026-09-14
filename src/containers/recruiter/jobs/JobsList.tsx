@@ -5,6 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,14 +16,14 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { createLink, Link } from '@tanstack/react-router';
+import { createLink, Link as RouterLink } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { MdAdd, MdEdit } from 'react-icons/md';
+import { MdAdd, MdEdit, MdGroups, MdViewKanban } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { JobStatusChip } from '@/components/Jobs/JobStatusChip';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
-import { JOB_STATUS_COLOR } from '@/constants/jobs';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { accentFor, accentSoftSx } from '@/styles/themes/accents';
 import type { JobStatus } from '@/types/job.types';
@@ -32,12 +33,13 @@ import { CompanySetupCard } from './CompanySetupCard';
 import { JobStepsJourney } from './JobStepsJourney';
 
 const IconButtonLink = createLink(IconButton);
+const MuiRouterLink = createLink(Link);
 
 type StatusFilter = JobStatus | 'all';
 const STATUS_FILTERS: StatusFilter[] = ['all', 'published', 'draft', 'closed'];
 
 export function JobsList() {
-  const { $t, formatDate } = useIntl();
+  const { $t, formatDate, formatNumber } = useIntl();
   const { profile } = useAuth();
   const { data: jobs = [], isPending } = useCompanyJobs(profile?.company_id);
   const [filter, setFilter] = useState<StatusFilter>('all');
@@ -49,7 +51,7 @@ export function JobsList() {
   const visibleJobs = filter === 'all' ? jobs : jobs.filter((job) => job.status === filter);
 
   const postJobButton = (
-    <Button variant="contained" size="large" startIcon={<MdAdd />} component={Link} to="/recruiter/jobs/new">
+    <Button variant="contained" size="large" startIcon={<MdAdd />} component={RouterLink} to="/recruiter/jobs/new">
       {$t({ id: 'jobs.list.postJob' })}
     </Button>
   );
@@ -119,6 +121,7 @@ export function JobsList() {
                 <TableHead>
                   <TableRow>
                     <TableCell>{$t({ id: 'jobs.list.column.title' })}</TableCell>
+                    <TableCell>{$t({ id: 'jobs.list.column.applicants' })}</TableCell>
                     <TableCell>{$t({ id: 'jobs.list.column.type' })}</TableCell>
                     <TableCell>{$t({ id: 'jobs.list.column.status' })}</TableCell>
                     <TableCell>{$t({ id: 'jobs.list.column.created' })}</TableCell>
@@ -137,7 +140,15 @@ export function JobsList() {
                             {job.title.slice(0, 1).toUpperCase()}
                           </Avatar>
                           <Box className="tw-min-w-0">
-                            <Typography fontWeight={600}>{job.title}</Typography>
+                            <MuiRouterLink
+                              to="/recruiter/jobs/$jobId"
+                              params={{ jobId: job.id }}
+                              underline="hover"
+                              color="text.primary"
+                              fontWeight={600}
+                            >
+                              {job.title}
+                            </MuiRouterLink>
                             <Typography variant="body2" color="text.secondary">
                               {[
                                 $t({ id: `jobs.workMode.${job.work_mode}` }),
@@ -154,18 +165,32 @@ export function JobsList() {
                           </Box>
                         </Box>
                       </TableCell>
-                      <TableCell>{$t({ id: `jobs.employmentType.${job.employment_type}` })}</TableCell>
                       <TableCell>
                         <Chip
                           size="small"
-                          color={JOB_STATUS_COLOR[job.status]}
-                          label={$t({ id: `jobs.status.${job.status}` })}
+                          variant="outlined"
+                          icon={<MdGroups />}
+                          label={formatNumber(job.applications?.[0]?.count ?? 0)}
                         />
+                      </TableCell>
+                      <TableCell>{$t({ id: `jobs.employmentType.${job.employment_type}` })}</TableCell>
+                      <TableCell>
+                        <JobStatusChip status={job.status} />
                       </TableCell>
                       <TableCell className="tw-whitespace-nowrap">
                         {formatDate(job.created_at, { dateStyle: 'medium' })}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" className="tw-whitespace-nowrap">
+                        <Tooltip title={$t({ id: 'jobs.list.openBoard' })}>
+                          <IconButtonLink
+                            to="/recruiter/jobs/$jobId"
+                            params={{ jobId: job.id }}
+                            search={{ tab: 'board' }}
+                            aria-label={$t({ id: 'jobs.list.openBoard' })}
+                          >
+                            <MdViewKanban />
+                          </IconButtonLink>
+                        </Tooltip>
                         <Tooltip title={$t({ id: 'jobs.edit' })}>
                           <IconButtonLink
                             to="/recruiter/jobs/$jobId/edit"
@@ -180,7 +205,7 @@ export function JobsList() {
                   ))}
                   {visibleJobs.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={5} align="center" className="tw-py-10">
+                      <TableCell colSpan={6} align="center" className="tw-py-10">
                         <Typography color="text.secondary">{$t({ id: 'jobs.list.filter.empty' })}</Typography>
                       </TableCell>
                     </TableRow>

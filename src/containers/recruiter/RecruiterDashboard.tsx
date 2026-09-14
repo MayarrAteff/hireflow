@@ -5,18 +5,18 @@ import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
 import {
   MdAdd,
-  MdCalendarMonth,
   MdEditNote,
   MdHourglassBottom,
+  MdInsights,
+  MdNotificationsActive,
   MdPublic,
-  MdViewKanban,
   MdWorkOutline,
 } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
-import { BoardPreview, CalendarPreview } from '@/components/UI/Dashboard/FeaturePreviews';
+import { AnalyticsPreview, NotificationsPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { dayjs } from '@/utils/dayjs';
@@ -113,18 +113,18 @@ export function RecruiterDashboard() {
         tipIds={RECRUITER_TIP_IDS}
         features={[
           {
-            icon: MdViewKanban,
-            color: 'sky',
-            titleId: 'dashboard.upNext.board.title',
-            bodyId: 'dashboard.upNext.board.body',
-            preview: <BoardPreview />,
+            icon: MdInsights,
+            color: 'violet',
+            titleId: 'dashboard.upNext.analytics.title',
+            bodyId: 'dashboard.upNext.analytics.body',
+            preview: <AnalyticsPreview />,
           },
           {
-            icon: MdCalendarMonth,
-            color: 'rose',
-            titleId: 'dashboard.upNext.interviews.title',
-            bodyId: 'dashboard.upNext.interviews.body',
-            preview: <CalendarPreview />,
+            icon: MdNotificationsActive,
+            color: 'pink',
+            titleId: 'dashboard.upNext.notifications.title',
+            bodyId: 'dashboard.upNext.notifications.body',
+            preview: <NotificationsPreview />,
           },
         ]}
       />

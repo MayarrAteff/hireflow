@@ -10,62 +10,23 @@ import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { Link as RouterLink } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import { type ReactNode, useState } from 'react';
+import { useState } from 'react';
 import type { IconType } from 'react-icons';
-import {
-  MdArrowBack,
-  MdAutoAwesome,
-  MdBusiness,
-  MdCheckCircle,
-  MdDescription,
-  MdEvent,
-  MdExtension,
-  MdLanguage,
-  MdPayments,
-  MdPlace,
-  MdRule,
-  MdSchedule,
-} from 'react-icons/md';
+import { MdAutoAwesome, MdBusiness, MdEvent, MdLanguage, MdPayments, MdPlace, MdSchedule } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { JobPostingSections } from '@/components/Jobs/JobPostingSections';
 import { IconTile } from '@/components/UI/IconTile';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { ProgressRing } from '@/components/UI/ProgressRing';
 import { usePublishedJob } from '@/hooks/useJobs';
-import { ACCENT_COLORS, type AccentColor, accentFor, accentSoftSx, brandGradient } from '@/styles/themes/accents';
+import { ACCENT_COLORS, accentFor, accentSoftSx, brandGradient } from '@/styles/themes/accents';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { getSkillMatch } from '@/utils/skillMatch';
 
 import { ApplyDialog } from './ApplyDialog';
 import { ApplyPanel } from './ApplyPanel';
-
-type SectionCardProps = {
-  icon: IconType;
-  color: AccentColor;
-  titleId: string;
-  action?: ReactNode;
-  children: ReactNode;
-};
-
-function SectionCard({ icon, color, titleId, action, children }: SectionCardProps) {
-  const { $t } = useIntl();
-
-  return (
-    <Card>
-      <CardContent className="tw-p-5 sm:tw-p-6">
-        <Box className="tw-mb-4 tw-flex tw-flex-wrap tw-items-center tw-gap-3">
-          <IconTile icon={icon} color={color} size="sm" />
-          <Typography variant="h5" className="tw-flex-1">
-            {$t({ id: titleId })}
-          </Typography>
-          {action}
-        </Box>
-        {children}
-      </CardContent>
-    </Card>
-  );
-}
 
 type JobDetailsProps = {
   jobId: string;
@@ -78,21 +39,9 @@ export function JobDetails({ jobId }: JobDetailsProps) {
   const jobQuery = usePublishedJob(jobId);
   const [applyOpen, setApplyOpen] = useState(false);
 
-  const backLink = (
-    <Button
-      component={RouterLink}
-      to="/candidate/jobs"
-      startIcon={<MdArrowBack className="rtl:tw-rotate-180" />}
-      className="tw-self-start"
-    >
-      {$t({ id: 'jobs.details.back' })}
-    </Button>
-  );
-
   if (jobQuery.isPending) {
     return (
       <Box className="tw-mx-auto tw-flex tw-max-w-6xl tw-flex-col tw-gap-6">
-        {backLink}
         <Skeleton variant="rounded" height={240} className="tw-rounded-3xl" />
         <Box className="tw-grid tw-gap-6 lg:tw-grid-cols-[minmax(0,1fr)_320px]">
           <Skeleton variant="rounded" height={320} className="tw-rounded-3xl" />
@@ -106,7 +55,6 @@ export function JobDetails({ jobId }: JobDetailsProps) {
   if (jobQuery.isError || !jobQuery.data) {
     return (
       <Box className="tw-mx-auto tw-flex tw-max-w-3xl tw-flex-col tw-gap-6">
-        {backLink}
         <Card>
           <CardContent className="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
             <EmptyJobsIllustration className="tw-mb-3 tw-w-44" />
@@ -129,7 +77,6 @@ export function JobDetails({ jobId }: JobDetailsProps) {
   const company = job.company;
   const companyName = company?.name ?? '';
   const salary = formatSalary(job.salary_min, job.salary_max, job.currency);
-  const requirements = job.requirements.filter((requirement) => requirement.trim());
   const skillMatch = getSkillMatch(job.skills, profile?.skills ?? []);
   const daysLeft = job.deadline ? daysFromToday(job.deadline) : null;
 
@@ -148,8 +95,6 @@ export function JobDetails({ jobId }: JobDetailsProps) {
 
   return (
     <Box className="tw-mx-auto tw-flex tw-max-w-6xl tw-flex-col tw-gap-6">
-      {backLink}
-
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
         <Card className="tw-overflow-hidden">
           <Box
@@ -235,55 +180,7 @@ export function JobDetails({ jobId }: JobDetailsProps) {
 
       <Box className="tw-grid tw-items-start tw-gap-6 lg:tw-grid-cols-[minmax(0,1fr)_320px]">
         <Box className="tw-flex tw-flex-col tw-gap-6">
-          <SectionCard icon={MdDescription} color="violet" titleId="jobs.details.aboutRole">
-            <Typography className="tw-whitespace-pre-line tw-leading-relaxed">{job.description}</Typography>
-          </SectionCard>
-
-          {requirements.length > 0 && (
-            <SectionCard icon={MdRule} color="amber" titleId="jobs.field.requirements">
-              <Box component="ul" className="tw-m-0 tw-flex tw-list-none tw-flex-col tw-gap-2.5 tw-p-0">
-                {requirements.map((requirement, index) => (
-                  <Box component="li" key={index} className="tw-flex tw-items-start tw-gap-2.5">
-                    <Box
-                      component={MdCheckCircle}
-                      className="tw-mt-0.5 tw-shrink-0"
-                      sx={{ color: ACCENT_COLORS.amber }}
-                      size={20}
-                    />
-                    <Typography>{requirement}</Typography>
-                  </Box>
-                ))}
-              </Box>
-            </SectionCard>
-          )}
-
-          {job.skills.length > 0 && (
-            <SectionCard
-              icon={MdExtension}
-              color="emerald"
-              titleId="jobs.field.skills"
-              action={
-                skillMatch.matchedCount > 0 && (
-                  <Typography variant="body2" color="text.secondary">
-                    {$t(
-                      { id: 'jobs.details.skillsMatched' },
-                      { matched: skillMatch.matchedCount, total: skillMatch.total },
-                    )}
-                  </Typography>
-                )
-              }
-            >
-              <Box className="tw-flex tw-flex-wrap tw-gap-2">
-                {job.skills.map((skill) =>
-                  skillMatch.matched.has(skill) ? (
-                    <Chip key={skill} color="success" icon={<MdCheckCircle />} label={skill} />
-                  ) : (
-                    <Chip key={skill} variant="outlined" label={skill} />
-                  ),
-                )}
-              </Box>
-            </SectionCard>
-          )}
+          <JobPostingSections job={job} matchedSkills={skillMatch.matched} />
         </Box>
 
         <Box component="aside" className="tw-flex tw-flex-col tw-gap-4 lg:tw-sticky lg:tw-top-24">

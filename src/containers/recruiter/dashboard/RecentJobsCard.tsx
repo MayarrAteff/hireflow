@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
 import ListItemButton from '@mui/material/ListItemButton';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
@@ -11,8 +10,8 @@ import { createLink, Link } from '@tanstack/react-router';
 import { MdArrowForward } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { JobStatusChip } from '@/components/Jobs/JobStatusChip';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
-import { JOB_STATUS_COLOR } from '@/constants/jobs';
 import { accentFor, accentSoftSx } from '@/styles/themes/accents';
 import type { Job } from '@/types/job.types';
 
@@ -58,7 +57,7 @@ export function RecentJobsCard({ jobs, loading }: RecentJobsCardProps) {
           {recent.map((job) => (
             <ListItemLink
               key={job.id}
-              to="/recruiter/jobs/$jobId/edit"
+              to="/recruiter/jobs/$jobId"
               params={{ jobId: job.id }}
               className="tw-gap-3 tw-px-2"
             >
@@ -76,7 +75,7 @@ export function RecentJobsCard({ jobs, loading }: RecentJobsCardProps) {
                   {$t({ id: `jobs.workMode.${job.work_mode}` })} · {formatDate(job.created_at, { dateStyle: 'medium' })}
                 </Typography>
               </Box>
-              <Chip size="small" color={JOB_STATUS_COLOR[job.status]} label={$t({ id: `jobs.status.${job.status}` })} />
+              <JobStatusChip status={job.status} />
             </ListItemLink>
           ))}
         </Box>

@@ -25,6 +25,9 @@ export type Job = {
   created_at: string;
 };
 
+/** PostgREST returns an embedded count as a one-item array: `[{ count: 3 }]`. */
+export type JobWithApplicantCount = Job & { applications: [{ count: number }] };
+
 /** Company details shown alongside a job; list views only fetch the name. */
 export type JobCompany = Pick<Company, 'name'> & Partial<Pick<Company, 'industry' | 'website' | 'size' | 'about'>>;
 

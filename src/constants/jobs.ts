@@ -1,15 +1,9 @@
 import type { JobFormStep } from '@/store/features/jobFormStepsSlice';
-import type { EmploymentType, JobFormValues, JobStatus, WorkMode } from '@/types/job.types';
+import type { EmploymentType, JobFormValues, WorkMode } from '@/types/job.types';
 
 export const EMPLOYMENT_TYPES: EmploymentType[] = ['full_time', 'part_time', 'contract', 'internship'];
 export const WORK_MODES: WorkMode[] = ['onsite', 'remote', 'hybrid'];
 export const CURRENCIES = ['SAR', 'AED', 'EGP', 'USD', 'EUR'];
-
-export const JOB_STATUS_COLOR: Record<JobStatus, 'default' | 'success' | 'warning'> = {
-  draft: 'warning',
-  published: 'success',
-  closed: 'default',
-};
 
 /** Fields validated before leaving each step. */
 export const JOB_STEP_FIELDS: Record<JobFormStep, (keyof JobFormValues)[]> = {

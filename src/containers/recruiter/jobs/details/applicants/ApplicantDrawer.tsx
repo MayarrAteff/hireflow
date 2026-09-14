@@ -35,6 +35,7 @@ import {
 } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { ApplicantAvatar } from '@/components/Profile/ApplicantAvatar';
 import { IconTile } from '@/components/UI/IconTile';
 import { ProgressRing } from '@/components/UI/ProgressRing';
 import { APPLICATION_PIPELINE } from '@/constants/applications';
@@ -50,7 +51,6 @@ import { getSkillMatch } from '@/utils/skillMatch';
 import { getStageGap, type StageGap } from '@/utils/stageGaps';
 
 import { OfferSummary } from '../../../offers/OfferSummary';
-import { ApplicantAvatar } from './ApplicantAvatar';
 
 const ALL_STAGES: ApplicationStage[] = [...APPLICATION_PIPELINE, 'rejected'];
 

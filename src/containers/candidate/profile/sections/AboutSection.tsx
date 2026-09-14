@@ -5,13 +5,13 @@ import { useForm, useWatch } from 'react-hook-form';
 import { MdAutoStories } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { FormSectionCard } from '@/components/Form/FormSectionCard';
 import { FormTextField } from '@/components/Form/FormTextField';
 import { useProfileMutation } from '@/hooks/useProfileMutation';
 import { updateProfile } from '@/services/profile.service';
 import type { Profile } from '@/types/auth.types';
+import { profileSectionId } from '@/utils/profileCompleteness';
 import { aboutSchema, type AboutValues, PROFILE_LIMITS } from '@/validations/profile.validation.schema';
-
-import { ProfileSectionCard } from '../ProfileSectionCard';
 
 type AboutSectionProps = {
   profile: Profile;
@@ -39,8 +39,8 @@ export function AboutSection({ profile }: AboutSectionProps) {
   });
 
   return (
-    <ProfileSectionCard
-      section="about"
+    <FormSectionCard
+      id={profileSectionId('about')}
       icon={MdAutoStories}
       color="amber"
       titleId="profile.section.about.title"
@@ -79,6 +79,6 @@ export function AboutSection({ profile }: AboutSectionProps) {
           }}
         />
       </Box>
-    </ProfileSectionCard>
+    </FormSectionCard>
   );
 }

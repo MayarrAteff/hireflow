@@ -15,7 +15,15 @@ export type CreateCompanyPayload = {
   name: string;
   website: string;
   industry: string;
+  /** One of `COMPANY_SIZES`, or empty. */
+  size: string;
 };
+
+export type CompanyDetailsValues = CreateCompanyPayload & { about: string };
+
+export type CompanyUpdatePayload = Partial<
+  Pick<Company, 'name' | 'website' | 'industry' | 'size' | 'about' | 'logo_url'>
+>;
 
 export type Profile = {
   id: string;

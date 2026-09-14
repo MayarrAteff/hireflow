@@ -21,7 +21,7 @@ export function getCandidateApplicationsRequest(candidateId: string) {
     params: {
       candidate_id: `eq.${candidateId}`,
       select:
-        'id,job_id,stage,created_at,updated_at,job:jobs(title,company:companies(name)),offers(id,status,expires_at,created_at)',
+        'id,job_id,stage,created_at,updated_at,job:jobs(title,company:companies(name,logo_url)),offers(id,status,expires_at,created_at)',
       order: 'updated_at.desc',
     },
   });

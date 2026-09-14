@@ -9,10 +9,9 @@ import { useState } from 'react';
 import { MdPersonAdd } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { ApplicantAvatar } from '@/components/Profile/ApplicantAvatar';
 import type { RecruiterApplication } from '@/types/application.types';
 import { getSkillMatch } from '@/utils/skillMatch';
-
-import { ApplicantAvatar } from '../ApplicantAvatar';
 
 type CompareAddCandidateProps = {
   jobSkills: string[];

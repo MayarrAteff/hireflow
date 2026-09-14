@@ -21,7 +21,7 @@ export function getCompanyJobsRequest(companyId: string) {
 
 export function getLatestPublishedJobsRequest(limit: number) {
   return axiosInstance.get<JobWithCompany[]>('/jobs', {
-    params: { status: 'eq.published', select: '*,company:companies(name)', order: 'created_at.desc', limit },
+    params: { status: 'eq.published', select: '*,company:companies(name,logo_url)', order: 'created_at.desc', limit },
   });
 }
 
@@ -32,7 +32,7 @@ export function searchPublishedJobsRequest(filters: JobSearchFilters, offset: nu
   return axiosInstance.get<JobWithCompany[]>('/jobs', {
     params: {
       status: 'eq.published',
-      select: '*,company:companies(name)',
+      select: '*,company:companies(name,logo_url)',
       order: 'created_at.desc',
       offset,
       limit,
@@ -48,7 +48,7 @@ export function getPublishedJobRequest(jobId: string) {
     params: {
       id: `eq.${jobId}`,
       status: 'eq.published',
-      select: '*,company:companies(name,industry,website,size,about)',
+      select: '*,company:companies(name,logo_url,industry,website,size,about)',
     },
     headers: SINGLE_OBJECT_HEADERS,
   });

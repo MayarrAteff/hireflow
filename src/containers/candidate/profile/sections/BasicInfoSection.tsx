@@ -5,14 +5,14 @@ import { useForm } from 'react-hook-form';
 import { MdBadge, MdPlace } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { FormSectionCard } from '@/components/Form/FormSectionCard';
 import { FormTextField } from '@/components/Form/FormTextField';
+import { AvatarUploader } from '@/components/Profile/AvatarUploader';
 import { useProfileMutation } from '@/hooks/useProfileMutation';
 import { updateProfile } from '@/services/profile.service';
 import type { Profile } from '@/types/auth.types';
+import { profileSectionId } from '@/utils/profileCompleteness';
 import { basicInfoSchema, type BasicInfoValues, PROFILE_LIMITS } from '@/validations/profile.validation.schema';
-
-import { AvatarUploader } from '../AvatarUploader';
-import { ProfileSectionCard } from '../ProfileSectionCard';
 
 type BasicInfoSectionProps = {
   profile: Profile;
@@ -37,8 +37,8 @@ export function BasicInfoSection({ profile }: BasicInfoSectionProps) {
   });
 
   return (
-    <ProfileSectionCard
-      section="basics"
+    <FormSectionCard
+      id={profileSectionId('basics')}
       icon={MdBadge}
       color="violet"
       titleId="profile.section.basics.title"
@@ -85,6 +85,6 @@ export function BasicInfoSection({ profile }: BasicInfoSectionProps) {
           />
         </Box>
       </Box>
-    </ProfileSectionCard>
+    </FormSectionCard>
   );
 }

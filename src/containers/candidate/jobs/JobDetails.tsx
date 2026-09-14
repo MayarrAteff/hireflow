@@ -1,4 +1,3 @@
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -15,12 +14,13 @@ import type { IconType } from 'react-icons';
 import { MdAutoAwesome, MdBusiness, MdEvent, MdLanguage, MdPayments, MdPlace, MdSchedule } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { CompanyLogo } from '@/components/Jobs/CompanyLogo';
 import { JobPostingSections } from '@/components/Jobs/JobPostingSections';
 import { IconTile } from '@/components/UI/IconTile';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { ProgressRing } from '@/components/UI/ProgressRing';
 import { usePublishedJob } from '@/hooks/useJobs';
-import { ACCENT_COLORS, accentFor, accentSoftSx, brandGradient } from '@/styles/themes/accents';
+import { ACCENT_COLORS, brandGradient } from '@/styles/themes/accents';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { getSkillMatch } from '@/utils/skillMatch';
@@ -101,30 +101,15 @@ export function JobDetails({ jobId }: JobDetailsProps) {
             className="relative flex items-center gap-4 overflow-hidden px-5 py-6 text-white sm:px-8"
             sx={(theme) => ({ background: brandGradient(theme) })}
           >
-            <Box
-              aria-hidden
-              className="absolute -end-10 -top-16 h-48 w-48 rounded-full bg-white/10"
-            />
-            <Box
-              aria-hidden
-              className="absolute -bottom-12 start-1/3 h-32 w-32 rounded-full bg-white/10"
-            />
-            <Avatar
-              variant="rounded"
+            <Box aria-hidden className="absolute -end-10 -top-16 h-48 w-48 rounded-full bg-white/10" />
+            <Box aria-hidden className="absolute -bottom-12 start-1/3 h-32 w-32 rounded-full bg-white/10" />
+            <CompanyLogo
+              name={companyName || job.title}
+              logoUrl={company?.logo_url}
+              size={72}
               className="relative shrink-0"
-              sx={(theme) => ({
-                ...accentSoftSx(theme, accentFor(companyName || job.title)),
-                width: 72,
-                height: 72,
-                fontSize: 30,
-                fontWeight: 700,
-                borderRadius: '18px',
-                bgcolor: 'background.paper',
-                boxShadow: `0 10px 24px -10px ${alpha('#000', 0.45)}`,
-              })}
-            >
-              {(companyName || job.title).slice(0, 1).toUpperCase()}
-            </Avatar>
+              sx={{ bgcolor: 'background.paper', boxShadow: `0 10px 24px -10px ${alpha('#000', 0.45)}` }}
+            />
             <Box className="relative min-w-0">
               <Typography variant="h5" component="p" noWrap>
                 {companyName}
@@ -238,18 +223,21 @@ export function JobDetails({ jobId }: JobDetailsProps) {
                   <IconTile icon={MdBusiness} color="sky" size="sm" />
                   <Typography variant="h6">{$t({ id: 'jobs.details.company' })}</Typography>
                 </Box>
-                <Box>
-                  <Typography fontWeight={700}>{company.name}</Typography>
-                  {(company.industry || company.size) && (
-                    <Typography variant="body2" color="text.secondary">
-                      {[
-                        company.industry,
-                        company.size && $t({ id: 'jobs.details.companySize' }, { size: company.size }),
-                      ]
-                        .filter(Boolean)
-                        .join(' · ')}
-                    </Typography>
-                  )}
+                <Box className="flex items-center gap-3">
+                  <CompanyLogo name={company.name} logoUrl={company.logo_url} size={44} />
+                  <Box className="min-w-0">
+                    <Typography fontWeight={700}>{company.name}</Typography>
+                    {(company.industry || company.size) && (
+                      <Typography variant="body2" color="text.secondary">
+                        {[
+                          company.industry,
+                          company.size && $t({ id: 'jobs.details.companySize' }, { size: company.size }),
+                        ]
+                          .filter(Boolean)
+                          .join(' · ')}
+                      </Typography>
+                    )}
+                  </Box>
                 </Box>
                 {company.about && (
                   <Typography variant="body2" className="line-clamp-6 whitespace-pre-line">

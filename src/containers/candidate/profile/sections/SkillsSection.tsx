@@ -7,12 +7,12 @@ import { MdAdd, MdExtension } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { FormChipsField } from '@/components/Form/FormChipsField';
+import { FormSectionCard } from '@/components/Form/FormSectionCard';
 import { useProfileMutation } from '@/hooks/useProfileMutation';
 import { updateProfile } from '@/services/profile.service';
 import type { Profile } from '@/types/auth.types';
+import { profileSectionId } from '@/utils/profileCompleteness';
 import { PROFILE_LIMITS, skillsSchema, type SkillsValues } from '@/validations/profile.validation.schema';
-
-import { ProfileSectionCard } from '../ProfileSectionCard';
 
 /** Quick picks so candidates don't start from an empty field. */
 const SUGGESTED_SKILLS = [
@@ -50,8 +50,8 @@ export function SkillsSection({ profile }: SkillsSectionProps) {
   });
 
   return (
-    <ProfileSectionCard
-      section="skills"
+    <FormSectionCard
+      id={profileSectionId('skills')}
       icon={MdExtension}
       color="emerald"
       titleId="profile.section.skills.title"
@@ -87,6 +87,6 @@ export function SkillsSection({ profile }: SkillsSectionProps) {
           </Box>
         </Box>
       )}
-    </ProfileSectionCard>
+    </FormSectionCard>
   );
 }

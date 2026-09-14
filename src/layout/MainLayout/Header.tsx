@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { MdLogout, MdMenu } from 'react-icons/md';
+import { MdBusiness, MdLogout, MdMenu, MdPerson } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { LanguageSwitcher } from '@/components/UI/LanguageSwitcher';
@@ -34,6 +34,11 @@ export function Header({ onToggleSidebar }: HeaderProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const initials = (profile?.full_name || profile?.email || '?').slice(0, 1).toUpperCase();
+
+  const goTo = (to: '/candidate/profile' | '/recruiter/company') => {
+    setAnchorEl(null);
+    navigate({ to });
+  };
 
   const handleLogout = async () => {
     setAnchorEl(null);
@@ -92,6 +97,23 @@ export function Header({ onToggleSidebar }: HeaderProps) {
             )}
           </Box>
           <Divider />
+          {profile?.role === 'candidate' && (
+            <MenuItem onClick={() => goTo('/candidate/profile')}>
+              <ListItemIcon>
+                <MdPerson />
+              </ListItemIcon>
+              {$t({ id: 'menu.myProfile' })}
+            </MenuItem>
+          )}
+          {profile?.role === 'recruiter' && (
+            <MenuItem onClick={() => goTo('/recruiter/company')}>
+              <ListItemIcon>
+                <MdBusiness />
+              </ListItemIcon>
+              {$t({ id: 'menu.company' })}
+            </MenuItem>
+          )}
+          {profile?.role !== 'admin' && <Divider />}
           <MenuItem onClick={handleLogout}>
             <ListItemIcon>
               <MdLogout />

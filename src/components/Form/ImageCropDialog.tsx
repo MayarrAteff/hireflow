@@ -16,15 +16,26 @@ const MAX_ZOOM = 3;
 
 type Offset = { x: number; y: number };
 
-type AvatarCropDialogProps = {
+type ImageCropDialogProps = {
   /** The picked image; the dialog is open while this is set. */
   file: File | null;
+  /** `circle` for profile photos, `rounded` for logos. Both export a square image. */
+  shape?: 'circle' | 'rounded';
+  titleId?: string;
+  confirmId?: string;
   onClose: () => void;
   onConfirm: (image: Blob) => void;
 };
 
-/** Drag to position and zoom to frame a photo inside a circle, then export a square JPEG. */
-export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogProps) {
+/** Drag to position and zoom to frame an image inside a circle or rounded square, then export a square JPEG. */
+export function ImageCropDialog({
+  file,
+  shape = 'circle',
+  titleId = 'profile.photo.cropTitle',
+  confirmId = 'profile.photo.savePhoto',
+  onClose,
+  onConfirm,
+}: ImageCropDialogProps) {
   const { $t } = useIntl();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [natural, setNatural] = useState({ width: 0, height: 0 });
@@ -42,7 +53,7 @@ export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogP
     return () => URL.revokeObjectURL(url);
   }, [file]);
 
-  // At zoom 1 the shorter side exactly fills the circle.
+  // At zoom 1 the shorter side exactly fills the frame.
   const baseScale = natural.width ? VIEWPORT_SIZE / Math.min(natural.width, natural.height) : 1;
   const scale = baseScale * zoom;
 
@@ -81,7 +92,7 @@ export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogP
     const context = canvas.getContext('2d');
     if (!context) return;
 
-    // Map the circle's bounding square back to the image's own pixels.
+    // Map the frame's bounding square back to the image's own pixels.
     const displayWidth = natural.width * scale;
     const displayHeight = natural.height * scale;
     const sourceX = (displayWidth / 2 - offset.x - VIEWPORT_SIZE / 2) / scale;
@@ -96,17 +107,18 @@ export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogP
 
   return (
     <Dialog open={Boolean(file)} onClose={onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>{$t({ id: 'profile.photo.cropTitle' })}</DialogTitle>
+      <DialogTitle>{$t({ id: titleId })}</DialogTitle>
       <DialogContent className="flex flex-col items-center gap-4">
         <Box
           role="presentation"
-          className="relative flex shrink-0 cursor-grab items-center justify-center overflow-hidden rounded-full active:cursor-grabbing"
+          className="relative flex shrink-0 cursor-grab items-center justify-center overflow-hidden active:cursor-grabbing"
           sx={{
             width: VIEWPORT_SIZE,
             height: VIEWPORT_SIZE,
             bgcolor: 'action.hover',
             touchAction: 'none',
             boxShadow: 4,
+            borderRadius: shape === 'circle' ? '50%' : '28px',
           }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -151,7 +163,7 @@ export function AvatarCropDialog({ file, onClose, onConfirm }: AvatarCropDialogP
       <DialogActions className="px-6 pb-4">
         <Button onClick={onClose}>{$t({ id: 'profile.cancel' })}</Button>
         <Button variant="contained" onClick={handleConfirm} disabled={!natural.width}>
-          {$t({ id: 'profile.photo.savePhoto' })}
+          {$t({ id: confirmId })}
         </Button>
       </DialogActions>
     </Dialog>

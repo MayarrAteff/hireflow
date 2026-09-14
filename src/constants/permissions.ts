@@ -7,6 +7,7 @@ export const rolePermissions: Record<UserRole, Permission[]> = {
     Permission.ManagePipeline,
     Permission.ScheduleInterviews,
     Permission.ViewCompanyAnalytics,
+    Permission.ManageCompanyProfile,
     Permission.ManageOwnProfile,
   ],
   candidate: [Permission.ApplyToJobs, Permission.ManageOwnProfile],

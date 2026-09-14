@@ -1,4 +1,3 @@
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -8,7 +7,7 @@ import { createLink } from '@tanstack/react-router';
 import { MdCheckCircle, MdPlace, MdSchedule } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
-import { accentFor, accentSoftSx } from '@/styles/themes/accents';
+import { CompanyLogo } from '@/components/Jobs/CompanyLogo';
 import type { JobWithCompany } from '@/types/job.types';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 
@@ -40,12 +39,7 @@ export function JobCard({ job, applied }: JobCardProps) {
         className="flex h-full flex-col items-stretch gap-3 p-4"
       >
         <Box className="flex items-center gap-3">
-          <Avatar
-            variant="rounded"
-            sx={(theme) => ({ ...accentSoftSx(theme, accentFor(company || job.title)), fontWeight: 700 })}
-          >
-            {(company || job.title).slice(0, 1).toUpperCase()}
-          </Avatar>
+          <CompanyLogo name={company || job.title} logoUrl={job.company?.logo_url} size={40} />
           <Box className="min-w-0 flex-1">
             <Typography fontWeight={700} noWrap>
               {job.title}

@@ -11,10 +11,10 @@ import { useIntl } from 'react-intl';
 
 import { IconTile } from '@/components/UI/IconTile';
 import type { AccentColor } from '@/styles/themes/accents';
-import { type ProfileSection, profileSectionId } from '@/utils/profileCompleteness';
 
-type ProfileSectionCardProps = {
-  section: ProfileSection;
+type FormSectionCardProps = {
+  /** DOM id, so checklists can scroll to the section. */
+  id?: string;
   icon: IconType;
   color: AccentColor;
   titleId: string;
@@ -29,20 +29,13 @@ type ProfileSectionCardProps = {
   };
 };
 
-export function ProfileSectionCard({
-  section,
-  icon,
-  color,
-  titleId,
-  subtitleId,
-  children,
-  form,
-}: ProfileSectionCardProps) {
+/** A titled settings card; with `form` it becomes a form with a save footer. */
+export function FormSectionCard({ id, icon, color, titleId, subtitleId, children, form }: FormSectionCardProps) {
   const { $t } = useIntl();
 
   return (
     <Card
-      id={profileSectionId(section)}
+      id={id}
       component={form ? 'form' : 'section'}
       noValidate={form ? true : undefined}
       onSubmit={form?.onSubmit}

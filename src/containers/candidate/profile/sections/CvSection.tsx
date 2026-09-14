@@ -13,6 +13,7 @@ import { MdDeleteOutline, MdDescription, MdOpenInNew, MdPictureAsPdf, MdSwapHori
 import { useIntl } from 'react-intl';
 
 import { FileDropzone } from '@/components/Form/FileDropzone';
+import { FormSectionCard } from '@/components/Form/FormSectionCard';
 import { IconTile } from '@/components/UI/IconTile';
 import { CV_FILE_TYPES, MAX_CV_SIZE_BYTES } from '@/constants/app';
 import { useFileUpload } from '@/hooks/useFileUpload';
@@ -20,8 +21,7 @@ import { useOpenCv } from '@/hooks/useOpenCv';
 import { useProfileMutation } from '@/hooks/useProfileMutation';
 import { getCvFileName, removeCv, uploadCv } from '@/services/profile.service';
 import type { Profile } from '@/types/auth.types';
-
-import { ProfileSectionCard } from '../ProfileSectionCard';
+import { profileSectionId } from '@/utils/profileCompleteness';
 
 const BYTES_IN_MB = 1024 * 1024;
 
@@ -70,8 +70,8 @@ export function CvSection({ profile }: CvSectionProps) {
   const isPdf = fileName.toLowerCase().endsWith('.pdf');
 
   return (
-    <ProfileSectionCard
-      section="cv"
+    <FormSectionCard
+      id={profileSectionId('cv')}
       icon={MdUploadFile}
       color="rose"
       titleId="profile.section.cv.title"
@@ -149,6 +149,6 @@ export function CvSection({ profile }: CvSectionProps) {
           </Button>
         </DialogActions>
       </Dialog>
-    </ProfileSectionCard>
+    </FormSectionCard>
   );
 }

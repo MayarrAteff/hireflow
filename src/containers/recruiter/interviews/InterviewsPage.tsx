@@ -17,6 +17,7 @@ import { MdEdit, MdEventAvailable, MdOpenInNew, MdPlace } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { StageChip } from '@/components/Jobs/StageChip';
+import { ApplicantAvatar } from '@/components/Profile/ApplicantAvatar';
 import { IconTile } from '@/components/UI/IconTile';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { INTERVIEW_TYPE_VISUALS, isMeetingUrl } from '@/constants/interviews';
@@ -25,7 +26,6 @@ import type { InterviewsView } from '@/services/interviews.service';
 import type { InterviewWithContext } from '@/types/interview.types';
 import { dayjs } from '@/utils/dayjs';
 
-import { ApplicantAvatar } from '../jobs/details/applicants/ApplicantAvatar';
 import { type InterviewTarget, ScheduleInterviewDialog } from './ScheduleInterviewDialog';
 
 const MuiRouterLink = createLink(Link);

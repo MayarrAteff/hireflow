@@ -30,7 +30,8 @@ export type Job = {
 export type JobWithApplicantStages = Job & { applications: { stage: ApplicationStage; viewed_at: string | null }[] };
 
 /** Company details shown alongside a job; list views only fetch the name. */
-export type JobCompany = Pick<Company, 'name'> & Partial<Pick<Company, 'industry' | 'website' | 'size' | 'about'>>;
+export type JobCompany = Pick<Company, 'name'> &
+  Partial<Pick<Company, 'logo_url' | 'industry' | 'website' | 'size' | 'about'>>;
 
 /** A published job as candidates browse it. */
 export type JobWithCompany = Job & { company: JobCompany | null };

@@ -13,12 +13,12 @@ import { useIntl } from 'react-intl';
 import { NewApplicantDot } from '@/components/Jobs/NewApplicantDot';
 import { StageGapHint } from '@/components/Jobs/StageGapHint';
 import { OfferStatusChip } from '@/components/Offers/OfferStatusChip';
+import { ApplicantAvatar } from '@/components/Profile/ApplicantAvatar';
 import { getNextInterview } from '@/constants/interviews';
 import { getCurrentOffer } from '@/constants/offers';
 import type { RecruiterApplication } from '@/types/application.types';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 
-import { ApplicantAvatar } from '../applicants/ApplicantAvatar';
 import { matchColor } from '../applicants/SkillMatchBar';
 
 type BoardCardContentProps = {

@@ -5,7 +5,8 @@ import { SINGLE_OBJECT_HEADERS } from './profile';
 
 const RETURN_SINGLE_HEADERS = { ...SINGLE_OBJECT_HEADERS, Prefer: 'return=representation' };
 
-const CANDIDATE_OFFER_SELECT = '*,application:applications(id,job_id,stage,job:jobs(title,company:companies(name)))';
+const CANDIDATE_OFFER_SELECT =
+  '*,application:applications(id,job_id,stage,job:jobs(title,company:companies(name,logo_url)))';
 
 export function createOfferRequest(payload: OfferPayload) {
   return axiosInstance.post<Offer>('/offers', payload, { headers: RETURN_SINGLE_HEADERS });

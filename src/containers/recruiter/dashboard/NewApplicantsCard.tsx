@@ -12,13 +12,12 @@ import { PiUserPlusDuotone } from 'react-icons/pi';
 import { useIntl } from 'react-intl';
 
 import { NewApplicantDot } from '@/components/Jobs/NewApplicantDot';
+import { ApplicantAvatar } from '@/components/Profile/ApplicantAvatar';
 import { IconTile } from '@/components/UI/IconTile';
 import { useCompanyNewApplicants } from '@/hooks/useApplications';
 import { ACCENT_COLORS } from '@/styles/themes/accents';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
-
-import { ApplicantAvatar } from '../jobs/details/applicants/ApplicantAvatar';
 
 const ListItemLink = createLink(ListItemButton);
 const NEW_APPLICANTS_LIMIT = 5;

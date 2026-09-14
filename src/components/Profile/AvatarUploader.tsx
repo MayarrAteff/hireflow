@@ -9,14 +9,13 @@ import { type ChangeEvent, useEffect, useRef, useState } from 'react';
 import { MdPhotoCamera } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { ImageCropDialog } from '@/components/Form/ImageCropDialog';
 import { AVATAR_FILE_TYPES, MAX_AVATAR_SOURCE_BYTES } from '@/constants/app';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { useProfileMutation } from '@/hooks/useProfileMutation';
 import { removeAvatar, uploadAvatar } from '@/services/profile.service';
 import { brandGradient } from '@/styles/themes/accents';
 import type { Profile } from '@/types/auth.types';
-
-import { AvatarCropDialog } from './AvatarCropDialog';
 
 type AvatarUploaderProps = {
   profile: Profile;
@@ -108,7 +107,7 @@ export function AvatarUploader({ profile }: AvatarUploaderProps) {
       )}
 
       <input ref={inputRef} type="file" accept={AVATAR_FILE_TYPES.join(',')} hidden onChange={handleFileChange} />
-      <AvatarCropDialog
+      <ImageCropDialog
         file={cropFile}
         onClose={() => setCropFile(null)}
         onConfirm={(image) => {

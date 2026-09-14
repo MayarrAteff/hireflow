@@ -37,6 +37,6 @@ export type CandidateOffer = Offer & {
     job_id: string;
     stage: ApplicationStage;
     /** Null when the job is no longer visible to the candidate (e.g. closed). */
-    job: { title: string; company: { name: string } | null } | null;
+    job: { title: string; company: { name: string; logo_url: string | null } | null } | null;
   };
 };

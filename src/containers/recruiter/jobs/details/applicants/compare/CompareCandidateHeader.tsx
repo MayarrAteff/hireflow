@@ -9,11 +9,10 @@ import { MdClose } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { StageChip } from '@/components/Jobs/StageChip';
+import { ApplicantAvatar } from '@/components/Profile/ApplicantAvatar';
 import { ProgressRing } from '@/components/UI/ProgressRing';
 import type { RecruiterApplication } from '@/types/application.types';
 import type { CandidateFit } from '@/utils/candidateFit';
-
-import { ApplicantAvatar } from '../ApplicantAvatar';
 
 type CompareCandidateHeaderProps = {
   application: RecruiterApplication;

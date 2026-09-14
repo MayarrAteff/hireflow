@@ -24,6 +24,7 @@ import { Route as AuthenticatedCandidateIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedCandidateDashboardRouteImport } from './routes/_authenticated/candidate/dashboard'
 import { Route as AuthenticatedCandidateProfileRouteImport } from './routes/_authenticated/candidate/profile'
 import { Route as AuthenticatedRecruiterIndexRouteImport } from './routes/_authenticated/recruiter/index'
+import { Route as AuthenticatedRecruiterCompanyRouteImport } from './routes/_authenticated/recruiter/company'
 import { Route as AuthenticatedRecruiterDashboardRouteImport } from './routes/_authenticated/recruiter/dashboard'
 import { Route as AuthenticatedRecruiterInterviewsRouteImport } from './routes/_authenticated/recruiter/interviews'
 import { Route as AuthenticatedCandidateJobsIndexRouteImport } from './routes/_authenticated/candidate/jobs/index'
@@ -112,6 +113,12 @@ const AuthenticatedRecruiterIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedRecruiterRoute,
   } as any)
+const AuthenticatedRecruiterCompanyRoute =
+  AuthenticatedRecruiterCompanyRouteImport.update({
+    id: '/company',
+    path: '/company',
+    getParentRoute: () => AuthenticatedRecruiterRoute,
+  } as any)
 const AuthenticatedRecruiterDashboardRoute =
   AuthenticatedRecruiterDashboardRouteImport.update({
     id: '/dashboard',
@@ -178,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/candidate/dashboard': typeof AuthenticatedCandidateDashboardRoute
   '/candidate/profile': typeof AuthenticatedCandidateProfileRoute
+  '/recruiter/company': typeof AuthenticatedRecruiterCompanyRoute
   '/recruiter/dashboard': typeof AuthenticatedRecruiterDashboardRoute
   '/recruiter/interviews': typeof AuthenticatedRecruiterInterviewsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -199,6 +207,7 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/candidate/dashboard': typeof AuthenticatedCandidateDashboardRoute
   '/candidate/profile': typeof AuthenticatedCandidateProfileRoute
+  '/recruiter/company': typeof AuthenticatedRecruiterCompanyRoute
   '/recruiter/dashboard': typeof AuthenticatedRecruiterDashboardRoute
   '/recruiter/interviews': typeof AuthenticatedRecruiterInterviewsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -226,6 +235,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/_authenticated/candidate/dashboard': typeof AuthenticatedCandidateDashboardRoute
   '/_authenticated/candidate/profile': typeof AuthenticatedCandidateProfileRoute
+  '/_authenticated/recruiter/company': typeof AuthenticatedRecruiterCompanyRoute
   '/_authenticated/recruiter/dashboard': typeof AuthenticatedRecruiterDashboardRoute
   '/_authenticated/recruiter/interviews': typeof AuthenticatedRecruiterInterviewsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/candidate/dashboard'
     | '/candidate/profile'
+    | '/recruiter/company'
     | '/recruiter/dashboard'
     | '/recruiter/interviews'
     | '/admin/'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/candidate/dashboard'
     | '/candidate/profile'
+    | '/recruiter/company'
     | '/recruiter/dashboard'
     | '/recruiter/interviews'
     | '/admin'
@@ -299,6 +311,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/dashboard'
     | '/_authenticated/candidate/dashboard'
     | '/_authenticated/candidate/profile'
+    | '/_authenticated/recruiter/company'
     | '/_authenticated/recruiter/dashboard'
     | '/_authenticated/recruiter/interviews'
     | '/_authenticated/admin/'
@@ -427,6 +440,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRecruiterIndexRouteImport
       parentRoute: typeof AuthenticatedRecruiterRoute
     }
+    '/_authenticated/recruiter/company': {
+      id: '/_authenticated/recruiter/company'
+      path: '/company'
+      fullPath: '/recruiter/company'
+      preLoaderRoute: typeof AuthenticatedRecruiterCompanyRouteImport
+      parentRoute: typeof AuthenticatedRecruiterRoute
+    }
     '/_authenticated/recruiter/dashboard': {
       id: '/_authenticated/recruiter/dashboard'
       path: '/dashboard'
@@ -532,6 +552,7 @@ const AuthenticatedCandidateRouteWithChildren =
   )
 
 interface AuthenticatedRecruiterRouteChildren {
+  AuthenticatedRecruiterCompanyRoute: typeof AuthenticatedRecruiterCompanyRoute
   AuthenticatedRecruiterDashboardRoute: typeof AuthenticatedRecruiterDashboardRoute
   AuthenticatedRecruiterInterviewsRoute: typeof AuthenticatedRecruiterInterviewsRoute
   AuthenticatedRecruiterIndexRoute: typeof AuthenticatedRecruiterIndexRoute
@@ -543,6 +564,7 @@ interface AuthenticatedRecruiterRouteChildren {
 
 const AuthenticatedRecruiterRouteChildren: AuthenticatedRecruiterRouteChildren =
   {
+    AuthenticatedRecruiterCompanyRoute: AuthenticatedRecruiterCompanyRoute,
     AuthenticatedRecruiterDashboardRoute: AuthenticatedRecruiterDashboardRoute,
     AuthenticatedRecruiterInterviewsRoute:
       AuthenticatedRecruiterInterviewsRoute,

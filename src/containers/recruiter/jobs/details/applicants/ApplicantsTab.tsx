@@ -21,6 +21,7 @@ import { useIntl } from 'react-intl';
 import { NewApplicantDot } from '@/components/Jobs/NewApplicantDot';
 import { StageChip } from '@/components/Jobs/StageChip';
 import { StageGapHint } from '@/components/Jobs/StageGapHint';
+import { ApplicantAvatar } from '@/components/Profile/ApplicantAvatar';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { getNextInterview } from '@/constants/interviews';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
@@ -29,7 +30,6 @@ import { getCandidateFits } from '@/utils/candidateFit';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { getSkillMatch } from '@/utils/skillMatch';
 
-import { ApplicantAvatar } from './ApplicantAvatar';
 import { CompareDialog, MAX_COMPARE } from './compare/CompareDialog';
 import { SkillMatchBar } from './SkillMatchBar';
 

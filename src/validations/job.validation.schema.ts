@@ -2,7 +2,6 @@ import type { Dayjs } from 'dayjs';
 import * as yup from 'yup';
 
 import { EMPLOYMENT_TYPES, WORK_MODES } from '@/constants/jobs';
-import type { CreateCompanyPayload } from '@/types/auth.types';
 import type { EmploymentType, JobFormValues, WorkMode } from '@/types/job.types';
 import { dayjs } from '@/utils/dayjs';
 
@@ -45,10 +44,4 @@ export const jobSchema: yup.ObjectSchema<JobFormValues> = yup.object({
     .defined()
     .test('valid', 'validation.date', (value) => !value || value.isValid())
     .test('not-past', 'validation.job.deadlinePast', (value) => !value || !value.isBefore(dayjs(), 'day')),
-});
-
-export const companySchema: yup.ObjectSchema<CreateCompanyPayload> = yup.object({
-  name: yup.string().trim().required('validation.required'),
-  website: yup.string().trim().defined().url('validation.url'),
-  industry: yup.string().trim().defined(),
 });

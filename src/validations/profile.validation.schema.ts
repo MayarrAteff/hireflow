@@ -15,7 +15,7 @@ export type ContactValues = { phone: string; linkedinUrl: string; portfolioUrl: 
 export type SkillsValues = { skills: string[] };
 
 /** Accept "linkedin.com/in/me" as well as a full URL. */
-const optionalUrl = yup
+export const optionalUrl = yup
   .string()
   .trim()
   .defined()

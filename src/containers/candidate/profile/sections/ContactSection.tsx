@@ -6,14 +6,14 @@ import { useForm } from 'react-hook-form';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { MdAlternateEmail, MdContactPhone, MdLanguage, MdPhone } from 'react-icons/md';
 
+import { FormSectionCard } from '@/components/Form/FormSectionCard';
 import { FormTextField } from '@/components/Form/FormTextField';
 import { ReadOnlyField } from '@/components/Form/ReadOnlyField';
 import { useProfileMutation } from '@/hooks/useProfileMutation';
 import { updateProfile } from '@/services/profile.service';
 import type { Profile } from '@/types/auth.types';
+import { profileSectionId } from '@/utils/profileCompleteness';
 import { contactSchema, type ContactValues } from '@/validations/profile.validation.schema';
-
-import { ProfileSectionCard } from '../ProfileSectionCard';
 
 const adornment = (icon: ReactNode) => ({
   input: { startAdornment: <InputAdornment position="start">{icon}</InputAdornment> },
@@ -48,8 +48,8 @@ export function ContactSection({ profile }: ContactSectionProps) {
   });
 
   return (
-    <ProfileSectionCard
-      section="contact"
+    <FormSectionCard
+      id={profileSectionId('contact')}
       icon={MdContactPhone}
       color="sky"
       titleId="profile.section.contact.title"
@@ -101,6 +101,6 @@ export function ContactSection({ profile }: ContactSectionProps) {
           slotProps={adornment(<MdLanguage />)}
         />
       </Box>
-    </ProfileSectionCard>
+    </FormSectionCard>
   );
 }

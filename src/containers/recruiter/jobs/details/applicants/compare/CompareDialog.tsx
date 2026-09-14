@@ -33,6 +33,7 @@ import {
 } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { ApplicantAvatar } from '@/components/Profile/ApplicantAvatar';
 import { IconTile } from '@/components/UI/IconTile';
 import { getNextInterview, INTERVIEW_TYPE_VISUALS } from '@/constants/interviews';
 import { useApplicationMoves } from '@/hooks/useApplicationMutations';
@@ -44,7 +45,6 @@ import { getCandidateFits, getLeaders } from '@/utils/candidateFit';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { getStageGap } from '@/utils/stageGaps';
 
-import { ApplicantAvatar } from '../ApplicantAvatar';
 import { SkillMatchBar } from '../SkillMatchBar';
 import { CompareActions } from './CompareActions';
 import { CompareAddCandidate } from './CompareAddCandidate';

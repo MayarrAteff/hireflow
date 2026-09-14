@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { LanguageSwitcher } from '@/components/UI/LanguageSwitcher';
 import { ThemeModeToggle } from '@/components/UI/ThemeModeToggle';
 import { isSupabaseConfigured } from '@/network/supabase';
+import { brandGradient } from '@/styles/themes/accents';
 import type { ChildProp } from '@/types/general.types';
 
 const highlights = [
@@ -23,7 +24,7 @@ export function AuthLayout({ children }: Readonly<ChildProp>) {
     <Box className="tw-grid tw-min-h-screen lg:tw-grid-cols-2" sx={{ bgcolor: 'background.default' }}>
       <Box
         className="tw-hidden tw-flex-col tw-justify-between tw-p-12 tw-text-white lg:tw-flex"
-        sx={{ background: 'linear-gradient(135deg, #4338CA 0%, #4F46E5 45%, #0EA5E9 100%)' }}
+        sx={(theme) => ({ background: brandGradient(theme) })}
       >
         <Box className="tw-flex tw-items-center tw-gap-3">
           <img src="/logo.svg" alt="" className="tw-h-10 tw-w-10 tw-rounded-xl tw-ring-2 tw-ring-white/30" />

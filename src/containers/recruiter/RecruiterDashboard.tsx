@@ -1,16 +1,129 @@
-import { MdCalendarMonth, MdPostAdd, MdViewKanban } from 'react-icons/md';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import { alpha } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import { Link } from '@tanstack/react-router';
+import { motion } from 'framer-motion';
+import {
+  MdAdd,
+  MdCalendarMonth,
+  MdEditNote,
+  MdHourglassBottom,
+  MdPublic,
+  MdViewKanban,
+  MdWorkOutline,
+} from 'react-icons/md';
+import { useIntl } from 'react-intl';
 
-import { DashboardWelcome } from '@/components/UI/Dashboard/DashboardWelcome';
+import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
+import { FeatureCard } from '@/components/UI/Dashboard/FeatureCard';
+import { StatCard } from '@/components/UI/Dashboard/StatCard';
+import { useCompanyJobs } from '@/hooks/useJobs';
+import { dayjs } from '@/utils/dayjs';
+import { useAuth } from '@/utils/hooks/useAuth';
+
+import { GettingStartedCard } from './dashboard/GettingStartedCard';
+import { RecentJobsCard } from './dashboard/RecentJobsCard';
+import { TipCard } from './dashboard/TipCard';
+
+const CLOSING_SOON_DAYS = 7;
+
+const appear = (index: number) => ({
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  transition: { delay: 0.1 + index * 0.06 },
+});
 
 export function RecruiterDashboard() {
+  const { $t } = useIntl();
+  const { profile } = useAuth();
+  const { data: jobs = [], isLoading } = useCompanyJobs(profile?.company_id);
+
+  const today = dayjs().startOf('day');
+  const published = jobs.filter((job) => job.status === 'published');
+  const stats = [
+    { icon: MdWorkOutline, color: 'violet', labelId: 'dashboard.stats.totalJobs', value: jobs.length },
+    { icon: MdPublic, color: 'emerald', labelId: 'dashboard.stats.published', value: published.length },
+    {
+      icon: MdEditNote,
+      color: 'amber',
+      labelId: 'dashboard.stats.drafts',
+      value: jobs.filter((job) => job.status === 'draft').length,
+    },
+    {
+      icon: MdHourglassBottom,
+      color: 'pink',
+      labelId: 'dashboard.stats.closingSoon',
+      value: published.filter((job) => {
+        const daysLeft = job.deadline ? dayjs(job.deadline).diff(today, 'day') : -1;
+        return daysLeft >= 0 && daysLeft <= CLOSING_SOON_DAYS;
+      }).length,
+    },
+  ] as const;
+
   return (
-    <DashboardWelcome
-      subtitleId="dashboard.recruiter.subtitle"
-      nextSteps={[
-        { icon: MdPostAdd, labelId: 'dashboard.recruiter.next.jobs' },
-        { icon: MdViewKanban, labelId: 'dashboard.recruiter.next.board' },
-        { icon: MdCalendarMonth, labelId: 'dashboard.recruiter.next.interviews' },
-      ]}
-    />
+    <Box className="tw-mx-auto tw-flex tw-max-w-6xl tw-flex-col tw-gap-6">
+      <DashboardHero
+        subtitleId="dashboard.recruiter.subtitle"
+        actions={
+          <>
+            <Button
+              component={Link}
+              to="/recruiter/jobs/new"
+              size="large"
+              color="inherit"
+              startIcon={<MdAdd />}
+              sx={{ bgcolor: 'common.white', color: 'primary.main', '&:hover': { bgcolor: alpha('#fff', 0.9) } }}
+            >
+              {$t({ id: 'jobs.list.postJob' })}
+            </Button>
+            <Button
+              component={Link}
+              to="/recruiter/jobs"
+              size="large"
+              variant="outlined"
+              color="inherit"
+              sx={{ borderColor: alpha('#fff', 0.6), '&:hover': { borderColor: '#fff', bgcolor: alpha('#fff', 0.1) } }}
+            >
+              {$t({ id: 'dashboard.hero.viewJobs' })}
+            </Button>
+          </>
+        }
+      />
+
+      <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2 lg:tw-grid-cols-4">
+        {stats.map((stat, index) => (
+          <motion.div key={stat.labelId} {...appear(index)}>
+            <StatCard {...stat} loading={isLoading} />
+          </motion.div>
+        ))}
+      </Box>
+
+      <Box className="tw-grid tw-gap-6 lg:tw-grid-cols-5">
+        <motion.div className="lg:tw-col-span-2" {...appear(4)}>
+          <GettingStartedCard jobs={jobs} />
+        </motion.div>
+        <motion.div className="lg:tw-col-span-3" {...appear(5)}>
+          <RecentJobsCard jobs={jobs} loading={isLoading} />
+        </motion.div>
+      </Box>
+
+      <Box>
+        <Typography variant="h4" className="tw-mb-4">
+          {$t({ id: 'dashboard.section.upNext' })}
+        </Typography>
+        <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2 lg:tw-grid-cols-3">
+          <motion.div {...appear(6)}>
+            <FeatureCard icon={MdViewKanban} labelId="dashboard.recruiter.next.board" color="sky" />
+          </motion.div>
+          <motion.div {...appear(7)}>
+            <FeatureCard icon={MdCalendarMonth} labelId="dashboard.recruiter.next.interviews" color="rose" />
+          </motion.div>
+          <motion.div className="sm:tw-col-span-2 lg:tw-col-span-1" {...appear(8)}>
+            <TipCard />
+          </motion.div>
+        </Box>
+      </Box>
+    </Box>
   );
 }

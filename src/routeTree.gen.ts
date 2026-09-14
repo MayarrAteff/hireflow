@@ -24,6 +24,9 @@ import { Route as AuthenticatedCandidateIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedCandidateDashboardRouteImport } from './routes/_authenticated/candidate/dashboard'
 import { Route as AuthenticatedRecruiterIndexRouteImport } from './routes/_authenticated/recruiter/index'
 import { Route as AuthenticatedRecruiterDashboardRouteImport } from './routes/_authenticated/recruiter/dashboard'
+import { Route as AuthenticatedRecruiterJobsIndexRouteImport } from './routes/_authenticated/recruiter/jobs/index'
+import { Route as AuthenticatedRecruiterJobsNewRouteImport } from './routes/_authenticated/recruiter/jobs/new'
+import { Route as AuthenticatedRecruiterJobsJobIdEditRouteImport } from './routes/_authenticated/recruiter/jobs/$jobId/edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -103,6 +106,24 @@ const AuthenticatedRecruiterDashboardRoute =
     path: '/dashboard',
     getParentRoute: () => AuthenticatedRecruiterRoute,
   } as any)
+const AuthenticatedRecruiterJobsIndexRoute =
+  AuthenticatedRecruiterJobsIndexRouteImport.update({
+    id: '/jobs/',
+    path: '/jobs/',
+    getParentRoute: () => AuthenticatedRecruiterRoute,
+  } as any)
+const AuthenticatedRecruiterJobsNewRoute =
+  AuthenticatedRecruiterJobsNewRouteImport.update({
+    id: '/jobs/new',
+    path: '/jobs/new',
+    getParentRoute: () => AuthenticatedRecruiterRoute,
+  } as any)
+const AuthenticatedRecruiterJobsJobIdEditRoute =
+  AuthenticatedRecruiterJobsJobIdEditRouteImport.update({
+    id: '/jobs/$jobId/edit',
+    path: '/jobs/$jobId/edit',
+    getParentRoute: () => AuthenticatedRecruiterRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -118,6 +139,9 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/candidate/': typeof AuthenticatedCandidateIndexRoute
   '/recruiter/': typeof AuthenticatedRecruiterIndexRoute
+  '/recruiter/jobs/new': typeof AuthenticatedRecruiterJobsNewRoute
+  '/recruiter/jobs/': typeof AuthenticatedRecruiterJobsIndexRoute
+  '/recruiter/jobs/$jobId/edit': typeof AuthenticatedRecruiterJobsJobIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -130,6 +154,9 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/candidate': typeof AuthenticatedCandidateIndexRoute
   '/recruiter': typeof AuthenticatedRecruiterIndexRoute
+  '/recruiter/jobs/new': typeof AuthenticatedRecruiterJobsNewRoute
+  '/recruiter/jobs': typeof AuthenticatedRecruiterJobsIndexRoute
+  '/recruiter/jobs/$jobId/edit': typeof AuthenticatedRecruiterJobsJobIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -148,6 +175,9 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/candidate/': typeof AuthenticatedCandidateIndexRoute
   '/_authenticated/recruiter/': typeof AuthenticatedRecruiterIndexRoute
+  '/_authenticated/recruiter/jobs/new': typeof AuthenticatedRecruiterJobsNewRoute
+  '/_authenticated/recruiter/jobs/': typeof AuthenticatedRecruiterJobsIndexRoute
+  '/_authenticated/recruiter/jobs/$jobId/edit': typeof AuthenticatedRecruiterJobsJobIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -165,6 +195,9 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/candidate/'
     | '/recruiter/'
+    | '/recruiter/jobs/new'
+    | '/recruiter/jobs/'
+    | '/recruiter/jobs/$jobId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +210,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/candidate'
     | '/recruiter'
+    | '/recruiter/jobs/new'
+    | '/recruiter/jobs'
+    | '/recruiter/jobs/$jobId/edit'
   id:
     | '__root__'
     | '/'
@@ -194,6 +230,9 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/_authenticated/candidate/'
     | '/_authenticated/recruiter/'
+    | '/_authenticated/recruiter/jobs/new'
+    | '/_authenticated/recruiter/jobs/'
+    | '/_authenticated/recruiter/jobs/$jobId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -310,6 +349,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRecruiterDashboardRouteImport
       parentRoute: typeof AuthenticatedRecruiterRoute
     }
+    '/_authenticated/recruiter/jobs/': {
+      id: '/_authenticated/recruiter/jobs/'
+      path: '/jobs'
+      fullPath: '/recruiter/jobs/'
+      preLoaderRoute: typeof AuthenticatedRecruiterJobsIndexRouteImport
+      parentRoute: typeof AuthenticatedRecruiterRoute
+    }
+    '/_authenticated/recruiter/jobs/new': {
+      id: '/_authenticated/recruiter/jobs/new'
+      path: '/jobs/new'
+      fullPath: '/recruiter/jobs/new'
+      preLoaderRoute: typeof AuthenticatedRecruiterJobsNewRouteImport
+      parentRoute: typeof AuthenticatedRecruiterRoute
+    }
+    '/_authenticated/recruiter/jobs/$jobId/edit': {
+      id: '/_authenticated/recruiter/jobs/$jobId/edit'
+      path: '/jobs/$jobId/edit'
+      fullPath: '/recruiter/jobs/$jobId/edit'
+      preLoaderRoute: typeof AuthenticatedRecruiterJobsJobIdEditRouteImport
+      parentRoute: typeof AuthenticatedRecruiterRoute
+    }
   }
 }
 
@@ -345,12 +405,19 @@ const AuthenticatedCandidateRouteWithChildren =
 interface AuthenticatedRecruiterRouteChildren {
   AuthenticatedRecruiterDashboardRoute: typeof AuthenticatedRecruiterDashboardRoute
   AuthenticatedRecruiterIndexRoute: typeof AuthenticatedRecruiterIndexRoute
+  AuthenticatedRecruiterJobsNewRoute: typeof AuthenticatedRecruiterJobsNewRoute
+  AuthenticatedRecruiterJobsIndexRoute: typeof AuthenticatedRecruiterJobsIndexRoute
+  AuthenticatedRecruiterJobsJobIdEditRoute: typeof AuthenticatedRecruiterJobsJobIdEditRoute
 }
 
 const AuthenticatedRecruiterRouteChildren: AuthenticatedRecruiterRouteChildren =
   {
     AuthenticatedRecruiterDashboardRoute: AuthenticatedRecruiterDashboardRoute,
     AuthenticatedRecruiterIndexRoute: AuthenticatedRecruiterIndexRoute,
+    AuthenticatedRecruiterJobsNewRoute: AuthenticatedRecruiterJobsNewRoute,
+    AuthenticatedRecruiterJobsIndexRoute: AuthenticatedRecruiterJobsIndexRoute,
+    AuthenticatedRecruiterJobsJobIdEditRoute:
+      AuthenticatedRecruiterJobsJobIdEditRoute,
   }
 
 const AuthenticatedRecruiterRouteWithChildren =

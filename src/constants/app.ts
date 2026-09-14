@@ -30,5 +30,6 @@ export const CV_FILE_TYPES = [
 ];
 
 export const DRAWER_WIDTH = 264;
+export const DRAWER_COLLAPSED_WIDTH = 76;
 export const PASSWORD_MIN_LENGTH = 8;
 export const SNACKBAR_MAX = 3;

@@ -6,10 +6,10 @@ export function AdminDashboard() {
   return (
     <DashboardWelcome
       subtitleId="dashboard.admin.subtitle"
-      nextSteps={[
-        { icon: MdPeople, labelId: 'dashboard.admin.next.users' },
-        { icon: MdFlag, labelId: 'dashboard.admin.next.flags' },
-        { icon: MdInsights, labelId: 'dashboard.admin.next.stats' },
+      features={[
+        { icon: MdPeople, labelId: 'dashboard.admin.next.users', color: 'sky' },
+        { icon: MdFlag, labelId: 'dashboard.admin.next.flags', color: 'amber' },
+        { icon: MdInsights, labelId: 'dashboard.admin.next.stats', color: 'violet' },
       ]}
     />
   );

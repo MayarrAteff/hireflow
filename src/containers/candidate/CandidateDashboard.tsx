@@ -6,10 +6,10 @@ export function CandidateDashboard() {
   return (
     <DashboardWelcome
       subtitleId="dashboard.candidate.subtitle"
-      nextSteps={[
-        { icon: MdAssignmentInd, labelId: 'dashboard.candidate.next.profile' },
-        { icon: MdSearch, labelId: 'dashboard.candidate.next.search' },
-        { icon: MdTimeline, labelId: 'dashboard.candidate.next.track' },
+      features={[
+        { icon: MdAssignmentInd, labelId: 'dashboard.candidate.next.profile', color: 'violet' },
+        { icon: MdSearch, labelId: 'dashboard.candidate.next.search', color: 'amber' },
+        { icon: MdTimeline, labelId: 'dashboard.candidate.next.track', color: 'emerald' },
       ]}
     />
   );

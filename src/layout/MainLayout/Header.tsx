@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { alpha } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useQueryClient } from '@tanstack/react-query';
@@ -18,6 +19,7 @@ import { useIntl } from 'react-intl';
 import { LanguageSwitcher } from '@/components/UI/LanguageSwitcher';
 import { ThemeModeToggle } from '@/components/UI/ThemeModeToggle';
 import { logout } from '@/services/auth.service';
+import { brandGradient } from '@/styles/themes/accents';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 type HeaderProps = {
@@ -45,7 +47,12 @@ export function Header({ onToggleSidebar }: HeaderProps) {
       position="sticky"
       color="inherit"
       elevation={0}
-      sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'background.paper' }}
+      sx={(theme) => ({
+        borderBottom: 1,
+        borderColor: 'divider',
+        bgcolor: alpha(theme.palette.background.paper, 0.72),
+        backdropFilter: 'blur(12px)',
+      })}
     >
       <Toolbar className="tw-gap-2">
         <IconButton edge="start" aria-label={$t({ id: 'header.toggleSidebar' })} onClick={onToggleSidebar}>
@@ -58,7 +65,9 @@ export function Header({ onToggleSidebar }: HeaderProps) {
         <ThemeModeToggle />
 
         <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} className="tw-ms-1">
-          <Avatar sx={{ bgcolor: 'primary.main', width: 36, height: 36 }}>{initials}</Avatar>
+          <Avatar sx={(theme) => ({ background: brandGradient(theme), color: '#fff', width: 36, height: 36 })}>
+            {initials}
+          </Avatar>
         </IconButton>
 
         <Menu

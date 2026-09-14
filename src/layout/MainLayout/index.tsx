@@ -2,8 +2,10 @@ import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Outlet } from '@tanstack/react-router';
+import { MotionConfig } from 'framer-motion';
 import { useState } from 'react';
 
+import { DecorativeBackground } from '@/components/UI/DecorativeBackground';
 import { useFeatureFlagsSync } from '@/hooks/useFeatureFlagsSync';
 import { sidebarToggle } from '@/store/features/appConfigSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -23,18 +25,22 @@ export function MainLayout() {
   const toggleSidebar = () => (isMobile ? setMobileOpen((open) => !open) : dispatch(sidebarToggle()));
 
   return (
-    <Box className="tw-flex tw-min-h-screen" sx={{ bgcolor: 'background.default' }}>
-      <Sidebar
-        variant={isMobile ? 'temporary' : 'permanent'}
-        open={isMobile ? mobileOpen : sidebarActive}
-        onClose={() => setMobileOpen(false)}
-      />
-      <Box className="tw-flex tw-min-w-0 tw-flex-1 tw-flex-col">
-        <Header onToggleSidebar={toggleSidebar} />
-        <Box component="main" className="tw-flex-1 tw-p-4 md:tw-p-8">
-          <Outlet />
+    // Floating illustrations and entrance animations stay still for users who prefer reduced motion.
+    <MotionConfig reducedMotion="user">
+      <Box className="tw-flex tw-min-h-screen" sx={{ bgcolor: 'background.default' }}>
+        <DecorativeBackground />
+        <Sidebar
+          variant={isMobile ? 'temporary' : 'permanent'}
+          open={isMobile ? mobileOpen : sidebarActive}
+          onClose={() => setMobileOpen(false)}
+        />
+        <Box className="tw-relative tw-z-[1] tw-flex tw-min-w-0 tw-flex-1 tw-flex-col">
+          <Header onToggleSidebar={toggleSidebar} />
+          <Box component="main" className="tw-flex-1 tw-p-4 md:tw-p-8">
+            <Outlet />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </MotionConfig>
   );
 }

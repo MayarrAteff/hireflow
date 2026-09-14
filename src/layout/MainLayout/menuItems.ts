@@ -1,6 +1,6 @@
 import type { LinkProps } from '@tanstack/react-router';
 import type { IconType } from 'react-icons';
-import { MdDashboard } from 'react-icons/md';
+import { MdDashboard, MdWorkOutline } from 'react-icons/md';
 
 import { Permission } from '@/enum/permissions';
 import type { UserRole } from '@/types/auth.types';
@@ -13,7 +13,10 @@ export type MenuItem = {
 };
 
 export const menuItems: Record<UserRole, MenuItem[]> = {
-  recruiter: [{ labelId: 'menu.dashboard', to: '/recruiter/dashboard', icon: MdDashboard }],
+  recruiter: [
+    { labelId: 'menu.dashboard', to: '/recruiter/dashboard', icon: MdDashboard },
+    { labelId: 'menu.jobs', to: '/recruiter/jobs', icon: MdWorkOutline, permission: Permission.ManageJobs },
+  ],
   candidate: [{ labelId: 'menu.dashboard', to: '/candidate/dashboard', icon: MdDashboard }],
   admin: [
     {

@@ -11,6 +11,12 @@ export type Company = {
   created_at: string;
 };
 
+export type CreateCompanyPayload = {
+  name: string;
+  website: string;
+  industry: string;
+};
+
 export type Profile = {
   id: string;
   role: UserRole;

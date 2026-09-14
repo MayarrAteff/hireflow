@@ -11,6 +11,7 @@ import { MdDragIndicator, MdEventAvailable, MdOpenInFull } from 'react-icons/md'
 import { useIntl } from 'react-intl';
 
 import { NewApplicantDot } from '@/components/Jobs/NewApplicantDot';
+import { StageGapHint } from '@/components/Jobs/StageGapHint';
 import { OfferStatusChip } from '@/components/Offers/OfferStatusChip';
 import { getNextInterview } from '@/constants/interviews';
 import { getCurrentOffer } from '@/constants/offers';
@@ -88,6 +89,8 @@ export function BoardCardContent({ application, matchPercent, onOpen, overlay }:
         {application.rating ? <Rating value={application.rating} readOnly size="small" /> : null}
         {offer && ['offer', 'hired'].includes(application.stage) && <OfferStatusChip offer={offer} />}
       </Box>
+
+      <StageGapHint application={application} />
 
       {nextInterview && (
         <Typography

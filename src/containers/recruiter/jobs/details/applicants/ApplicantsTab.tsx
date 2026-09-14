@@ -20,6 +20,7 @@ import { useIntl } from 'react-intl';
 
 import { NewApplicantDot } from '@/components/Jobs/NewApplicantDot';
 import { StageChip } from '@/components/Jobs/StageChip';
+import { StageGapHint } from '@/components/Jobs/StageGapHint';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { getNextInterview } from '@/constants/interviews';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
@@ -256,7 +257,7 @@ export function ApplicantsTab({
                   </Tooltip>
                   <ButtonBase
                     onClick={() => onOpenApplicant(application.id)}
-                    className="grid min-w-0 flex-1 items-center gap-x-4 gap-y-1 rounded-xl py-3 text-start md:grid-cols-[minmax(0,2fr)_140px_110px_120px]"
+                    className="grid min-w-0 flex-1 items-center gap-x-4 gap-y-1 rounded-xl py-3 text-start md:grid-cols-[minmax(0,2fr)_120px_140px_110px]"
                     sx={{ '&:hover': { bgcolor: 'action.hover' }, px: 1 }}
                   >
                     <Box className="flex min-w-0 items-center gap-3">
@@ -284,6 +285,7 @@ export function ApplicantsTab({
                     </Box>
                     <Box className="hidden md:flex md:flex-col md:items-start md:gap-0.5">
                       <StageChip stage={application.stage} />
+                      <StageGapHint application={application} />
                       {nextInterview && (
                         <Typography variant="caption" color="text.secondary" className="flex items-center gap-1">
                           <MdEventAvailable />
@@ -303,10 +305,13 @@ export function ApplicantsTab({
                         {formatRelativeDay(application.created_at)}
                       </Typography>
                     </Box>
-                    <Box className="flex items-center gap-2 md:hidden">
+                    <Box className="flex flex-wrap items-center gap-2 md:hidden">
                       <StageChip stage={application.stage} />
                       <Box className="w-28">
                         <SkillMatchBar percent={matchById.get(application.id)?.percent ?? 0} />
+                      </Box>
+                      <Box className="basis-full">
+                        <StageGapHint application={application} />
                       </Box>
                     </Box>
                   </ButtonBase>

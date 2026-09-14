@@ -118,11 +118,7 @@ export function CompareCandidateHeader({
             className="relative shrink-0 cursor-help"
           >
             <ProgressRing value={fit.score} size={60} stroke={6} />
-            <Typography
-              variant="body2"
-              fontWeight={800}
-              className="absolute inset-0 flex items-center justify-center"
-            >
+            <Typography variant="body2" fontWeight={800} className="absolute inset-0 flex items-center justify-center">
               {percent}
             </Typography>
           </Box>

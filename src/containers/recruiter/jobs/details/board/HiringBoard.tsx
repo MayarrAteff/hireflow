@@ -18,16 +18,13 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { MdPanTool } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { APPLICATION_PIPELINE } from '@/constants/applications';
-import { getNextInterview } from '@/constants/interviews';
-import { getCurrentOffer, isOfferLive } from '@/constants/offers';
-import { type ApplicationMove, useApplicationMoves } from '@/hooks/useApplicationMutations';
+import { type ApplicationMove, useApplicationMoves, useStageChangeFollowUp } from '@/hooks/useApplicationMutations';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
 import type { Job } from '@/types/job.types';
 import { getSkillMatch } from '@/utils/skillMatch';
@@ -67,8 +64,8 @@ export function HiringBoard({
   onSuggestOffer,
 }: HiringBoardProps) {
   const { $t } = useIntl();
-  const { enqueueSnackbar } = useSnackbar();
   const moves = useApplicationMoves(job.id);
+  const followUp = useStageChangeFollowUp({ onSuggestInterview, onSuggestOffer });
 
   const [columns, setColumns] = useState<Columns>(() => toColumns(applications));
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -178,14 +175,7 @@ export function HiringBoard({
     moves.mutate(changes);
 
     const moved = byId.get(String(active.id));
-    if (moved && moved.stage !== stage) {
-      enqueueSnackbar(
-        $t({ id: 'board.moved' }, { name: nameOf(moved.id), stage: $t({ id: `application.stage.${stage}` }) }),
-        { variant: 'success' },
-      );
-      if (stage === 'interview' && !getNextInterview(moved.interviews)) onSuggestInterview({ ...moved, stage });
-      if (stage === 'offer' && !isOfferLive(getCurrentOffer(moved.offers))) onSuggestOffer({ ...moved, stage });
-    }
+    if (moved && moved.stage !== stage) followUp(moved, stage);
   };
 
   const handleDragCancel = () => {

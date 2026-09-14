@@ -3,8 +3,9 @@ import { useSnackbar } from 'notistack';
 import { useIntl } from 'react-intl';
 
 import { markApplicationViewed, saveApplicationMoves } from '@/services/applications.service';
-import type { ApplicationUpdatePayload, RecruiterApplication } from '@/types/application.types';
+import type { ApplicationStage, ApplicationUpdatePayload, RecruiterApplication } from '@/types/application.types';
 import { getErrorMessage } from '@/utils/hooks/useFormMutation';
+import { getStageGap } from '@/utils/stageGaps';
 
 import { applicationsQueryKey, jobApplicationsQueryKey } from './useApplications';
 import { jobsQueryKey } from './useJobs';
@@ -70,4 +71,52 @@ export function useMarkApplicationViewed(jobId: string) {
         queryClient.invalidateQueries({ queryKey: [...applicationsQueryKey, 'company'] }),
       ]),
   });
+}
+
+export type StageFollowUps = {
+  /** Opens interview scheduling for an applicant who landed in Interview with nothing booked. */
+  onSuggestInterview: (application: RecruiterApplication) => void;
+  /** Opens the offer dialog for an applicant who landed in Offer without a live offer. */
+  onSuggestOffer: (application: RecruiterApplication) => void;
+};
+
+/**
+ * What follows a stage change wherever it happens (board, drawer, comparison): confirm the move, then prompt for
+ * the step the new stage needs.
+ */
+export function useStageChangeFollowUp({ onSuggestInterview, onSuggestOffer }: StageFollowUps) {
+  const { $t } = useIntl();
+  const { enqueueSnackbar } = useSnackbar();
+
+  return (application: RecruiterApplication, stage: ApplicationStage) => {
+    const moved = { ...application, stage };
+    enqueueSnackbar(
+      $t(
+        { id: 'board.moved' },
+        {
+          name: application.candidate.full_name || application.candidate.email,
+          stage: $t({ id: `application.stage.${stage}` }),
+        },
+      ),
+      { variant: stage === 'rejected' ? 'default' : 'success' },
+    );
+    const gap = getStageGap(moved);
+    if (gap === 'interview') onSuggestInterview(moved);
+    if (gap === 'offer') onSuggestOffer(moved);
+  };
+}
+
+/** Moves one applicant to another stage outside the board, placing them at the end of that column like a drop would. */
+export function useMoveApplicantStage(jobId: string, followUps: StageFollowUps) {
+  const queryClient = useQueryClient();
+  const moves = useApplicationMoves(jobId);
+  const followUp = useStageChangeFollowUp(followUps);
+
+  return (application: RecruiterApplication, stage: ApplicationStage) => {
+    if (stage === application.stage) return;
+    const applications = queryClient.getQueryData<RecruiterApplication[]>(jobApplicationsQueryKey(jobId)) ?? [];
+    const position = applications.filter((other) => other.stage === stage && other.id !== application.id).length;
+    moves.mutate([{ id: application.id, payload: { stage, position } }]);
+    followUp(application, stage);
+  };
 }

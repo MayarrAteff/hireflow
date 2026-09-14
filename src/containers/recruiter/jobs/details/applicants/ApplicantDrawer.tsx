@@ -1,3 +1,5 @@
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
@@ -38,13 +40,14 @@ import { ProgressRing } from '@/components/UI/ProgressRing';
 import { APPLICATION_PIPELINE } from '@/constants/applications';
 import { INTERVIEW_TYPE_VISUALS, isMeetingUrl } from '@/constants/interviews';
 import { getCurrentOffer } from '@/constants/offers';
-import { useApplicationMoves, useMarkApplicationViewed } from '@/hooks/useApplicationMutations';
+import { useApplicationMoves, useMarkApplicationViewed, useMoveApplicantStage } from '@/hooks/useApplicationMutations';
 import { useOpenCv } from '@/hooks/useOpenCv';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
 import type { Interview } from '@/types/interview.types';
 import type { Job } from '@/types/job.types';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { getSkillMatch } from '@/utils/skillMatch';
+import { getStageGap, type StageGap } from '@/utils/stageGaps';
 
 import { OfferSummary } from '../../../offers/OfferSummary';
 import { ApplicantAvatar } from './ApplicantAvatar';
@@ -75,6 +78,28 @@ function DrawerSection({ icon: Icon, titleId, children, action }: DrawerSectionP
   );
 }
 
+function StageGapAlert({ gap, onFix }: { gap: StageGap; onFix: () => void }) {
+  const { $t } = useIntl();
+
+  return (
+    <Alert severity="warning" className="mt-3 rounded-2xl">
+      <AlertTitle className="mb-0.5 text-sm font-semibold">{$t({ id: `applicants.gap.${gap}.title` })}</AlertTitle>
+      {$t({ id: `applicants.gap.${gap}.body` })}
+      <Box className="mt-2">
+        <Button
+          size="small"
+          variant="outlined"
+          color="warning"
+          startIcon={gap === 'interview' ? <MdAdd /> : <MdLocalOffer />}
+          onClick={onFix}
+        >
+          {$t({ id: gap === 'interview' ? 'interview.dialog.title' : 'offer.action.make' })}
+        </Button>
+      </Box>
+    </Alert>
+  );
+}
+
 type Contact = { href: string; title: string; labelId: string; icon: ReactNode; external?: boolean };
 
 type ApplicantDrawerProps = {
@@ -90,6 +115,8 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
   const { formatRelativeDay } = useJobFormatters();
   const { openCv, openingPath } = useOpenCv();
   const moves = useApplicationMoves(job.id);
+  // Same follow-ups as dropping a card on the board: booking prompt for Interview, offer dialog for Offer.
+  const moveStage = useMoveApplicantStage(job.id, { onSuggestInterview: onSchedule, onSuggestOffer: onMakeOffer });
   const { mutate: markViewed } = useMarkApplicationViewed(job.id);
 
   const unseenApplicationId = application && !application.viewed_at ? application.id : null;
@@ -98,6 +125,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
   }, [unseenApplicationId, markViewed]);
 
   const candidate = application?.candidate;
+  const stageGap = application ? getStageGap(application) : null;
   const match = getSkillMatch(job.skills, candidate?.skills ?? []);
   const interviews = [...(application?.interviews ?? [])].sort((a, b) => b.scheduled_at.localeCompare(a.scheduled_at));
   const contacts: Contact[] = candidate
@@ -241,9 +269,7 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
                 fullWidth
                 label={$t({ id: 'applicants.stage' })}
                 value={application.stage}
-                onChange={(event) =>
-                  moves.mutate([{ id: application.id, payload: { stage: event.target.value as ApplicationStage } }])
-                }
+                onChange={(event) => moveStage(application, event.target.value as ApplicationStage)}
               >
                 {ALL_STAGES.map((stage) => (
                   <MenuItem key={stage} value={stage}>
@@ -261,6 +287,14 @@ export function ApplicantDrawer({ application, job, onClose, onSchedule, onMakeO
                 />
               </Box>
             </Box>
+
+            {stageGap && (
+              <StageGapAlert
+                gap={stageGap}
+
+                onFix={() => (stageGap === 'interview' ? onSchedule(application) : onMakeOffer(application))}
+              />
+            )}
           </Box>
 
           {job.skills.length > 0 && (

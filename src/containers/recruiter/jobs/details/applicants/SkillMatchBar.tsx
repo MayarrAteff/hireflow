@@ -17,10 +17,7 @@ export function SkillMatchBar({ percent }: { percent: number }) {
   const color = matchColor(percent);
 
   return (
-    <Box
-      className="flex min-w-0 items-center gap-2"
-      aria-label={$t({ id: 'applicants.match' }, { percent })}
-    >
+    <Box className="flex min-w-0 items-center gap-2" aria-label={$t({ id: 'applicants.match' }, { percent })}>
       <Box className="h-1.5 flex-1 overflow-hidden rounded-full" sx={{ bgcolor: alpha(color, 0.16) }}>
         <Box className="h-full rounded-full" sx={{ width: `${percent}%`, bgcolor: color }} />
       </Box>

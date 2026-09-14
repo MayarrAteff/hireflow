@@ -460,6 +460,12 @@
   "applicants.interviews": "المقابلات",
   "applicants.about": "نبذة",
   "applicants.coverLetter": "خطاب التقديم",
+  "applicants.gap.interview.title": "لم تُحدَّد مقابلة",
+  "applicants.gap.interview.body": "المتقدم في مرحلة المقابلة دون موعد محدد.",
+  "applicants.gap.interview.hint": "بحاجة لتحديد موعد",
+  "applicants.gap.offer.title": "لا يوجد عرض نشط",
+  "applicants.gap.offer.body": "المتقدم في مرحلة العرض دون عرض مسودة أو مُرسل.",
+  "applicants.gap.offer.hint": "بحاجة لعرض",
   "applicants.appliedOn": "تقدّم في {date} ({when})",
 
   "compare.title": "مقارنة المتقدمين",

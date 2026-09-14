@@ -160,11 +160,7 @@ export function JobHeader({ job, applications, loadingApplications }: JobHeaderP
 
         <Box className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {stats.map(({ icon, color, labelId, value }) => (
-            <Box
-              key={labelId}
-              className="flex items-center gap-3 rounded-2xl p-3"
-              sx={{ bgcolor: 'action.hover' }}
-            >
+            <Box key={labelId} className="flex items-center gap-3 rounded-2xl p-3" sx={{ bgcolor: 'action.hover' }}>
               <IconTile icon={icon} color={color} />
               <Box className="min-w-0">
                 <Typography variant="h4" component="p">

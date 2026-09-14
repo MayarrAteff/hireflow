@@ -460,6 +460,12 @@
   "applicants.interviews": "Interviews",
   "applicants.about": "About",
   "applicants.coverLetter": "Cover letter",
+  "applicants.gap.interview.title": "No interview scheduled",
+  "applicants.gap.interview.body": "They're in the Interview stage with nothing booked.",
+  "applicants.gap.interview.hint": "Needs scheduling",
+  "applicants.gap.offer.title": "No active offer",
+  "applicants.gap.offer.body": "They're in the Offer stage without a draft or sent offer.",
+  "applicants.gap.offer.hint": "Needs an offer",
   "applicants.appliedOn": "Applied {date} ({when})",
 
   "compare.title": "Compare applicants",

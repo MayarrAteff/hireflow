@@ -42,6 +42,7 @@ import type { ApplicationStage, RecruiterApplication } from '@/types/application
 import type { Job } from '@/types/job.types';
 import { getCandidateFits, getLeaders } from '@/utils/candidateFit';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
+import { getStageGap } from '@/utils/stageGaps';
 
 import { ApplicantAvatar } from '../ApplicantAvatar';
 import { SkillMatchBar } from '../SkillMatchBar';
@@ -148,7 +149,10 @@ export function CompareDialog({
 
   const moveTo = (application: RecruiterApplication, stage: ApplicationStage) => {
     const previous = application.stage;
-    moves.mutate([{ id: application.id, payload: { stage } }]);
+    const position = applications.filter((other) => other.stage === stage && other.id !== application.id).length;
+    moves.mutate([{ id: application.id, payload: { stage, position } }]);
+    // Same follow-up as the board and drawer (Offer is already routed through its dialog).
+    if (getStageGap({ ...application, stage }) === 'interview') onSchedule({ ...application, stage });
     enqueueSnackbar(
       $t({ id: 'compare.moved' }, { name: nameOf(application), stage: $t({ id: `application.stage.${stage}` }) }),
       {
@@ -206,11 +210,7 @@ export function CompareDialog({
       icon: MdPsychology,
       title: $t({ id: 'compare.section.skills' }),
       note: onlyDifferences && (sharedSkills.length > 0 || missingForAll.length > 0) && (
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          className="sticky start-3 w-fit max-w-[80vw] px-4"
-        >
+        <Typography variant="body2" color="text.secondary" className="sticky start-3 w-fit max-w-[80vw] px-4">
           {[
             sharedSkills.length > 0 && $t({ id: 'compare.sharedByAll' }, { skills: formatList(sharedSkills) }),
             missingForAll.length > 0 && $t({ id: 'compare.missingByAll' }, { skills: formatList(missingForAll) }),

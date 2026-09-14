@@ -34,6 +34,7 @@ export function FormTextField<T extends FieldValues>({ name, control, labelId, t
           slotProps={
             isPassword
               ? {
+                  ...rest.slotProps,
                   input: {
                     endAdornment: (
                       <InputAdornment position="end">
@@ -44,7 +45,7 @@ export function FormTextField<T extends FieldValues>({ name, control, labelId, t
                     ),
                   },
                 }
-              : undefined
+              : rest.slotProps
           }
         />
       )}

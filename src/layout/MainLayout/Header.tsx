@@ -65,7 +65,11 @@ export function Header({ onToggleSidebar }: HeaderProps) {
         <ThemeModeToggle />
 
         <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} className="tw-ms-1">
-          <Avatar sx={(theme) => ({ background: brandGradient(theme), color: '#fff', width: 36, height: 36 })}>
+          <Avatar
+            src={profile?.avatar_url ?? undefined}
+            alt={profile?.full_name}
+            sx={(theme) => ({ background: brandGradient(theme), color: '#fff', width: 36, height: 36 })}
+          >
             {initials}
           </Avatar>
         </IconButton>

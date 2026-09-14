@@ -12,7 +12,7 @@ The repo-local git config sets this. Remote uses the `github-personal` SSH host 
 
 - `npm run dev` (port 3004), `npm run build`, `npm run lint`, `npm run typecheck`, `npm run format`
 - No test framework on purpose.
-- Commit messages follow Conventional Commits (commitlint + husky pre-commit runs typecheck and lint-staged).
+- No commit hooks or commit message format rules; write plain, descriptive commit messages.
 
 ## Architecture
 

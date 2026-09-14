@@ -22,7 +22,7 @@ Fully bilingual (English / Arabic with RTL) with light and dark mode.
 | Forms        | react-hook-form + yup                                                                |
 | i18n         | react-intl, stylis-plugin-rtl, tailwindcss-rtl                                       |
 | Data display | material-react-table, ApexCharts, @dnd-kit, MUI X Date Pickers                       |
-| Quality      | ESLint, Prettier, Husky, lint-staged, commitlint (Conventional Commits)              |
+| Quality      | ESLint, Prettier                                                                    |
 
 ## Getting started
 

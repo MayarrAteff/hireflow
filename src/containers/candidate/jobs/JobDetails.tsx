@@ -4,19 +4,12 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { useQueryClient } from '@tanstack/react-query';
 import { Link as RouterLink } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import { useSnackbar } from 'notistack';
 import { type ReactNode, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
@@ -32,25 +25,20 @@ import {
   MdPlace,
   MdRule,
   MdSchedule,
-  MdSend,
 } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { IconTile } from '@/components/UI/IconTile';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { ProgressRing } from '@/components/UI/ProgressRing';
-import { APPLICATION_STAGE_COLOR } from '@/constants/applications';
-import { applicationsQueryKey, useCandidateApplicationForJob } from '@/hooks/useApplications';
 import { usePublishedJob } from '@/hooks/useJobs';
-import { withdrawApplication } from '@/services/applications.service';
 import { ACCENT_COLORS, type AccentColor, accentFor, accentSoftSx, brandGradient } from '@/styles/themes/accents';
-import type { JobWithCompany } from '@/types/job.types';
 import { useAuth } from '@/utils/hooks/useAuth';
-import { useFormMutation } from '@/utils/hooks/useFormMutation';
 import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { getSkillMatch } from '@/utils/skillMatch';
 
 import { ApplyDialog } from './ApplyDialog';
+import { ApplyPanel } from './ApplyPanel';
 
 type SectionCardProps = {
   icon: IconType;
@@ -76,94 +64,6 @@ function SectionCard({ icon, color, titleId, action, children }: SectionCardProp
         {children}
       </CardContent>
     </Card>
-  );
-}
-
-function ApplyPanel({ job, onApply }: { job: JobWithCompany; onApply: () => void }) {
-  const { $t } = useIntl();
-  const { enqueueSnackbar } = useSnackbar();
-  const queryClient = useQueryClient();
-  const { profile } = useAuth();
-  const { daysFromToday, formatRelativeDay } = useJobFormatters();
-  const [confirmWithdraw, setConfirmWithdraw] = useState(false);
-  const applicationQuery = useCandidateApplicationForJob(profile?.id, job.id);
-  const application = applicationQuery.data;
-
-  const withdraw = useFormMutation({
-    mutationKey: ['withdraw', job.id],
-    mutationFn: (applicationId: string) => withdrawApplication(applicationId),
-    onSuccess: () => {
-      setConfirmWithdraw(false);
-      queryClient.invalidateQueries({ queryKey: applicationsQueryKey });
-      enqueueSnackbar($t({ id: 'apply.withdraw.done' }), { variant: 'success' });
-    },
-  });
-
-  const isClosed = job.deadline !== null && daysFromToday(job.deadline) < 0;
-
-  if (applicationQuery.isPending)
-    return <Skeleton variant="rounded" height={48} className="tw-w-full tw-rounded-xl sm:tw-w-44" />;
-
-  if (application) {
-    const stageColor = ACCENT_COLORS[APPLICATION_STAGE_COLOR[application.stage]];
-    return (
-      <Box
-        className="tw-flex tw-w-full tw-flex-col tw-gap-2 tw-rounded-2xl tw-p-4 sm:tw-w-auto sm:tw-min-w-60"
-        sx={(theme) => ({ bgcolor: alpha(ACCENT_COLORS.emerald, theme.palette.mode === 'dark' ? 0.16 : 0.1) })}
-      >
-        <Typography fontWeight={700} className="tw-flex tw-items-center tw-gap-1.5">
-          <Box component={MdCheckCircle} sx={{ color: ACCENT_COLORS.emerald }} />
-          {$t({ id: 'apply.status.applied' }, { when: formatRelativeDay(application.created_at) })}
-        </Typography>
-        <Box className="tw-flex tw-items-center tw-justify-between tw-gap-3">
-          <Chip
-            size="small"
-            label={$t({ id: `application.stage.${application.stage}` })}
-            sx={application.stage === 'rejected' ? undefined : { bgcolor: stageColor, color: '#fff' }}
-          />
-          {/* Withdrawing only makes sense before the recruiter has started reviewing. */}
-          {application.stage === 'applied' && (
-            <Button size="small" color="error" onClick={() => setConfirmWithdraw(true)}>
-              {$t({ id: 'apply.withdraw' })}
-            </Button>
-          )}
-        </Box>
-
-        <Dialog open={confirmWithdraw} onClose={() => setConfirmWithdraw(false)} maxWidth="xs" fullWidth>
-          <DialogTitle>{$t({ id: 'apply.withdraw.title' })}</DialogTitle>
-          <DialogContent>
-            <DialogContentText>{$t({ id: 'apply.withdraw.body' })}</DialogContentText>
-          </DialogContent>
-          <DialogActions className="tw-px-6 tw-pb-4">
-            <Button onClick={() => setConfirmWithdraw(false)}>{$t({ id: 'profile.cancel' })}</Button>
-            <Button
-              color="error"
-              variant="contained"
-              loading={withdraw.isPending}
-              onClick={() => withdraw.mutate(application.id)}
-            >
-              {$t({ id: 'apply.withdraw' })}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    );
-  }
-
-  if (isClosed) {
-    return <Chip icon={<MdSchedule />} label={$t({ id: 'apply.status.closed' })} className="tw-h-10 tw-px-2" />;
-  }
-
-  return (
-    <Button
-      variant="contained"
-      size="large"
-      endIcon={<MdSend className="rtl:tw-rotate-180" />}
-      onClick={onApply}
-      className="tw-w-full tw-px-8 tw-py-3 tw-text-base sm:tw-w-auto"
-    >
-      {$t({ id: 'apply.cta' })}
-    </Button>
   );
 }
 
@@ -291,7 +191,7 @@ export function JobDetails({ jobId }: JobDetailsProps) {
               )}
             </Box>
           </Box>
-          <CardContent className="tw-flex tw-flex-col tw-gap-5 tw-px-5 tw-py-6 sm:tw-px-8 md:tw-flex-row md:tw-items-end md:tw-justify-between">
+          <CardContent className="tw-flex tw-flex-col tw-gap-5 tw-px-5 tw-py-6 sm:tw-px-8 md:tw-flex-row md:tw-items-start md:tw-justify-between">
             <Box className="tw-min-w-0">
               <Typography variant="h2" className="tw-mb-3 tw-break-words">
                 {job.title}

@@ -31,7 +31,7 @@ export function toJobFields(values: JobFormValues, status: JobStatus): JobFields
     work_mode: values.workMode,
     location: values.location.trim() || null,
     description: values.description.trim(),
-    requirements: values.requirements,
+    requirements: values.requirements.map((requirement) => requirement.trim()).filter(Boolean),
     skills: values.skills,
     salary_min: toAmount(values.salaryMin),
     salary_max: toAmount(values.salaryMax),

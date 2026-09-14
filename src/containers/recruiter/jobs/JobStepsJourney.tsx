@@ -2,20 +2,13 @@ import Box from '@mui/material/Box';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
-import type { IconType } from 'react-icons';
-import { MdDescription, MdPayments, MdRocketLaunch, MdWork } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { IconTile } from '@/components/UI/IconTile';
-import { JOB_FORM_STEPS, type JobFormStep } from '@/store/features/jobFormStepsSlice';
-import { ACCENT_COLORS, type AccentColor } from '@/styles/themes/accents';
+import { JOB_FORM_STEPS } from '@/store/features/jobFormStepsSlice';
+import { ACCENT_COLORS } from '@/styles/themes/accents';
 
-const stepVisuals: Record<JobFormStep, { icon: IconType; color: AccentColor }> = {
-  basics: { icon: MdWork, color: 'violet' },
-  details: { icon: MdDescription, color: 'amber' },
-  compensation: { icon: MdPayments, color: 'emerald' },
-  review: { icon: MdRocketLaunch, color: 'pink' },
-};
+import { JOB_STEP_VISUALS } from './jobStepVisuals';
 
 /** The four job form steps drawn as a connected path, to show how quick posting a job is. */
 export function JobStepsJourney() {
@@ -27,7 +20,7 @@ export function JobStepsJourney() {
       className="tw-m-0 tw-grid tw-w-full tw-max-w-3xl tw-list-none tw-gap-4 tw-p-0 sm:tw-grid-cols-4"
     >
       {JOB_FORM_STEPS.map((step, index) => {
-        const { icon, color } = stepVisuals[step];
+        const { icon, color } = JOB_STEP_VISUALS[step];
         const isLast = index === JOB_FORM_STEPS.length - 1;
 
         return (

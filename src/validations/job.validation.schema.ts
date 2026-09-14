@@ -31,7 +31,7 @@ export const jobSchema: yup.ObjectSchema<JobFormValues> = yup.object({
     .trim()
     .required('validation.required')
     .min(JOB_DESCRIPTION_MIN_LENGTH, 'validation.job.descriptionMin'),
-  requirements: yup.array(yup.string().required()).defined(),
+  requirements: yup.array(yup.string().defined()).defined(),
   skills: yup.array(yup.string().required()).min(1, 'validation.job.skillsMin').defined(),
   salaryMin: optionalAmount,
   salaryMax: optionalAmount.test('gte-min', 'validation.job.salaryRange', function (value) {

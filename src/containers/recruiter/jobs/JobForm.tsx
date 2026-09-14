@@ -207,7 +207,8 @@ export function JobForm({ job }: JobFormProps) {
 
           <Box component="aside" className="tw-flex tw-flex-col tw-gap-4 lg:tw-sticky lg:tw-top-24">
             <JobPreviewCard />
-            <StepTipCard step={step} />
+            {/* The review step runs its own readiness check, so the tip would only repeat it. */}
+            {!isLastStep && <StepTipCard step={step} />}
           </Box>
         </Box>
       </FormProvider>

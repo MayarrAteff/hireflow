@@ -544,6 +544,7 @@
   "interview.scheduled": "تمت جدولة مقابلة مع {name}",
   "interview.rescheduled": "تم تحديث مقابلة {name}",
   "interview.cancelled": "تم إلغاء المقابلة",
+  "interview.cancelledMovedBack": "تم إلغاء المقابلة وإعادة {name} إلى مرحلة الفرز",
   "interview.cancel": "إلغاء المقابلة",
   "interview.cancel.confirm": "نعم، ألغِها",
   "interview.join": "انضمام",

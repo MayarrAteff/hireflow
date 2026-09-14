@@ -26,7 +26,7 @@ import { IconTile } from '@/components/UI/IconTile';
 import { INTERVIEW_TYPE_VISUALS } from '@/constants/interviews';
 import { jobApplicationsQueryKey } from '@/hooks/useApplications';
 import { interviewsQueryKey } from '@/hooks/useInterviews';
-import { updateApplication } from '@/services/applications.service';
+import { getJobApplications, updateApplication } from '@/services/applications.service';
 import { cancelInterview, saveInterview } from '@/services/interviews.service';
 import type { ApplicationStage, RecruiterApplication } from '@/types/application.types';
 import type { Interview } from '@/types/interview.types';
@@ -133,10 +133,33 @@ export function ScheduleInterviewDialog({ target, onClose }: ScheduleInterviewDi
 
   const cancel = useFormMutation({
     mutationKey: ['interview', 'cancel'],
-    mutationFn: () => cancelInterview(target?.interview?.id as string),
-    onSuccess: () => {
+    /** Resolves to true when the applicant was moved back to Screening. */
+    mutationFn: async () => {
+      if (!target?.interview) return false;
+      await cancelInterview(target.interview.id);
+
+      // Fresh data: the stage may have changed since the dialog opened, and other interviews may remain.
+      const applications = await queryClient.fetchQuery({
+        queryKey: jobApplicationsQueryKey(target.jobId),
+        queryFn: () => getJobApplications(target.jobId),
+        staleTime: 0,
+      });
+      const application = applications.find((item) => item.id === target.applicationId);
+      // Only undo the Interview stage when nothing is left to justify it; later stages are never touched.
+      if (application?.stage !== 'interview' || application.interviews.length > 0) return false;
+
+      const position = applications.filter((item) => item.stage === 'screening').length;
+      await updateApplication(target.applicationId, { stage: 'screening', position });
+      return true;
+    },
+    onSuccess: (movedBack) => {
       refresh();
-      enqueueSnackbar($t({ id: 'interview.cancelled' }), { variant: 'success' });
+      enqueueSnackbar(
+        movedBack
+          ? $t({ id: 'interview.cancelledMovedBack' }, { name: target?.candidateName })
+          : $t({ id: 'interview.cancelled' }),
+        { variant: 'success' },
+      );
       onClose();
     },
   });

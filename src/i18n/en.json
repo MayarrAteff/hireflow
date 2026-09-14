@@ -544,6 +544,7 @@
   "interview.scheduled": "Interview with {name} scheduled",
   "interview.rescheduled": "Interview with {name} updated",
   "interview.cancelled": "Interview cancelled",
+  "interview.cancelledMovedBack": "Interview cancelled. {name} moved back to Screening",
   "interview.cancel": "Cancel interview",
   "interview.cancel.confirm": "Yes, cancel it",
   "interview.join": "Join",

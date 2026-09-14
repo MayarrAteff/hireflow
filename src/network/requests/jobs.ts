@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/network/interceptor';
-import type { CreateJobPayload, Job, JobFields } from '@/types/job.types';
+import type { CreateJobPayload, Job, JobFields, JobWithCompany } from '@/types/job.types';
 
 import { SINGLE_OBJECT_HEADERS } from './profile';
 
@@ -9,6 +9,20 @@ const RETURN_SINGLE_HEADERS = { ...SINGLE_OBJECT_HEADERS, Prefer: 'return=repres
 export function getCompanyJobsRequest(companyId: string) {
   return axiosInstance.get<Job[]>('/jobs', {
     params: { company_id: `eq.${companyId}`, select: '*', order: 'created_at.desc' },
+  });
+}
+
+export function getLatestPublishedJobsRequest(limit: number) {
+  return axiosInstance.get<JobWithCompany[]>('/jobs', {
+    params: { status: 'eq.published', select: '*,company:companies(name)', order: 'created_at.desc', limit },
+  });
+}
+
+/** HEAD request: PostgREST puts the total after the slash in `Content-Range` without sending any rows. */
+export function countPublishedJobsRequest() {
+  return axiosInstance.head('/jobs', {
+    params: { status: 'eq.published' },
+    headers: { Prefer: 'count=exact' },
   });
 }
 

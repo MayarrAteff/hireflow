@@ -1,10 +1,28 @@
-import { createJobRequest, getCompanyJobsRequest, getJobRequest, updateJobRequest } from '@/network/requests/jobs';
+import {
+  countPublishedJobsRequest,
+  createJobRequest,
+  getCompanyJobsRequest,
+  getJobRequest,
+  getLatestPublishedJobsRequest,
+  updateJobRequest,
+} from '@/network/requests/jobs';
 import type { CreateJobPayload, Job, JobFields, JobFormValues, JobStatus } from '@/types/job.types';
 import { dayjs } from '@/utils/dayjs';
 
 export async function getCompanyJobs(companyId: string) {
   const response = await getCompanyJobsRequest(companyId);
   return response.data;
+}
+
+export async function getLatestPublishedJobs(limit: number) {
+  const response = await getLatestPublishedJobsRequest(limit);
+  return response.data;
+}
+
+export async function countPublishedJobs() {
+  const response = await countPublishedJobsRequest();
+  const total = String(response.headers['content-range'] ?? '').split('/')[1];
+  return Number(total) || 0;
 }
 
 export async function getJob(jobId: string) {

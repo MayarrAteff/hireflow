@@ -3,20 +3,30 @@ import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import { MdAdd, MdEditNote, MdHourglassBottom, MdPublic, MdWorkOutline } from 'react-icons/md';
+import {
+  MdAdd,
+  MdCalendarMonth,
+  MdEditNote,
+  MdHourglassBottom,
+  MdPublic,
+  MdViewKanban,
+  MdWorkOutline,
+} from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { dayjs } from '@/utils/dayjs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
-import { ComingNextSection } from './dashboard/ComingNextSection';
+import { BoardPreview, CalendarPreview } from './dashboard/ComingNextPreviews';
 import { GettingStartedCard } from './dashboard/GettingStartedCard';
 import { RecentJobsCard } from './dashboard/RecentJobsCard';
 
 const CLOSING_SOON_DAYS = 7;
+const RECRUITER_TIP_IDS = ['dashboard.tip.1', 'dashboard.tip.2', 'dashboard.tip.3'];
 
 const appear = (index: number) => ({
   initial: { opacity: 0, y: 12 },
@@ -98,7 +108,26 @@ export function RecruiterDashboard() {
         </motion.div>
       </Box>
 
-      <ComingNextSection />
+      <ComingNextSection
+        subtitleId="dashboard.upNext.subtitle"
+        tipIds={RECRUITER_TIP_IDS}
+        features={[
+          {
+            icon: MdViewKanban,
+            color: 'sky',
+            titleId: 'dashboard.upNext.board.title',
+            bodyId: 'dashboard.upNext.board.body',
+            preview: <BoardPreview />,
+          },
+          {
+            icon: MdCalendarMonth,
+            color: 'rose',
+            titleId: 'dashboard.upNext.interviews.title',
+            bodyId: 'dashboard.upNext.interviews.body',
+            preview: <CalendarPreview />,
+          },
+        ]}
+      />
     </Box>
   );
 }

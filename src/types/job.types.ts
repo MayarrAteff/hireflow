@@ -23,6 +23,9 @@ export type Job = {
   created_at: string;
 };
 
+/** A published job as candidates browse it. */
+export type JobWithCompany = Job & { company: { name: string } | null };
+
 /** Columns the recruiter edits through the job form. */
 export type JobFields = Omit<Job, 'id' | 'company_id' | 'created_by' | 'created_at'>;
 

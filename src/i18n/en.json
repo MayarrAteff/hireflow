@@ -458,6 +458,8 @@
   "applicants.yourRating": "Your rating",
   "applicants.viewCv": "View CV",
   "applicants.interviews": "Interviews",
+  "applicants.about": "About",
+  "applicants.coverLetter": "Cover letter",
   "applicants.appliedOn": "Applied {date} ({when})",
 
   "compare.title": "Compare applicants",

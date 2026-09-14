@@ -19,7 +19,7 @@ function readLocale(): Locale {
 function readThemeMode(): ThemeMode {
   const saved = localStorage.getItem(STORAGE_KEYS.themeMode);
   if (saved === 'light' || saved === 'dark') return saved;
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'light';
 }
 
 /** `dir`, `lang` and the `dark` class live on <html>; portal colour tokens resolve from `.theme-<portal>` on <body>. */

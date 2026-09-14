@@ -5,6 +5,7 @@ Personal portfolio project: a hiring platform with recruiter, candidate and admi
 ## Git identity (important)
 
 This is a **personal** project. Commits and pushes must use `Mayar Atef <mayar.ateffff@gmail.com>` only, never a work email.
+Never add `Co-Authored-By: Claude` (or any AI attribution) to commit messages or PR descriptions.
 The repo-local git config sets this. Remote uses the `github-personal` SSH host alias (`~/.ssh/id_ed25519_personal`).
 
 ## Commands

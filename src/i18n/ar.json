@@ -183,6 +183,13 @@
   "network.serverError": "خطأ في الخادم، يرجى المحاولة لاحقًا",
   "network.forbidden": "غير مسموح لك بتنفيذ هذا الإجراء",
 
+  "snackbar.default": "إشعار",
+  "snackbar.success": "تم بنجاح",
+  "snackbar.error": "حدث خطأ ما",
+  "snackbar.warning": "انتبه",
+  "snackbar.info": "معلومة",
+  "snackbar.close": "إغلاق",
+
   "upload.fileSizeExceeded": "الملف كبير جدًا (الحد الأقصى {size} ميجابايت)",
   "upload.invalidType": "نوع الملف غير مدعوم",
 

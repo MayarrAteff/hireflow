@@ -183,6 +183,13 @@
   "network.serverError": "Server error, please try again later",
   "network.forbidden": "You're not allowed to do this action",
 
+  "snackbar.default": "Notification",
+  "snackbar.success": "Success",
+  "snackbar.error": "Something went wrong",
+  "snackbar.warning": "Heads up",
+  "snackbar.info": "Good to know",
+  "snackbar.close": "Dismiss",
+
   "upload.fileSizeExceeded": "File is too large (max {size} MB)",
   "upload.invalidType": "This file type is not supported",
 

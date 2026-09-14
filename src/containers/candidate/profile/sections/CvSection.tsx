@@ -6,21 +6,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import LinearProgress from '@mui/material/LinearProgress';
-import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { useSnackbar } from 'notistack';
-import { type ChangeEvent, type DragEvent, type KeyboardEvent, useEffect, useRef, useState } from 'react';
-import {
-  MdCloudUpload,
-  MdDeleteOutline,
-  MdDescription,
-  MdOpenInNew,
-  MdPictureAsPdf,
-  MdSwapHoriz,
-  MdUploadFile,
-} from 'react-icons/md';
+import { type ChangeEvent, useEffect, useRef, useState } from 'react';
+import { MdDeleteOutline, MdDescription, MdOpenInNew, MdPictureAsPdf, MdSwapHoriz, MdUploadFile } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { FileDropzone } from '@/components/Form/FileDropzone';
 import { IconTile } from '@/components/UI/IconTile';
 import { CV_FILE_TYPES, MAX_CV_SIZE_BYTES } from '@/constants/app';
 import { useFileUpload } from '@/hooks/useFileUpload';
@@ -42,7 +34,6 @@ export function CvSection({ profile }: CvSectionProps) {
   const { enqueueSnackbar } = useSnackbar();
   const { validateFile } = useFileUpload();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);
   const [confirmRemove, setConfirmRemove] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
@@ -73,19 +64,6 @@ export function CvSection({ profile }: CvSectionProps) {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     startUpload(event.target.files?.[0]);
     event.target.value = '';
-  };
-
-  const handleDrop = (event: DragEvent<HTMLElement>) => {
-    event.preventDefault();
-    setIsDragging(false);
-    startUpload(event.dataTransfer.files[0]);
-  };
-
-  const handleDropzoneKey = (event: KeyboardEvent<HTMLElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      inputRef.current?.click();
-    }
   };
 
   // Open the tab synchronously so pop-up blockers allow it, then point it at the short-lived link.
@@ -154,47 +132,13 @@ export function CvSection({ profile }: CvSectionProps) {
           </Box>
         </Box>
       ) : (
-        <Box
-          role="button"
-          tabIndex={0}
-          aria-label={$t({ id: 'profile.cv.dropTitle' })}
-          onClick={() => inputRef.current?.click()}
-          onKeyDown={handleDropzoneKey}
-          onDragOver={(event) => {
-            event.preventDefault();
-            setIsDragging(true);
-          }}
-          onDragLeave={() => setIsDragging(false)}
-          onDrop={handleDrop}
-          className="tw-flex tw-cursor-pointer tw-flex-col tw-items-center tw-gap-2 tw-rounded-2xl tw-px-6 tw-py-10 tw-text-center tw-transition-colors"
-          sx={(theme) => ({
-            border: `2px dashed ${isDragging ? theme.palette.primary.main : theme.palette.divider}`,
-            bgcolor: isDragging ? alpha(theme.palette.primary.main, 0.08) : 'transparent',
-            '&:hover, &:focus-visible': {
-              borderColor: 'primary.main',
-              bgcolor: alpha(theme.palette.primary.main, 0.04),
-            },
-            outline: 'none',
-          })}
-        >
-          <IconTile icon={MdCloudUpload} size="lg" />
-          <Typography fontWeight={600}>{$t({ id: 'profile.cv.dropTitle' })}</Typography>
-          <Typography variant="body2" color="text.secondary">
-            {$t(
-              { id: 'profile.cv.dropHint' },
-              {
-                browse: (
-                  <Typography key="browse" component="span" variant="body2" color="primary" fontWeight={600}>
-                    {$t({ id: 'profile.cv.browse' })}
-                  </Typography>
-                ),
-              },
-            )}
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            {$t({ id: 'profile.cv.formats' }, { size: MAX_CV_SIZE_BYTES / BYTES_IN_MB })}
-          </Typography>
-        </Box>
+        <FileDropzone
+          accept={CV_FILE_TYPES}
+          onFile={startUpload}
+          titleId="profile.cv.dropTitle"
+          captionId="profile.cv.formats"
+          captionValues={{ size: MAX_CV_SIZE_BYTES / BYTES_IN_MB }}
+        />
       )}
 
       <input ref={inputRef} type="file" accept={CV_FILE_TYPES.join(',')} hidden onChange={handleFileChange} />

@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/network/interceptor';
-import type { CreateJobPayload, Job, JobFields, JobWithCompany } from '@/types/job.types';
+import type { CreateJobPayload, Job, JobFields, JobSearchFilters, JobWithCompany } from '@/types/job.types';
 
 import { SINGLE_OBJECT_HEADERS } from './profile';
 
@@ -15,6 +15,35 @@ export function getCompanyJobsRequest(companyId: string) {
 export function getLatestPublishedJobsRequest(limit: number) {
   return axiosInstance.get<JobWithCompany[]>('/jobs', {
     params: { status: 'eq.published', select: '*,company:companies(name)', order: 'created_at.desc', limit },
+  });
+}
+
+/** Strips characters that have meaning inside a PostgREST `ilike` pattern. */
+const toSearchPattern = (search: string) => `*${search.replace(/[*,()%\\]/g, ' ').trim()}*`;
+
+export function searchPublishedJobsRequest(filters: JobSearchFilters, offset: number, limit: number) {
+  return axiosInstance.get<JobWithCompany[]>('/jobs', {
+    params: {
+      status: 'eq.published',
+      select: '*,company:companies(name)',
+      order: 'created_at.desc',
+      offset,
+      limit,
+      ...(filters.search.trim() && { title: `ilike.${toSearchPattern(filters.search)}` }),
+      ...(filters.employmentType && { employment_type: `eq.${filters.employmentType}` }),
+      ...(filters.workMode && { work_mode: `eq.${filters.workMode}` }),
+    },
+  });
+}
+
+export function getPublishedJobRequest(jobId: string) {
+  return axiosInstance.get<JobWithCompany>('/jobs', {
+    params: {
+      id: `eq.${jobId}`,
+      status: 'eq.published',
+      select: '*,company:companies(name,industry,website,size,about)',
+    },
+    headers: SINGLE_OBJECT_HEADERS,
   });
 }
 

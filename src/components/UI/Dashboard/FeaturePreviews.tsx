@@ -1,10 +1,14 @@
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
-import { MdAccessTime } from 'react-icons/md';
+import { MdAccessTime, MdSearch } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { ACCENT_COLORS, type AccentColor } from '@/styles/themes/accents';
+
+/** Small animated mock-ups for the "What's coming next" feature cards. */
+
+const lineSx = { bgcolor: 'text.primary', opacity: 0.15 };
 
 const BOARD_COLUMNS: AccentColor[] = ['sky', 'amber', 'emerald'];
 const CALENDAR_DAYS = 14;
@@ -88,6 +92,42 @@ export function CalendarPreview() {
           {formatTime(new Date(2026, 0, 1, 10, 0), { hour: 'numeric', minute: '2-digit' })}
         </Box>
       </motion.div>
+    </Box>
+  );
+}
+
+/** A search bar with results sliding in underneath. */
+export function SearchPreview() {
+  return (
+    <Box className="tw-flex tw-h-full tw-flex-col tw-gap-2">
+      <Box
+        className="tw-flex tw-items-center tw-gap-1.5 tw-rounded-full tw-px-2.5 tw-py-1.5"
+        sx={{ bgcolor: 'background.paper', boxShadow: 1 }}
+      >
+        <MdSearch size={14} color={ACCENT_COLORS.sky} />
+        <motion.div
+          className="tw-h-1.5 tw-rounded-full"
+          style={{ backgroundColor: ACCENT_COLORS.sky, opacity: 0.5 }}
+          animate={{ width: ['0%', '45%', '45%'] }}
+          transition={{ duration: 3, repeat: Infinity, times: [0, 0.35, 1] }}
+        />
+      </Box>
+      {[ACCENT_COLORS.amber, ACCENT_COLORS.pink].map((color, index) => (
+        <motion.div
+          key={color}
+          animate={{ opacity: [0, 0, 1, 1], x: [12, 12, 0, 0] }}
+          transition={{ duration: 3, repeat: Infinity, times: [0, 0.4 + index * 0.1, 0.55 + index * 0.1, 1] }}
+        >
+          <Box
+            className="tw-flex tw-w-full tw-items-center tw-gap-2 tw-rounded-lg tw-p-1.5"
+            sx={{ bgcolor: 'background.paper', boxShadow: 1 }}
+          >
+            <Box className="tw-h-4 tw-w-4 tw-shrink-0 tw-rounded" sx={{ bgcolor: color }} />
+            <Box className="tw-h-1.5 tw-flex-1 tw-rounded-full" sx={lineSx} />
+            <Box className="tw-h-3.5 tw-w-8 tw-rounded-full" sx={{ bgcolor: ACCENT_COLORS.sky }} />
+          </Box>
+        </motion.div>
+      ))}
     </Box>
   );
 }

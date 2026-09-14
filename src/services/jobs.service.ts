@@ -4,9 +4,11 @@ import {
   getCompanyJobsRequest,
   getJobRequest,
   getLatestPublishedJobsRequest,
+  getPublishedJobRequest,
+  searchPublishedJobsRequest,
   updateJobRequest,
 } from '@/network/requests/jobs';
-import type { CreateJobPayload, Job, JobFields, JobFormValues, JobStatus } from '@/types/job.types';
+import type { CreateJobPayload, Job, JobFields, JobFormValues, JobSearchFilters, JobStatus } from '@/types/job.types';
 import { dayjs } from '@/utils/dayjs';
 
 export async function getCompanyJobs(companyId: string) {
@@ -16,6 +18,16 @@ export async function getCompanyJobs(companyId: string) {
 
 export async function getLatestPublishedJobs(limit: number) {
   const response = await getLatestPublishedJobsRequest(limit);
+  return response.data;
+}
+
+export async function searchPublishedJobs(filters: JobSearchFilters, offset: number, limit: number) {
+  const response = await searchPublishedJobsRequest(filters, offset, limit);
+  return response.data;
+}
+
+export async function getPublishedJob(jobId: string) {
+  const response = await getPublishedJobRequest(jobId);
   return response.data;
 }
 

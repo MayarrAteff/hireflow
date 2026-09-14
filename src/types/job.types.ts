@@ -1,5 +1,7 @@
 import type { Dayjs } from 'dayjs';
 
+import type { Company } from './auth.types';
+
 export type JobStatus = 'draft' | 'published' | 'closed';
 export type EmploymentType = 'full_time' | 'part_time' | 'contract' | 'internship';
 export type WorkMode = 'onsite' | 'remote' | 'hybrid';
@@ -23,8 +25,17 @@ export type Job = {
   created_at: string;
 };
 
+/** Company details shown alongside a job; list views only fetch the name. */
+export type JobCompany = Pick<Company, 'name'> & Partial<Pick<Company, 'industry' | 'website' | 'size' | 'about'>>;
+
 /** A published job as candidates browse it. */
-export type JobWithCompany = Job & { company: { name: string } | null };
+export type JobWithCompany = Job & { company: JobCompany | null };
+
+export type JobSearchFilters = {
+  search: string;
+  employmentType: EmploymentType | null;
+  workMode: WorkMode | null;
+};
 
 /** Columns the recruiter edits through the job form. */
 export type JobFields = Omit<Job, 'id' | 'company_id' | 'created_by' | 'created_at'>;

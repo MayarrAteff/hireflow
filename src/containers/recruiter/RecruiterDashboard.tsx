@@ -16,12 +16,12 @@ import { useIntl } from 'react-intl';
 
 import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
+import { BoardPreview, CalendarPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { dayjs } from '@/utils/dayjs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
-import { BoardPreview, CalendarPreview } from './dashboard/ComingNextPreviews';
 import { GettingStartedCard } from './dashboard/GettingStartedCard';
 import { RecentJobsCard } from './dashboard/RecentJobsCard';
 

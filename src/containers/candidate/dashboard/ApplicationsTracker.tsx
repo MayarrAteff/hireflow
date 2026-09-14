@@ -3,9 +3,11 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
+import ListItemButton from '@mui/material/ListItemButton';
 import Skeleton from '@mui/material/Skeleton';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { createLink } from '@tanstack/react-router';
 import { MdTimeline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
@@ -16,6 +18,7 @@ import { ACCENT_COLORS, accentFor, accentSoftSx } from '@/styles/themes/accents'
 import type { CandidateApplication } from '@/types/application.types';
 import { dayjs } from '@/utils/dayjs';
 
+const ListItemLink = createLink(ListItemButton);
 const RECENT_APPLICATIONS_LIMIT = 3;
 
 type ApplicationsTrackerProps = {
@@ -90,7 +93,12 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
             const isRejected = application.stage === 'rejected';
             const daysAgo = dayjs(application.updated_at).startOf('day').diff(dayjs().startOf('day'), 'day');
             return (
-              <Box key={application.id} className="tw-flex tw-items-center tw-gap-3 tw-rounded-xl tw-p-2">
+              <ListItemLink
+                key={application.id}
+                to="/candidate/jobs/$jobId"
+                params={{ jobId: application.job_id }}
+                className="tw-gap-3 tw-p-2"
+              >
                 <Avatar
                   variant="rounded"
                   sx={(theme) => ({ ...accentSoftSx(theme, accentFor(company ?? title)), fontWeight: 600 })}
@@ -117,7 +125,7 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
                         }
                   }
                 />
-              </Box>
+              </ListItemLink>
             );
           })}
         </Box>

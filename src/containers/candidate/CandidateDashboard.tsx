@@ -1,18 +1,28 @@
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
+import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import { MdAssignmentInd, MdCelebration, MdEventAvailable, MdSearch, MdSend, MdWorkOutline } from 'react-icons/md';
+import {
+  MdCalendarMonth,
+  MdCelebration,
+  MdEventAvailable,
+  MdNotificationsActive,
+  MdSearch,
+  MdSend,
+  MdWorkOutline,
+} from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
+import { CalendarPreview, SearchPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { useCandidateApplications } from '@/hooks/useApplications';
 import { useLatestPublishedJobs, usePublishedJobsCount } from '@/hooks/useJobs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import { ApplicationsTracker } from './dashboard/ApplicationsTracker';
-import { CvPreview, SearchPreview } from './dashboard/ComingNextPreviews';
 import { FreshJobsCard } from './dashboard/FreshJobsCard';
 import { ProfileStrengthCard } from './dashboard/ProfileStrengthCard';
 
@@ -73,14 +83,26 @@ export function CandidateDashboard() {
       <DashboardHero
         subtitleId="dashboard.candidate.subtitle"
         actions={
-          openJobs > 0 && (
-            <Box
-              className="tw-flex tw-items-center tw-gap-2 tw-rounded-full tw-px-4 tw-py-2 tw-font-semibold"
-              sx={{ bgcolor: alpha('#fff', 0.18), border: `1px solid ${alpha('#fff', 0.35)}` }}
+          <>
+            <Button
+              component={Link}
+              to="/candidate/jobs"
+              size="large"
+              color="inherit"
+              startIcon={<MdSearch />}
+              sx={{ bgcolor: 'common.white', color: 'primary.main', '&:hover': { bgcolor: alpha('#fff', 0.9) } }}
             >
-              🔥 {$t({ id: 'candidate.hero.openRoles' }, { count: openJobs })}
-            </Box>
-          )
+              {$t({ id: 'jobs.browse.cta' })}
+            </Button>
+            {openJobs > 0 && (
+              <Box
+                className="tw-flex tw-items-center tw-gap-2 tw-rounded-full tw-px-4 tw-py-2 tw-font-semibold"
+                sx={{ bgcolor: alpha('#fff', 0.18), border: `1px solid ${alpha('#fff', 0.35)}` }}
+              >
+                🔥 {$t({ id: 'candidate.hero.openRoles' }, { count: openJobs })}
+              </Box>
+            )}
+          </>
         }
       />
 
@@ -102,7 +124,11 @@ export function CandidateDashboard() {
       </Box>
 
       <motion.div {...appear(6)}>
-        <FreshJobsCard jobs={freshJobsQuery.data ?? []} loading={freshJobsQuery.isLoading} />
+        <FreshJobsCard
+          jobs={freshJobsQuery.data ?? []}
+          loading={freshJobsQuery.isLoading}
+          appliedJobIds={new Set(applications.map((application) => application.job_id))}
+        />
       </motion.div>
 
       <ComingNextSection
@@ -110,18 +136,18 @@ export function CandidateDashboard() {
         tipIds={CANDIDATE_TIP_IDS}
         features={[
           {
-            icon: MdAssignmentInd,
-            color: 'violet',
-            titleId: 'candidate.upNext.profile.title',
-            bodyId: 'candidate.upNext.profile.body',
-            preview: <CvPreview />,
+            icon: MdNotificationsActive,
+            color: 'sky',
+            titleId: 'candidate.upNext.alerts.title',
+            bodyId: 'candidate.upNext.alerts.body',
+            preview: <SearchPreview />,
           },
           {
-            icon: MdSearch,
-            color: 'sky',
-            titleId: 'candidate.upNext.search.title',
-            bodyId: 'candidate.upNext.search.body',
-            preview: <SearchPreview />,
+            icon: MdCalendarMonth,
+            color: 'rose',
+            titleId: 'candidate.upNext.interviews.title',
+            bodyId: 'candidate.upNext.interviews.body',
+            preview: <CalendarPreview />,
           },
         ]}
       />

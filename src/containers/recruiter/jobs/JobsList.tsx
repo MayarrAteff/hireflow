@@ -24,12 +24,12 @@ import { useIntl } from 'react-intl';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { JOB_STATUS_COLOR } from '@/constants/jobs';
 import { useCompanyJobs } from '@/hooks/useJobs';
-import { JOB_FORM_STEPS } from '@/store/features/jobFormStepsSlice';
 import { accentFor, accentSoftSx } from '@/styles/themes/accents';
 import type { JobStatus } from '@/types/job.types';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import { CompanySetupCard } from './CompanySetupCard';
+import { JobStepsJourney } from './JobStepsJourney';
 
 const IconButtonLink = createLink(IconButton);
 
@@ -87,15 +87,8 @@ export function JobsList() {
               <Typography color="text.secondary" className="tw-mb-6 tw-max-w-md">
                 {$t({ id: 'jobs.list.empty.body' })}
               </Typography>
-              <Box className="tw-mb-8 tw-flex tw-flex-wrap tw-justify-center tw-gap-2">
-                {JOB_FORM_STEPS.map((step, index) => (
-                  <Chip
-                    key={step}
-                    variant="outlined"
-                    avatar={<Avatar sx={{ bgcolor: 'primary.main', color: '#fff !important' }}>{index + 1}</Avatar>}
-                    label={$t({ id: `jobs.step.${step}` })}
-                  />
-                ))}
+              <Box className="tw-mb-8 tw-flex tw-w-full tw-justify-center">
+                <JobStepsJourney />
               </Box>
               {postJobButton}
             </CardContent>

@@ -1,30 +1,20 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import {
-  MdAdd,
-  MdCalendarMonth,
-  MdEditNote,
-  MdHourglassBottom,
-  MdPublic,
-  MdViewKanban,
-  MdWorkOutline,
-} from 'react-icons/md';
+import { MdAdd, MdEditNote, MdHourglassBottom, MdPublic, MdWorkOutline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
-import { FeatureCard } from '@/components/UI/Dashboard/FeatureCard';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { dayjs } from '@/utils/dayjs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
+import { ComingNextSection } from './dashboard/ComingNextSection';
 import { GettingStartedCard } from './dashboard/GettingStartedCard';
 import { RecentJobsCard } from './dashboard/RecentJobsCard';
-import { TipCard } from './dashboard/TipCard';
 
 const CLOSING_SOON_DAYS = 7;
 
@@ -108,22 +98,7 @@ export function RecruiterDashboard() {
         </motion.div>
       </Box>
 
-      <Box>
-        <Typography variant="h4" className="tw-mb-4">
-          {$t({ id: 'dashboard.section.upNext' })}
-        </Typography>
-        <Box className="tw-grid tw-gap-4 sm:tw-grid-cols-2 lg:tw-grid-cols-3">
-          <motion.div {...appear(6)}>
-            <FeatureCard icon={MdViewKanban} labelId="dashboard.recruiter.next.board" color="sky" />
-          </motion.div>
-          <motion.div {...appear(7)}>
-            <FeatureCard icon={MdCalendarMonth} labelId="dashboard.recruiter.next.interviews" color="rose" />
-          </motion.div>
-          <motion.div className="sm:tw-col-span-2 lg:tw-col-span-1" {...appear(8)}>
-            <TipCard />
-          </motion.div>
-        </Box>
-      </Box>
+      <ComingNextSection />
     </Box>
   );
 }

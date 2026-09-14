@@ -1,0 +1,77 @@
+{
+  "app.name": "هاير فلو",
+  "app.tagline": "وظّف الأشخاص المناسبين بشكل أسرع.",
+  "app.subtitle": "انشر الوظائف، وتابع كل مرشح على لوحة واحدة، وحدد المقابلات وتابع التقدم لحظة بلحظة.",
+
+  "auth.login.title": "مرحبًا بعودتك",
+  "auth.login.subtitle": "سجّل الدخول للمتابعة إلى هاير فلو",
+  "auth.login.submit": "تسجيل الدخول",
+  "auth.login.noAccount": "ليس لديك حساب؟",
+  "auth.login.success": "تم تسجيل الدخول بنجاح",
+  "auth.register.title": "أنشئ حسابك",
+  "auth.register.subtitle": "أخبرنا من أنت لنبدأ",
+  "auth.register.submit": "إنشاء حساب",
+  "auth.register.haveAccount": "لديك حساب بالفعل؟",
+  "auth.register.checkEmail": "تم إنشاء الحساب. تحقق من بريدك الإلكتروني لتأكيده ثم سجّل الدخول.",
+  "auth.register.iAm": "أنا",
+  "auth.logout": "تسجيل الخروج",
+  "auth.session.expired": "انتهت جلستك، يرجى تسجيل الدخول مرة أخرى",
+
+  "field.fullName": "الاسم الكامل",
+  "field.email": "البريد الإلكتروني",
+  "field.password": "كلمة المرور",
+  "field.confirmPassword": "تأكيد كلمة المرور",
+
+  "validation.required": "هذا الحقل مطلوب",
+  "validation.email": "أدخل بريدًا إلكترونيًا صحيحًا",
+  "validation.password.min": "يجب ألا تقل كلمة المرور عن 8 أحرف",
+  "validation.password.strength": "استخدم حروفًا كبيرة وصغيرة ورقمًا",
+  "validation.password.match": "كلمتا المرور غير متطابقتين",
+
+  "role.recruiter": "مسؤول توظيف",
+  "role.recruiter.description": "أوظّف لشركتي",
+  "role.candidate": "مرشح",
+  "role.candidate.description": "أبحث عن وظيفة",
+  "role.admin": "مدير النظام",
+
+  "menu.dashboard": "لوحة التحكم",
+  "menu.section.main": "الرئيسية",
+
+  "header.language": "English",
+  "header.darkMode": "الوضع الداكن",
+  "header.lightMode": "الوضع الفاتح",
+  "header.toggleSidebar": "إظهار/إخفاء القائمة",
+
+  "dashboard.greeting": "أهلًا، {name} 👋",
+  "dashboard.recruiter.subtitle": "إليك ما يحدث في عمليات التوظيف اليوم.",
+  "dashboard.candidate.subtitle": "اعثر على وظيفتك القادمة وتابع طلباتك.",
+  "dashboard.admin.subtitle": "نظرة عامة على منصة هاير فلو بالكامل.",
+  "dashboard.comingSoon": "قريبًا",
+  "dashboard.recruiter.next.jobs": "انشر الوظائف عبر نموذج متعدد الخطوات",
+  "dashboard.recruiter.next.board": "حرّك المتقدمين على لوحة توظيف بالسحب والإفلات",
+  "dashboard.recruiter.next.interviews": "حدد المقابلات واطّلع على التحليلات",
+  "dashboard.candidate.next.profile": "أنشئ ملفك الشخصي وارفع سيرتك الذاتية",
+  "dashboard.candidate.next.search": "ابحث عن الوظائف المنشورة وقدّم عليها",
+  "dashboard.candidate.next.track": "تابع حالة طلباتك مباشرة",
+  "dashboard.admin.next.users": "إدارة المستخدمين والشركات",
+  "dashboard.admin.next.flags": "تفعيل وتعطيل الميزات",
+  "dashboard.admin.next.stats": "تحليلات على مستوى المنصة",
+
+  "error.forbidden.title": "الوصول مرفوض",
+  "error.forbidden.body": "ليست لديك صلاحية لعرض هذه الصفحة.",
+  "error.notFound.title": "الصفحة غير موجودة",
+  "error.notFound.body": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+  "error.generic.title": "حدث خطأ ما",
+  "error.generic.body": "حدث خطأ غير متوقع. حاول مرة أخرى أو عد إلى الصفحة الرئيسية.",
+  "error.goHome": "الصفحة الرئيسية",
+  "error.retry": "حاول مرة أخرى",
+
+  "network.error": "خطأ في الشبكة، تحقق من اتصالك",
+  "network.serverError": "خطأ في الخادم، يرجى المحاولة لاحقًا",
+  "network.forbidden": "غير مسموح لك بتنفيذ هذا الإجراء",
+
+  "upload.fileSizeExceeded": "الملف كبير جدًا (الحد الأقصى {size} ميجابايت)",
+  "upload.invalidType": "نوع الملف غير مدعوم",
+
+  "config.missingEnv": "لم يتم إعداد Supabase. انسخ ملف ‎.env.example إلى ‎.env وأدخل رابط المشروع والمفتاح."
+}

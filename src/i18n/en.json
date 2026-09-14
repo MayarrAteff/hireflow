@@ -1,0 +1,77 @@
+{
+  "app.name": "HireFlow",
+  "app.tagline": "Hire the right people, faster.",
+  "app.subtitle": "Post jobs, track every candidate on one board, schedule interviews and follow progress in real time.",
+
+  "auth.login.title": "Welcome back",
+  "auth.login.subtitle": "Sign in to continue to HireFlow",
+  "auth.login.submit": "Sign in",
+  "auth.login.noAccount": "Don't have an account?",
+  "auth.login.success": "Signed in successfully",
+  "auth.register.title": "Create your account",
+  "auth.register.subtitle": "Tell us who you are to get started",
+  "auth.register.submit": "Create account",
+  "auth.register.haveAccount": "Already have an account?",
+  "auth.register.checkEmail": "Account created. Check your email to confirm it, then sign in.",
+  "auth.register.iAm": "I am a",
+  "auth.logout": "Log out",
+  "auth.session.expired": "Your session has expired, please sign in again",
+
+  "field.fullName": "Full name",
+  "field.email": "Email",
+  "field.password": "Password",
+  "field.confirmPassword": "Confirm password",
+
+  "validation.required": "This field is required",
+  "validation.email": "Enter a valid email address",
+  "validation.password.min": "Password must be at least 8 characters",
+  "validation.password.strength": "Use upper and lower case letters and a number",
+  "validation.password.match": "Passwords do not match",
+
+  "role.recruiter": "Recruiter",
+  "role.recruiter.description": "I'm hiring for my company",
+  "role.candidate": "Candidate",
+  "role.candidate.description": "I'm looking for a job",
+  "role.admin": "Admin",
+
+  "menu.dashboard": "Dashboard",
+  "menu.section.main": "Main",
+
+  "header.language": "العربية",
+  "header.darkMode": "Dark mode",
+  "header.lightMode": "Light mode",
+  "header.toggleSidebar": "Toggle sidebar",
+
+  "dashboard.greeting": "Hello, {name} 👋",
+  "dashboard.recruiter.subtitle": "Here's what's happening with your hiring today.",
+  "dashboard.candidate.subtitle": "Find your next role and keep track of your applications.",
+  "dashboard.admin.subtitle": "Overview of the whole HireFlow platform.",
+  "dashboard.comingSoon": "Coming next",
+  "dashboard.recruiter.next.jobs": "Post jobs with a guided multi-step form",
+  "dashboard.recruiter.next.board": "Move applicants on a drag-and-drop hiring board",
+  "dashboard.recruiter.next.interviews": "Schedule interviews and see analytics",
+  "dashboard.candidate.next.profile": "Build your profile and upload your CV",
+  "dashboard.candidate.next.search": "Search and apply to published jobs",
+  "dashboard.candidate.next.track": "Track application status live",
+  "dashboard.admin.next.users": "Manage users and companies",
+  "dashboard.admin.next.flags": "Toggle feature flags",
+  "dashboard.admin.next.stats": "Platform-wide analytics",
+
+  "error.forbidden.title": "Access denied",
+  "error.forbidden.body": "You don't have permission to view this page.",
+  "error.notFound.title": "Page not found",
+  "error.notFound.body": "The page you're looking for doesn't exist or was moved.",
+  "error.generic.title": "Something went wrong",
+  "error.generic.body": "An unexpected error happened. Try again, or go back home.",
+  "error.goHome": "Go home",
+  "error.retry": "Try again",
+
+  "network.error": "Network error, check your connection",
+  "network.serverError": "Server error, please try again later",
+  "network.forbidden": "You're not allowed to do this action",
+
+  "upload.fileSizeExceeded": "File is too large (max {size} MB)",
+  "upload.invalidType": "This file type is not supported",
+
+  "config.missingEnv": "Supabase is not configured. Copy .env.example to .env and fill in your project URL and anon key."
+}

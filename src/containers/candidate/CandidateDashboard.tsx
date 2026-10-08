@@ -3,20 +3,12 @@ import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import {
-  MdCalendarMonth,
-  MdCelebration,
-  MdEventAvailable,
-  MdNotificationsActive,
-  MdSearch,
-  MdSend,
-  MdWorkOutline,
-} from 'react-icons/md';
+import { MdCalendarMonth, MdCelebration, MdEventAvailable, MdSearch, MdSend, MdWorkOutline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
-import { CalendarPreview, SearchPreview } from '@/components/UI/Dashboard/FeaturePreviews';
+import { CalendarPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { useCandidateApplications } from '@/hooks/useApplications';
 import { useLatestPublishedJobs, useOpenJobsCount } from '@/hooks/useJobs';
@@ -135,13 +127,6 @@ export function CandidateDashboard() {
         subtitleId="candidate.upNext.subtitle"
         tipIds={CANDIDATE_TIP_IDS}
         features={[
-          {
-            icon: MdNotificationsActive,
-            color: 'sky',
-            titleId: 'candidate.upNext.alerts.title',
-            bodyId: 'candidate.upNext.alerts.body',
-            preview: <SearchPreview />,
-          },
           {
             icon: MdCalendarMonth,
             color: 'rose',

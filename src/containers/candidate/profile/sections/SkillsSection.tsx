@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 import { useForm, useWatch } from 'react-hook-form';
 import { MdAdd, MdExtension } from 'react-icons/md';
@@ -48,6 +49,12 @@ export function SkillsSection({ profile }: SkillsSectionProps) {
     mutationFn: (userId, values: SkillsValues) => updateProfile(userId, { skills: values.skills }),
     onSuccess: (_profile, values) => reset(values),
   });
+  // Saved on its own the moment it is flipped, separately from the skills form.
+  const jobAlerts = useProfileMutation({
+    mutationKey: ['jobAlerts'],
+    mutationFn: (userId, enabled: boolean) => updateProfile(userId, { job_alerts: enabled }),
+    successMessageId: 'profile.jobAlerts.saved',
+  });
 
   return (
     <FormSectionCard
@@ -87,6 +94,26 @@ export function SkillsSection({ profile }: SkillsSectionProps) {
           </Box>
         </Box>
       )}
+
+      <Box className="mt-4 flex items-center justify-between gap-3 rounded-2xl p-3" sx={{ bgcolor: 'action.hover' }}>
+        <Box className="min-w-0">
+          <Typography fontWeight={600}>{$t({ id: 'profile.jobAlerts.title' })}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {$t({ id: 'profile.jobAlerts.body' })}
+          </Typography>
+          {jobAlerts.serverErrors.general && (
+            <Typography variant="body2" color="error">
+              {jobAlerts.serverErrors.general}
+            </Typography>
+          )}
+        </Box>
+        <Switch
+          checked={profile.job_alerts ?? true}
+          disabled={jobAlerts.isPending}
+          onChange={(_event, checked) => jobAlerts.mutate(checked)}
+          slotProps={{ input: { 'aria-label': $t({ id: 'profile.jobAlerts.title' }) } }}
+        />
+      </Box>
     </FormSectionCard>
   );
 }

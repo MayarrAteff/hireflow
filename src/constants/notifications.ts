@@ -8,13 +8,14 @@ import {
   MdThumbDown,
   MdTimeline,
   MdUpdate,
+  MdWorkOutline,
 } from 'react-icons/md';
 
 import type { AccentColor } from '@/styles/themes/accents';
 
 export const NOTIFICATIONS_LIMIT = 30;
 
-type NotificationParam = 'job' | 'stage' | 'candidate' | 'at';
+type NotificationParam = 'job' | 'stage' | 'candidate' | 'at' | 'matched' | 'company';
 
 type NotificationKind = {
   icon: IconType;
@@ -32,6 +33,7 @@ export const NOTIFICATION_KINDS: Record<string, NotificationKind> = {
   'notification.newApplication': { icon: MdPersonAdd, color: 'sky', params: ['candidate', 'job'] },
   'notification.interviewScheduled': { icon: MdEventAvailable, color: 'amber', params: ['at', 'job'] },
   'notification.interviewRescheduled': { icon: MdUpdate, color: 'amber', params: ['at', 'job'] },
+  'notification.jobAlert': { icon: MdWorkOutline, color: 'sky', params: ['matched', 'company', 'job'] },
   'notification.interviewCancelled': { icon: MdEventBusy, color: 'rose', params: ['at', 'job'] },
 };
 

@@ -43,6 +43,8 @@ export type Profile = {
   github_url: string | null;
   company_id: string | null;
   is_active: boolean;
+  /** Whether newly published jobs matching the candidate's skills notify them. */
+  job_alerts: boolean;
   created_at: string;
   company?: Company | null;
 };
@@ -63,6 +65,7 @@ export type ProfileUpdatePayload = Partial<
     | 'skills'
     | 'avatar_url'
     | 'cv_path'
+    | 'job_alerts'
   >
 >;
 

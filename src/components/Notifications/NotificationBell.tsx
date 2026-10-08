@@ -71,6 +71,8 @@ export function NotificationBell() {
         { id: `${title}.body` },
         {
           ...values,
+          // A number, so the message can pluralise it.
+          matched: values.matched && Number(values.matched),
           stage: values.stage && $t({ id: `application.stage.${values.stage}` }),
           at: values.at && formatDate(values.at, { dateStyle: 'medium', timeStyle: 'short' }),
         },

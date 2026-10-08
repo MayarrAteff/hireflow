@@ -31,6 +31,7 @@ import { useIntl } from 'react-intl';
 
 import { JobStatusChip } from '@/components/Jobs/JobStatusChip';
 import { IconTile } from '@/components/UI/IconTile';
+import { getJobDisplayStatus } from '@/constants/jobs';
 import { jobsQueryKey } from '@/hooks/useJobs';
 import { updateJobStatus } from '@/services/jobs.service';
 import { type AccentColor, brandGradient } from '@/styles/themes/accents';
@@ -88,7 +89,7 @@ export function JobHeader({ job, applications, loadingApplications }: JobHeaderP
               <Typography variant="h2" className="break-words">
                 {job.title}
               </Typography>
-              <JobStatusChip status={job.status} size="medium" />
+              <JobStatusChip status={getJobDisplayStatus(job)} size="medium" />
             </Box>
             <Box className="flex shrink-0 flex-wrap gap-2">
               {job.status !== 'draft' && (

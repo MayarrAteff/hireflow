@@ -36,10 +36,17 @@ export type JobCompany = Pick<Company, 'name'> &
 /** A published job as candidates browse it. */
 export type JobWithCompany = Job & { company: JobCompany | null };
 
+export type JobPostedFilter = 'today' | 'week' | 'month';
+export type JobApplicationFilter = 'notApplied' | 'applied';
+
 export type JobSearchFilters = {
   search: string;
   employmentType: EmploymentType | null;
   workMode: WorkMode | null;
+  posted: JobPostedFilter | null;
+  application: JobApplicationFilter | null;
+  /** Jobs the candidate has applied to; only read when `application` is set. */
+  appliedJobIds: string[];
 };
 
 /** Columns the recruiter edits through the job form. */

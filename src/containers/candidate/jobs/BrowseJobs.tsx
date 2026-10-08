@@ -2,16 +2,19 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import Skeleton from '@mui/material/Skeleton';
 import { alpha } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
-import { MdClose, MdSearch } from 'react-icons/md';
+import { MdCheck, MdClose, MdKeyboardArrowDown, MdSearch } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
@@ -19,13 +22,16 @@ import { EMPLOYMENT_TYPES, WORK_MODES } from '@/constants/jobs';
 import { useCandidateApplications } from '@/hooks/useApplications';
 import { useOpenJobsCount, usePublishedJobsSearch } from '@/hooks/useJobs';
 import { brandGradient } from '@/styles/themes/accents';
-import type { EmploymentType, WorkMode } from '@/types/job.types';
+import type { EmploymentType, JobApplicationFilter, JobPostedFilter, WorkMode } from '@/types/job.types';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useDebouncedValue } from '@/utils/hooks/useDebouncedValue';
 
 import { JobCard } from '../components/JobCard';
 
-type FilterChipsProps<T extends string> = {
+const POSTED_FILTERS: JobPostedFilter[] = ['today', 'week', 'month'];
+const APPLICATION_FILTERS: JobApplicationFilter[] = ['notApplied', 'applied'];
+
+type FilterMenuProps<T extends string> = {
   labelId: string;
   options: T[];
   optionLabelPrefix: string;
@@ -33,30 +39,63 @@ type FilterChipsProps<T extends string> = {
   onChange: (value: T | null) => void;
 };
 
-function FilterChips<T extends string>({ labelId, options, optionLabelPrefix, value, onChange }: FilterChipsProps<T>) {
+/** One filter as a pill: it names the filter, or the chosen option once set, and opens the choices in a menu. */
+function FilterMenu<T extends string>({ labelId, options, optionLabelPrefix, value, onChange }: FilterMenuProps<T>) {
   const { $t } = useIntl();
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const open = Boolean(anchorEl);
+  const label = $t({ id: labelId });
+  const selected = value && $t({ id: `${optionLabelPrefix}.${value}` });
+
+  const handleSelect = (next: T | null) => {
+    setAnchorEl(null);
+    onChange(next);
+  };
 
   return (
-    <Box className="flex flex-wrap items-center gap-1.5" role="group" aria-label={$t({ id: labelId })}>
-      <Typography variant="body2" color="text.secondary" className="me-1">
-        {$t({ id: labelId })}
-      </Typography>
-      <Chip
-        label={$t({ id: 'jobs.list.filter.all' })}
-        color={value === null ? 'primary' : 'default'}
-        variant={value === null ? 'filled' : 'outlined'}
-        onClick={() => onChange(null)}
-      />
-      {options.map((option) => (
-        <Chip
-          key={option}
-          label={$t({ id: `${optionLabelPrefix}.${option}` })}
-          color={value === option ? 'primary' : 'default'}
-          variant={value === option ? 'filled' : 'outlined'}
-          onClick={() => onChange(value === option ? null : option)}
-        />
-      ))}
-    </Box>
+    <>
+      <Button
+        size="small"
+        color={value ? 'primary' : 'inherit'}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        endIcon={<MdKeyboardArrowDown className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />}
+        onClick={(event) => setAnchorEl(event.currentTarget)}
+        sx={(theme) => ({
+          border: 1,
+          borderColor: value || open ? 'primary.main' : 'divider',
+          borderRadius: 99,
+          paddingInline: 1.75,
+          bgcolor: value ? alpha(theme.palette.primary.main, 0.1) : 'transparent',
+        })}
+      >
+        {selected ? `${label}: ${selected}` : label}
+      </Button>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+        slotProps={{ paper: { className: 'mt-1 min-w-44' } }}
+      >
+        {[null, ...options].map((option) => (
+          <MenuItem
+            key={option ?? 'all'}
+            selected={option === value}
+            onClick={() => handleSelect(option)}
+            className="mx-1 rounded-lg"
+          >
+            <ListItemText>
+              {$t({ id: option ? `${optionLabelPrefix}.${option}` : 'jobs.list.filter.all' })}
+            </ListItemText>
+            {option === value && (
+              <ListItemIcon sx={{ color: 'primary.main', justifyContent: 'flex-end' }}>
+                <MdCheck />
+              </ListItemIcon>
+            )}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
   );
 }
 
@@ -66,24 +105,37 @@ export function BrowseJobs() {
   const [search, setSearch] = useState('');
   const [employmentType, setEmploymentType] = useState<EmploymentType | null>(null);
   const [workMode, setWorkMode] = useState<WorkMode | null>(null);
+  const [posted, setPosted] = useState<JobPostedFilter | null>(null);
+  const [application, setApplication] = useState<JobApplicationFilter | null>(null);
   const debouncedSearch = useDebouncedValue(search);
+  const applicationsQuery = useCandidateApplications(profile?.id);
 
+  const appliedIds = useMemo(() => applicationsQuery.data?.map((item) => item.job_id) ?? [], [applicationsQuery.data]);
   const filters = useMemo(
-    () => ({ search: debouncedSearch, employmentType, workMode }),
-    [debouncedSearch, employmentType, workMode],
+    () => ({
+      search: debouncedSearch,
+      employmentType,
+      workMode,
+      posted,
+      application,
+      // Left empty unless it is filtered on, so a new application does not refetch an unfiltered list.
+      appliedJobIds: application ? appliedIds : [],
+    }),
+    [debouncedSearch, employmentType, workMode, posted, application, appliedIds],
   );
   const jobsQuery = usePublishedJobsSearch(filters);
   const openJobsQuery = useOpenJobsCount();
-  const applicationsQuery = useCandidateApplications(profile?.id);
 
   const jobs = jobsQuery.data?.pages.flat() ?? [];
-  const appliedJobIds = new Set(applicationsQuery.data?.map((application) => application.job_id));
-  const hasFilters = Boolean(search.trim() || employmentType || workMode);
+  const appliedJobIds = new Set(appliedIds);
+  const hasFilters = Boolean(search.trim() || employmentType || workMode || posted || application);
 
   const clearFilters = () => {
     setSearch('');
     setEmploymentType(null);
     setWorkMode(null);
+    setPosted(null);
+    setApplication(null);
   };
 
   return (
@@ -139,23 +191,37 @@ export function BrowseJobs() {
       </Box>
 
       <Card>
-        <CardContent className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-8">
-          <FilterChips
+        <CardContent className="flex flex-wrap items-center gap-2 py-3 last:pb-3">
+          <FilterMenu
             labelId="jobs.field.employmentType"
             options={EMPLOYMENT_TYPES}
             optionLabelPrefix="jobs.employmentType"
             value={employmentType}
             onChange={setEmploymentType}
           />
-          <FilterChips
+          <FilterMenu
             labelId="jobs.field.workMode"
             options={WORK_MODES}
             optionLabelPrefix="jobs.workMode"
             value={workMode}
             onChange={setWorkMode}
           />
+          <FilterMenu
+            labelId="jobs.browse.filter.posted"
+            options={POSTED_FILTERS}
+            optionLabelPrefix="jobs.browse.posted"
+            value={posted}
+            onChange={setPosted}
+          />
+          <FilterMenu
+            labelId="jobs.browse.filter.application"
+            options={APPLICATION_FILTERS}
+            optionLabelPrefix="jobs.browse.application"
+            value={application}
+            onChange={setApplication}
+          />
           {hasFilters && (
-            <Button size="small" onClick={clearFilters} className="lg:ms-auto">
+            <Button size="small" onClick={clearFilters} className="ms-auto">
               {$t({ id: 'jobs.browse.clearFilters' })}
             </Button>
           )}

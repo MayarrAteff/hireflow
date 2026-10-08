@@ -21,6 +21,7 @@ import { Route as VisitorRegisterRouteImport } from './routes/_visitor/register'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminDashboardRouteImport } from './routes/_authenticated/admin/dashboard'
 import { Route as AuthenticatedCandidateIndexRouteImport } from './routes/_authenticated/candidate/index'
+import { Route as AuthenticatedCandidateApplicationsRouteImport } from './routes/_authenticated/candidate/applications'
 import { Route as AuthenticatedCandidateDashboardRouteImport } from './routes/_authenticated/candidate/dashboard'
 import { Route as AuthenticatedCandidateProfileRouteImport } from './routes/_authenticated/candidate/profile'
 import { Route as AuthenticatedRecruiterIndexRouteImport } from './routes/_authenticated/recruiter/index'
@@ -94,6 +95,12 @@ const AuthenticatedCandidateIndexRoute =
   AuthenticatedCandidateIndexRouteImport.update({
     id: '/',
     path: '/',
+    getParentRoute: () => AuthenticatedCandidateRoute,
+  } as any)
+const AuthenticatedCandidateApplicationsRoute =
+  AuthenticatedCandidateApplicationsRouteImport.update({
+    id: '/applications',
+    path: '/applications',
     getParentRoute: () => AuthenticatedCandidateRoute,
   } as any)
 const AuthenticatedCandidateDashboardRoute =
@@ -190,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof VisitorLoginRoute
   '/register': typeof VisitorRegisterRoute
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
+  '/candidate/applications': typeof AuthenticatedCandidateApplicationsRoute
   '/candidate/dashboard': typeof AuthenticatedCandidateDashboardRoute
   '/candidate/profile': typeof AuthenticatedCandidateProfileRoute
   '/recruiter/company': typeof AuthenticatedRecruiterCompanyRoute
@@ -213,6 +221,7 @@ export interface FileRoutesByTo {
   '/login': typeof VisitorLoginRoute
   '/register': typeof VisitorRegisterRoute
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
+  '/candidate/applications': typeof AuthenticatedCandidateApplicationsRoute
   '/candidate/dashboard': typeof AuthenticatedCandidateDashboardRoute
   '/candidate/profile': typeof AuthenticatedCandidateProfileRoute
   '/recruiter/company': typeof AuthenticatedRecruiterCompanyRoute
@@ -242,6 +251,7 @@ export interface FileRoutesById {
   '/_visitor/login': typeof VisitorLoginRoute
   '/_visitor/register': typeof VisitorRegisterRoute
   '/_authenticated/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
+  '/_authenticated/candidate/applications': typeof AuthenticatedCandidateApplicationsRoute
   '/_authenticated/candidate/dashboard': typeof AuthenticatedCandidateDashboardRoute
   '/_authenticated/candidate/profile': typeof AuthenticatedCandidateProfileRoute
   '/_authenticated/recruiter/company': typeof AuthenticatedRecruiterCompanyRoute
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/admin/dashboard'
+    | '/candidate/applications'
     | '/candidate/dashboard'
     | '/candidate/profile'
     | '/recruiter/company'
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/admin/dashboard'
+    | '/candidate/applications'
     | '/candidate/dashboard'
     | '/candidate/profile'
     | '/recruiter/company'
@@ -321,6 +333,7 @@ export interface FileRouteTypes {
     | '/_visitor/login'
     | '/_visitor/register'
     | '/_authenticated/admin/dashboard'
+    | '/_authenticated/candidate/applications'
     | '/_authenticated/candidate/dashboard'
     | '/_authenticated/candidate/profile'
     | '/_authenticated/recruiter/company'
@@ -430,6 +443,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/candidate/'
       preLoaderRoute: typeof AuthenticatedCandidateIndexRouteImport
+      parentRoute: typeof AuthenticatedCandidateRoute
+    }
+    '/_authenticated/candidate/applications': {
+      id: '/_authenticated/candidate/applications'
+      path: '/applications'
+      fullPath: '/candidate/applications'
+      preLoaderRoute: typeof AuthenticatedCandidateApplicationsRouteImport
       parentRoute: typeof AuthenticatedCandidateRoute
     }
     '/_authenticated/candidate/dashboard': {
@@ -547,6 +567,7 @@ const AuthenticatedAdminRouteWithChildren =
   AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
 interface AuthenticatedCandidateRouteChildren {
+  AuthenticatedCandidateApplicationsRoute: typeof AuthenticatedCandidateApplicationsRoute
   AuthenticatedCandidateDashboardRoute: typeof AuthenticatedCandidateDashboardRoute
   AuthenticatedCandidateProfileRoute: typeof AuthenticatedCandidateProfileRoute
   AuthenticatedCandidateIndexRoute: typeof AuthenticatedCandidateIndexRoute
@@ -558,6 +579,8 @@ interface AuthenticatedCandidateRouteChildren {
 
 const AuthenticatedCandidateRouteChildren: AuthenticatedCandidateRouteChildren =
   {
+    AuthenticatedCandidateApplicationsRoute:
+      AuthenticatedCandidateApplicationsRoute,
     AuthenticatedCandidateDashboardRoute: AuthenticatedCandidateDashboardRoute,
     AuthenticatedCandidateProfileRoute: AuthenticatedCandidateProfileRoute,
     AuthenticatedCandidateIndexRoute: AuthenticatedCandidateIndexRoute,

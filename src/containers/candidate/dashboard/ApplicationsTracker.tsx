@@ -1,10 +1,12 @@
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Skeleton from '@mui/material/Skeleton';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { MdTimeline } from 'react-icons/md';
+import { Link } from '@tanstack/react-router';
+import { MdArrowForward, MdTimeline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { IconTile } from '@/components/UI/IconTile';
@@ -32,7 +34,7 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
   return (
     <Card className="h-full">
       <CardContent className="p-6">
-        <Box className="mb-5 flex items-center gap-3">
+        <Box className="mb-5 flex flex-wrap items-center gap-3">
           <IconTile icon={MdTimeline} />
           <Box className="min-w-0 flex-1">
             <Typography variant="h5">{$t({ id: 'candidate.applications.title' })}</Typography>
@@ -40,6 +42,15 @@ export function ApplicationsTracker({ applications, loading }: ApplicationsTrack
               {$t({ id: 'candidate.applications.subtitle' })}
             </Typography>
           </Box>
+          {applications.length > 0 && (
+            <Button
+              component={Link}
+              to="/candidate/applications"
+              endIcon={<MdArrowForward className="rtl:rotate-180" />}
+            >
+              {$t({ id: 'candidate.applications.viewAll' })}
+            </Button>
+          )}
         </Box>
 
         <Box component="ol" className="m-0 mb-5 grid list-none grid-cols-5 gap-1.5 p-0">

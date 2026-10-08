@@ -1,12 +1,13 @@
 import Box from '@mui/material/Box';
 import { alpha, darken, lighten, type Theme } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
 import { useIntl } from 'react-intl';
 
+import type { JobDisplayStatus } from '@/constants/jobs';
 import { ACCENT_COLORS } from '@/styles/themes/accents';
-import type { JobStatus } from '@/types/job.types';
 
 /** Tint, text and dot colours for each status, following the portal brand instead of stock MUI colours. */
-function statusColors(theme: Theme, status: JobStatus) {
+function statusColors(theme: Theme, status: JobDisplayStatus) {
   const isDark = theme.palette.mode === 'dark';
   if (status === 'published') {
     const main = theme.palette.primary.main;
@@ -21,6 +22,15 @@ function statusColors(theme: Theme, status: JobStatus) {
       dot: amber,
     };
   }
+  if (status === 'expired') {
+    const rose = ACCENT_COLORS.rose;
+    return {
+      bg: alpha(rose, isDark ? 0.2 : 0.1),
+      border: alpha(rose, 0.35),
+      text: isDark ? lighten(rose, 0.3) : darken(rose, 0.2),
+      dot: rose,
+    };
+  }
   return {
     bg: theme.palette.action.selected,
     border: theme.palette.divider,
@@ -30,7 +40,8 @@ function statusColors(theme: Theme, status: JobStatus) {
 }
 
 type JobStatusChipProps = {
-  status: JobStatus;
+  /** Pass `getJobDisplayStatus(job)` so a published job past its deadline reads as Expired. */
+  status: JobDisplayStatus;
   size?: 'small' | 'medium';
 };
 
@@ -38,7 +49,7 @@ export function JobStatusChip({ status, size = 'small' }: JobStatusChipProps) {
   const { $t } = useIntl();
   const isMedium = size === 'medium';
 
-  return (
+  const chip = (
     <Box
       component="span"
       className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full font-semibold ${
@@ -67,4 +78,7 @@ export function JobStatusChip({ status, size = 'small' }: JobStatusChipProps) {
       {$t({ id: `jobs.status.${status}` })}
     </Box>
   );
+
+  // Expired is the one status the recruiter did not choose, so it explains itself.
+  return status === 'expired' ? <Tooltip title={$t({ id: 'jobs.status.expired.hint' })}>{chip}</Tooltip> : chip;
 }

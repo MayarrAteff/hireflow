@@ -19,6 +19,7 @@ import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
 import { AnalyticsPreview, NotificationsPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
+import { getJobDisplayStatus } from '@/constants/jobs';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { dayjs } from '@/utils/dayjs';
 import { useAuth } from '@/utils/hooks/useAuth';
@@ -42,7 +43,8 @@ export function RecruiterDashboard() {
   const { data: jobs = [], isLoading } = useCompanyJobs(profile?.company_id);
 
   const today = dayjs().startOf('day');
-  const published = jobs.filter((job) => job.status === 'published');
+  // Live jobs only: a published job past its deadline no longer takes applications.
+  const published = jobs.filter((job) => getJobDisplayStatus(job) === 'published');
   const hasGoneLive = jobs.some((job) => job.status !== 'draft');
   const newApplicantsTotal = jobs.reduce((sum, job) => sum + countNewApplicants(job.applications), 0);
   const stats = [

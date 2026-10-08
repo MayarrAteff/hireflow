@@ -368,6 +368,7 @@
   "jobs.browse.loadMore": "Load more jobs",
   "jobs.browse.applied": "Applied",
   "jobs.browse.closes": "Closes {when}",
+  "jobs.browse.closed": "Closed",
   "jobs.browse.noMatches.title": "No jobs match your search",
   "jobs.browse.noMatches.body": "Try a different title or remove some filters.",
   "jobs.browse.empty.title": "No open roles right now",

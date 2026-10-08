@@ -4,7 +4,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import { createLink } from '@tanstack/react-router';
-import { MdCheckCircle, MdPlace, MdSchedule } from 'react-icons/md';
+import { MdCheckCircle, MdLock, MdPlace, MdSchedule } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { CompanyLogo } from '@/components/Jobs/CompanyLogo';
@@ -29,10 +29,11 @@ export function JobCard({ job, applied }: JobCardProps) {
   const salary = formatSalary(job.salary_min, job.salary_max, job.currency);
   const isNew = daysFromToday(job.created_at) === 0;
   const daysLeft = job.deadline ? daysFromToday(job.deadline) : null;
+  const closed = daysLeft !== null && daysLeft < 0;
   const closingSoon = daysLeft !== null && daysLeft >= 0 && daysLeft <= CLOSING_SOON_DAYS;
 
   return (
-    <Card className="h-full transition-transform hover:-translate-y-1">
+    <Card className={`h-full transition-transform hover:-translate-y-1 ${closed && !applied ? 'opacity-70' : ''}`}>
       <CardActionLink
         to="/candidate/jobs/$jobId"
         params={{ jobId: job.id }}
@@ -50,6 +51,8 @@ export function JobCard({ job, applied }: JobCardProps) {
           </Box>
           {applied ? (
             <Chip size="small" color="success" icon={<MdCheckCircle />} label={$t({ id: 'jobs.browse.applied' })} />
+          ) : closed ? (
+            <Chip size="small" icon={<MdLock />} label={$t({ id: 'jobs.browse.closed' })} />
           ) : (
             isNew && <Chip size="small" color="secondary" label={$t({ id: 'candidate.freshJobs.new' })} />
           )}

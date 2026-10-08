@@ -368,6 +368,7 @@
   "jobs.browse.loadMore": "عرض المزيد من الوظائف",
   "jobs.browse.applied": "تم التقديم",
   "jobs.browse.closes": "يُغلق {when}",
+  "jobs.browse.closed": "مغلقة",
   "jobs.browse.noMatches.title": "لا توجد وظائف تطابق بحثك",
   "jobs.browse.noMatches.body": "جرّب مسمى آخر أو أزل بعض عوامل التصفية.",
   "jobs.browse.empty.title": "لا توجد وظائف متاحة حاليًا",

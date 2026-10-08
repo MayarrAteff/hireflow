@@ -3,6 +3,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
   countOpenJobs,
   getCompanyJobs,
+  getCompanyPublishedJobs,
   getJob,
   getLatestPublishedJobs,
   getPublishedJob,
@@ -26,6 +27,14 @@ export function useLatestPublishedJobs(limit: number) {
   return useQuery({
     queryKey: [...jobsQueryKey, 'published', 'latest', limit],
     queryFn: () => getLatestPublishedJobs(limit),
+  });
+}
+
+/** A company's published jobs, as candidates see them on its page. */
+export function useCompanyPublishedJobs(companyId: string) {
+  return useQuery({
+    queryKey: [...jobsQueryKey, 'published', 'company', companyId],
+    queryFn: () => getCompanyPublishedJobs(companyId),
   });
 }
 

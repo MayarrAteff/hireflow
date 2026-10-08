@@ -19,3 +19,10 @@ export function updateCompanyRequest(companyId: string, payload: CompanyUpdatePa
     headers: { ...SINGLE_OBJECT_HEADERS, Prefer: 'return=representation' },
   });
 }
+
+export function getCompanyRequest(companyId: string) {
+  return axiosInstance.get<Company>('/companies', {
+    params: { id: `eq.${companyId}`, select: '*' },
+    headers: SINGLE_OBJECT_HEADERS,
+  });
+}

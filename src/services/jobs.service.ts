@@ -3,6 +3,7 @@ import {
   countOpenJobsRequest,
   createJobRequest,
   getCompanyJobsRequest,
+  getCompanyPublishedJobsRequest,
   getJobRequest,
   getLatestPublishedJobsRequest,
   getPublishedJobRequest,
@@ -20,6 +21,11 @@ export async function getCompanyJobs(companyId: string) {
 
 export async function getLatestPublishedJobs(limit: number) {
   const response = await getLatestPublishedJobsRequest(limit);
+  return response.data;
+}
+
+export async function getCompanyPublishedJobs(companyId: string) {
+  const response = await getCompanyPublishedJobsRequest(companyId);
   return response.data;
 }
 

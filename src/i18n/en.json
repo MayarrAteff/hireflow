@@ -410,6 +410,9 @@
   "jobs.details.noContent.body": "Add a description, requirements and skills so candidates know what this role is about.",
   "jobs.details.noContent.cta": "Add job details",
   "jobs.details.companySize": "{size} employees",
+  "jobs.details.viewCompany": "View company page",
+  "jobs.details.moreJobs.title": "More jobs from this company",
+  "jobs.details.moreJobs.viewAll": "View all",
 
   "error.forbidden.title": "Access denied",
   "error.forbidden.body": "You don't have permission to view this page.",
@@ -703,5 +706,15 @@
   "company.nudge.title": "Complete your company profile",
   "company.nudge.body": "Add a logo and description so candidates know who's hiring.",
   "company.nudge.action": "Complete profile",
+  "company.public.unavailable.title": "This company page isn't available",
+  "company.public.unavailable.body": "The company may have been removed, or the link is wrong. There are plenty of open roles to explore.",
+  "company.public.openRoles": "{count, plural, =0 {No open roles} one {# open role} other {# open roles}}",
+  "company.public.visitWebsite": "Visit website",
+  "company.public.seeRoles": "See open roles",
+  "company.public.about.empty": "{company} hasn't added a description yet.",
+  "company.public.jobs.title": "Open roles",
+  "company.public.jobs.empty": "{company} has no open roles right now. Check back soon!",
+  "company.public.glance.joined": "On HireFlow since",
+  "company.public.applications.title": "Your applications here",
   "company.setup.laterHint": "You can add a logo and description later from your company profile."
 }

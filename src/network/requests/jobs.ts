@@ -25,6 +25,18 @@ export function getLatestPublishedJobsRequest(limit: number) {
   });
 }
 
+/** Every published job of one company, newest first. */
+export function getCompanyPublishedJobsRequest(companyId: string) {
+  return axiosInstance.get<JobWithCompany[]>('/jobs', {
+    params: {
+      company_id: `eq.${companyId}`,
+      status: 'eq.published',
+      select: '*,company:companies(name,logo_url)',
+      order: 'created_at.desc',
+    },
+  });
+}
+
 /** Strips characters that have meaning inside a PostgREST `ilike` pattern. */
 const toSearchPattern = (search: string) => `*${search.replace(/[*,()%\\]/g, ' ').trim()}*`;
 

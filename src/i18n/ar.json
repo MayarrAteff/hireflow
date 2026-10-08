@@ -410,6 +410,9 @@
   "jobs.details.noContent.body": "أضف الوصف والمتطلبات والمهارات ليعرف المرشحون طبيعة هذه الوظيفة.",
   "jobs.details.noContent.cta": "إضافة تفاصيل الوظيفة",
   "jobs.details.companySize": "{size} موظف",
+  "jobs.details.viewCompany": "عرض صفحة الشركة",
+  "jobs.details.moreJobs.title": "وظائف أخرى لدى هذه الشركة",
+  "jobs.details.moreJobs.viewAll": "عرض الكل",
 
   "error.forbidden.title": "الوصول مرفوض",
   "error.forbidden.body": "ليست لديك صلاحية لعرض هذه الصفحة.",
@@ -703,5 +706,15 @@
   "company.nudge.title": "أكمل ملف شركتك",
   "company.nudge.body": "أضف شعارًا ووصفًا ليعرف المرشحون من يوظّف.",
   "company.nudge.action": "إكمال الملف",
+  "company.public.unavailable.title": "صفحة الشركة غير متاحة",
+  "company.public.unavailable.body": "ربما تم حذف الشركة أو أن الرابط غير صحيح. هناك الكثير من الوظائف المتاحة لتستكشفها.",
+  "company.public.openRoles": "{count, plural, =0 {لا توجد وظائف متاحة} one {وظيفة واحدة متاحة} two {وظيفتان متاحتان} few {# وظائف متاحة} many {# وظيفة متاحة} other {# وظيفة متاحة}}",
+  "company.public.visitWebsite": "زيارة الموقع",
+  "company.public.seeRoles": "عرض الوظائف المتاحة",
+  "company.public.about.empty": "لم تُضِف {company} وصفًا بعد.",
+  "company.public.jobs.title": "الوظائف المتاحة",
+  "company.public.jobs.empty": "لا توجد وظائف متاحة لدى {company} حاليًا. عُد قريبًا!",
+  "company.public.glance.joined": "على HireFlow منذ",
+  "company.public.applications.title": "طلباتك لدى هذه الشركة",
   "company.setup.laterHint": "يمكنك إضافة الشعار والوصف لاحقًا من ملف الشركة."
 }

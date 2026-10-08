@@ -7,11 +7,20 @@ import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { Link as RouterLink } from '@tanstack/react-router';
+import { createLink, Link as RouterLink } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import type { IconType } from 'react-icons';
-import { MdAutoAwesome, MdBusiness, MdEvent, MdLanguage, MdPayments, MdPlace, MdSchedule } from 'react-icons/md';
+import {
+  MdArrowForward,
+  MdAutoAwesome,
+  MdBusiness,
+  MdEvent,
+  MdLanguage,
+  MdPayments,
+  MdPlace,
+  MdSchedule,
+} from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { CompanyLogo } from '@/components/Jobs/CompanyLogo';
@@ -27,6 +36,10 @@ import { getSkillMatch } from '@/utils/skillMatch';
 
 import { ApplyDialog } from './ApplyDialog';
 import { ApplyPanel } from './ApplyPanel';
+import { MoreCompanyJobs } from './MoreCompanyJobs';
+
+const ButtonLink = createLink(Button);
+const TextLink = createLink(Link);
 
 type JobDetailsProps = {
   jobId: string;
@@ -112,7 +125,14 @@ export function JobDetails({ jobId }: JobDetailsProps) {
             />
             <Box className="relative min-w-0">
               <Typography variant="h5" component="p" noWrap>
-                {companyName}
+                <TextLink
+                  to="/candidate/companies/$companyId"
+                  params={{ companyId: job.company_id }}
+                  color="inherit"
+                  underline="hover"
+                >
+                  {companyName}
+                </TextLink>
               </Typography>
               {company?.industry && (
                 <Typography className="text-white/80" noWrap>
@@ -166,6 +186,7 @@ export function JobDetails({ jobId }: JobDetailsProps) {
       <Box className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <Box className="flex flex-col gap-6">
           <JobPostingSections job={job} matchedSkills={skillMatch.matched} />
+          <MoreCompanyJobs companyId={job.company_id} currentJobId={job.id} />
         </Box>
 
         <Box component="aside" className="flex flex-col gap-4 lg:sticky lg:top-24">
@@ -226,7 +247,15 @@ export function JobDetails({ jobId }: JobDetailsProps) {
                 <Box className="flex items-center gap-3">
                   <CompanyLogo name={company.name} logoUrl={company.logo_url} size={44} />
                   <Box className="min-w-0">
-                    <Typography fontWeight={700}>{company.name}</Typography>
+                    <TextLink
+                      to="/candidate/companies/$companyId"
+                      params={{ companyId: job.company_id }}
+                      color="text.primary"
+                      underline="hover"
+                      fontWeight={700}
+                    >
+                      {company.name}
+                    </TextLink>
                     {(company.industry || company.size) && (
                       <Typography variant="body2" color="text.secondary">
                         {[
@@ -257,6 +286,14 @@ export function JobDetails({ jobId }: JobDetailsProps) {
                     {company.website.replace(/^https?:\/\//, '')}
                   </Link>
                 )}
+                <ButtonLink
+                  variant="outlined"
+                  to="/candidate/companies/$companyId"
+                  params={{ companyId: job.company_id }}
+                  endIcon={<MdArrowForward className="rtl:rotate-180" />}
+                >
+                  {$t({ id: 'jobs.details.viewCompany' })}
+                </ButtonLink>
               </CardContent>
             </Card>
           )}

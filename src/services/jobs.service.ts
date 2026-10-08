@@ -1,7 +1,9 @@
+import { DEFAULT_CURRENCY } from '@/constants/jobs';
 import {
-  countPublishedJobsRequest,
+  countOpenJobsRequest,
   createJobRequest,
   getCompanyJobsRequest,
+  getCompanyPublishedJobsRequest,
   getJobRequest,
   getLatestPublishedJobsRequest,
   getPublishedJobRequest,
@@ -9,7 +11,15 @@ import {
   updateJobRequest,
   updateJobStatusRequest,
 } from '@/network/requests/jobs';
-import type { CreateJobPayload, Job, JobFields, JobFormValues, JobSearchFilters, JobStatus } from '@/types/job.types';
+import type {
+  CreateJobPayload,
+  Job,
+  JobFields,
+  JobFormValues,
+  JobPostedFilter,
+  JobSearchFilters,
+  JobStatus,
+} from '@/types/job.types';
 import { dayjs } from '@/utils/dayjs';
 
 export async function getCompanyJobs(companyId: string) {
@@ -17,13 +27,32 @@ export async function getCompanyJobs(companyId: string) {
   return response.data;
 }
 
+const today = () => dayjs().format('YYYY-MM-DD');
+
+/** How many days back each "posted" filter reaches, counting today. */
+const POSTED_WITHIN_DAYS: Record<JobPostedFilter, number> = { today: 1, week: 7, month: 30 };
+
 export async function getLatestPublishedJobs(limit: number) {
-  const response = await getLatestPublishedJobsRequest(limit);
+  const response = await getLatestPublishedJobsRequest(limit, today());
+  return response.data;
+}
+
+export async function getCompanyPublishedJobs(companyId: string) {
+  const response = await getCompanyPublishedJobsRequest(companyId);
   return response.data;
 }
 
 export async function searchPublishedJobs(filters: JobSearchFilters, offset: number, limit: number) {
-  const response = await searchPublishedJobsRequest(filters, offset, limit);
+  // Nothing can match "applied" before the first application, so there is no request to make.
+  if (filters.application === 'applied' && filters.appliedJobIds.length === 0) return [];
+
+  const postedSince = filters.posted
+    ? dayjs()
+        .subtract(POSTED_WITHIN_DAYS[filters.posted] - 1, 'day')
+        .startOf('day')
+        .toISOString()
+    : null;
+  const response = await searchPublishedJobsRequest(filters, postedSince, offset, limit);
   return response.data;
 }
 
@@ -32,8 +61,8 @@ export async function getPublishedJob(jobId: string) {
   return response.data;
 }
 
-export async function countPublishedJobs() {
-  const response = await countPublishedJobsRequest();
+export async function countOpenJobs() {
+  const response = await countOpenJobsRequest(today());
   const total = String(response.headers['content-range'] ?? '').split('/')[1];
   return Number(total) || 0;
 }
@@ -88,7 +117,7 @@ export function toJobFormValues(job?: Job): JobFormValues {
     skills: job?.skills ?? [],
     salaryMin: job?.salary_min?.toString() ?? '',
     salaryMax: job?.salary_max?.toString() ?? '',
-    currency: job?.currency ?? 'SAR',
+    currency: job?.currency ?? DEFAULT_CURRENCY,
     deadline: job?.deadline ? dayjs(job.deadline) : null,
   };
 }

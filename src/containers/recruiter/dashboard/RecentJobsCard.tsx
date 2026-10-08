@@ -13,6 +13,7 @@ import { useIntl } from 'react-intl';
 import { JobStatusChip } from '@/components/Jobs/JobStatusChip';
 import { countNewApplicants, NewApplicantsBadge } from '@/components/Jobs/NewApplicantsBadge';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
+import { getJobDisplayStatus } from '@/constants/jobs';
 import { accentFor, accentSoftSx } from '@/styles/themes/accents';
 import type { JobWithApplicantStages } from '@/types/job.types';
 
@@ -72,7 +73,7 @@ export function RecentJobsCard({ jobs, loading }: RecentJobsCardProps) {
                 </Typography>
               </Box>
               <NewApplicantsBadge count={countNewApplicants(job.applications)} />
-              <JobStatusChip status={job.status} />
+              <JobStatusChip status={getJobDisplayStatus(job)} />
             </ListItemLink>
           ))}
         </Box>

@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { MdBusiness, MdLogout, MdMenu, MdPerson } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
+import { NotificationBell } from '@/components/Notifications/NotificationBell';
 import { LanguageSwitcher } from '@/components/UI/LanguageSwitcher';
 import { ThemeModeToggle } from '@/components/UI/ThemeModeToggle';
 import { logout } from '@/services/auth.service';
@@ -67,6 +68,7 @@ export function Header({ onToggleSidebar }: HeaderProps) {
         <Box className="flex-1" />
 
         <LanguageSwitcher />
+        <NotificationBell />
         <ThemeModeToggle />
 
         <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} className="ms-1">

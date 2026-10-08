@@ -17,15 +17,21 @@ export function CompanyLogo({ name, logoUrl, size = 48, sx, ...rest }: CompanyLo
       alt={name}
       {...rest}
       sx={[
-        (theme) => ({
-          ...accentSoftSx(theme, accentFor(name)),
-          width: size,
-          height: size,
-          fontSize: size * 0.42,
-          fontWeight: 700,
-          borderRadius: `${Math.round(size * 0.26)}px`,
-          ...(logoUrl && { bgcolor: '#fff' }),
-        }),
+        (theme) => {
+          const soft = accentSoftSx(theme, accentFor(name));
+          return {
+            color: soft.color,
+            // The tint is translucent, so it sits on an opaque base; otherwise a banner behind the logo shows through.
+            bgcolor: 'background.paper',
+            backgroundImage: `linear-gradient(${soft.bgcolor}, ${soft.bgcolor})`,
+            width: size,
+            height: size,
+            fontSize: size * 0.42,
+            fontWeight: 700,
+            borderRadius: `${Math.round(size * 0.26)}px`,
+            ...(logoUrl && { bgcolor: '#fff', backgroundImage: 'none' }),
+          };
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >

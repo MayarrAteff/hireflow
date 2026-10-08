@@ -27,10 +27,11 @@ import { JobStatusChip } from '@/components/Jobs/JobStatusChip';
 import { countNewApplicants, NewApplicantsBadge } from '@/components/Jobs/NewApplicantsBadge';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { APPLICATION_STAGE_COLOR } from '@/constants/applications';
+import { getJobDisplayStatus, isJobExpired, type JobDisplayStatus } from '@/constants/jobs';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { ACCENT_COLORS, accentFor, accentSoftSx } from '@/styles/themes/accents';
 import type { ApplicationStage } from '@/types/application.types';
-import type { JobStatus, JobWithApplicantStages } from '@/types/job.types';
+import type { JobWithApplicantStages } from '@/types/job.types';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import { CompanySetupCard } from './CompanySetupCard';
@@ -40,8 +41,8 @@ const IconButtonLink = createLink(IconButton);
 const MuiRouterLink = createLink(Link);
 const BoxLink = createLink(Box);
 
-type StatusFilter = JobStatus | 'all';
-const STATUS_FILTERS: StatusFilter[] = ['all', 'published', 'draft', 'closed'];
+type StatusFilter = JobDisplayStatus | 'all';
+const STATUS_FILTERS: StatusFilter[] = ['all', 'published', 'expired', 'draft', 'closed'];
 const BREAKDOWN_STAGES: ApplicationStage[] = ['applied', 'screening', 'interview', 'offer', 'hired', 'rejected'];
 
 /** Total applicants, how many nobody has opened yet, and a mini stage bar that opens the hiring board. */
@@ -115,8 +116,10 @@ export function JobsList() {
   if (!profile?.company_id) return <CompanySetupCard />;
 
   const countFor = (status: StatusFilter) =>
-    status === 'all' ? jobs.length : jobs.filter((job) => job.status === status).length;
-  const visibleJobs = filter === 'all' ? jobs : jobs.filter((job) => job.status === filter);
+    status === 'all' ? jobs.length : jobs.filter((job) => getJobDisplayStatus(job) === status).length;
+  const visibleJobs = filter === 'all' ? jobs : jobs.filter((job) => getJobDisplayStatus(job) === filter);
+  // Expired only shows up as a filter when there is something in it.
+  const filters = STATUS_FILTERS.filter((status) => status !== 'expired' || countFor('expired') > 0);
 
   const postJobButton = (
     <Button variant="contained" size="large" startIcon={<MdAdd />} component={RouterLink} to="/recruiter/jobs/new">
@@ -175,7 +178,7 @@ export function JobsList() {
             onChange={(_event, value: StatusFilter | null) => value && setFilter(value)}
             className="mb-4 flex-wrap"
           >
-            {STATUS_FILTERS.map((status) => (
+            {filters.map((status) => (
               <ToggleButton key={status} value={status} className="gap-2 px-4">
                 {$t({ id: status === 'all' ? 'jobs.list.filter.all' : `jobs.status.${status}` })}
                 <Chip size="small" label={countFor(status)} className="h-5" />
@@ -223,7 +226,7 @@ export function JobsList() {
                                 job.location,
                                 job.deadline &&
                                   $t(
-                                    { id: 'jobs.list.closes' },
+                                    { id: isJobExpired(job) ? 'jobs.list.deadlinePassed' : 'jobs.list.closes' },
                                     { date: formatDate(job.deadline, { dateStyle: 'medium' }) },
                                   ),
                               ]
@@ -238,7 +241,7 @@ export function JobsList() {
                       </TableCell>
                       <TableCell>{$t({ id: `jobs.employmentType.${job.employment_type}` })}</TableCell>
                       <TableCell>
-                        <JobStatusChip status={job.status} />
+                        <JobStatusChip status={getJobDisplayStatus(job)} />
                       </TableCell>
                       <TableCell className="whitespace-nowrap">
                         {formatDate(job.created_at, { dateStyle: 'medium' })}

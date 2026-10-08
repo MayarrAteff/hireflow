@@ -5,6 +5,7 @@ import { supabase } from '@/network/supabase';
 import {
   getCandidateApplicationForJob,
   getCandidateApplications,
+  getCompanyAnalyticsApplications,
   getCompanyNewApplicants,
   getJobApplications,
 } from '@/services/applications.service';
@@ -24,6 +25,14 @@ export function useCandidateApplicationForJob(candidateId: string | undefined, j
     queryKey: [...applicationsQueryKey, 'candidate', candidateId, 'job', jobId],
     queryFn: () => getCandidateApplicationForJob(candidateId as string, jobId),
     enabled: Boolean(candidateId),
+  });
+}
+
+export function useCompanyAnalytics(companyId: string | null | undefined) {
+  return useQuery({
+    queryKey: [...applicationsQueryKey, 'company', companyId, 'analytics'],
+    queryFn: () => getCompanyAnalyticsApplications(companyId as string),
+    enabled: Boolean(companyId),
   });
 }
 

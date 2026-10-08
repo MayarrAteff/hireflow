@@ -3,23 +3,15 @@ import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import {
-  MdCalendarMonth,
-  MdCelebration,
-  MdEventAvailable,
-  MdNotificationsActive,
-  MdSearch,
-  MdSend,
-  MdWorkOutline,
-} from 'react-icons/md';
+import { MdCalendarMonth, MdCelebration, MdEventAvailable, MdSearch, MdSend, MdWorkOutline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
-import { CalendarPreview, SearchPreview } from '@/components/UI/Dashboard/FeaturePreviews';
+import { CalendarPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { useCandidateApplications } from '@/hooks/useApplications';
-import { useLatestPublishedJobs, usePublishedJobsCount } from '@/hooks/useJobs';
+import { useLatestPublishedJobs, useOpenJobsCount } from '@/hooks/useJobs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import { ApplicationsTracker } from './dashboard/ApplicationsTracker';
@@ -40,7 +32,7 @@ export function CandidateDashboard() {
   const { profile } = useAuth();
   const applicationsQuery = useCandidateApplications(profile?.id);
   const freshJobsQuery = useLatestPublishedJobs(FRESH_JOBS_LIMIT);
-  const openJobsQuery = usePublishedJobsCount();
+  const openJobsQuery = useOpenJobsCount();
 
   const applications = applicationsQuery.data ?? [];
   const openJobs = openJobsQuery.data ?? 0;
@@ -135,13 +127,6 @@ export function CandidateDashboard() {
         subtitleId="candidate.upNext.subtitle"
         tipIds={CANDIDATE_TIP_IDS}
         features={[
-          {
-            icon: MdNotificationsActive,
-            color: 'sky',
-            titleId: 'candidate.upNext.alerts.title',
-            bodyId: 'candidate.upNext.alerts.body',
-            preview: <SearchPreview />,
-          },
           {
             icon: MdCalendarMonth,
             color: 'rose',

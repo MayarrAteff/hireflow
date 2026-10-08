@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { useQueryClient } from '@tanstack/react-query';
@@ -45,6 +46,7 @@ import { useJobFormatters } from '@/utils/hooks/useJobFormatters';
 import { type DeclineOfferFormValues, declineOfferSchema } from '@/validations/offer.validation.schema';
 
 const ButtonLink = createLink(Button);
+const TextLink = createLink(Link);
 
 type OfferViewProps = {
   offerId: string;
@@ -193,7 +195,16 @@ export function OfferView({ offerId }: OfferViewProps) {
               <Typography variant="h2" className="break-words">
                 {job?.title ?? $t({ id: 'candidate.applications.unavailableJob' })}
               </Typography>
-              {company && <Typography color="text.secondary">{company}</Typography>}
+              {job && company && (
+                <TextLink
+                  to="/candidate/companies/$companyId"
+                  params={{ companyId: job.company_id }}
+                  color="text.secondary"
+                  underline="hover"
+                >
+                  {company}
+                </TextLink>
+              )}
             </Box>
             <OfferStatusChip offer={offer} size="medium" />
           </Box>
@@ -202,11 +213,7 @@ export function OfferView({ offerId }: OfferViewProps) {
 
           <Box className="grid gap-3 sm:grid-cols-3">
             {tiles.map(({ icon, color, labelId, value, hint }) => (
-              <Box
-                key={labelId}
-                className="flex items-center gap-3 rounded-2xl p-3"
-                sx={{ bgcolor: 'action.hover' }}
-              >
+              <Box key={labelId} className="flex items-center gap-3 rounded-2xl p-3" sx={{ bgcolor: 'action.hover' }}>
                 <IconTile icon={icon} color={color} />
                 <Box className="min-w-0">
                   <Typography variant="body2" color="text.secondary" noWrap>

@@ -3,26 +3,19 @@ import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import {
-  MdAdd,
-  MdEditNote,
-  MdHourglassBottom,
-  MdInsights,
-  MdNotificationsActive,
-  MdPublic,
-  MdWorkOutline,
-} from 'react-icons/md';
+import { MdAdd, MdEditNote, MdHourglassBottom, MdPublic, MdWorkOutline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { countNewApplicants } from '@/components/Jobs/NewApplicantsBadge';
-import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
-import { AnalyticsPreview, NotificationsPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
+import { TipCard } from '@/components/UI/Dashboard/TipCard';
+import { getJobDisplayStatus } from '@/constants/jobs';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { dayjs } from '@/utils/dayjs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
+import { AnalyticsTeaserCard } from './dashboard/AnalyticsTeaserCard';
 import { GettingStartedCard } from './dashboard/GettingStartedCard';
 import { NewApplicantsCard } from './dashboard/NewApplicantsCard';
 import { RecentJobsCard } from './dashboard/RecentJobsCard';
@@ -42,7 +35,8 @@ export function RecruiterDashboard() {
   const { data: jobs = [], isLoading } = useCompanyJobs(profile?.company_id);
 
   const today = dayjs().startOf('day');
-  const published = jobs.filter((job) => job.status === 'published');
+  // Live jobs only: a published job past its deadline no longer takes applications.
+  const published = jobs.filter((job) => getJobDisplayStatus(job) === 'published');
   const hasGoneLive = jobs.some((job) => job.status !== 'draft');
   const newApplicantsTotal = jobs.reduce((sum, job) => sum + countNewApplicants(job.applications), 0);
   const stats = [
@@ -124,26 +118,13 @@ export function RecruiterDashboard() {
         </Box>
       )}
 
-      <ComingNextSection
-        subtitleId="dashboard.upNext.subtitle"
-        tipIds={RECRUITER_TIP_IDS}
-        features={[
-          {
-            icon: MdInsights,
-            color: 'violet',
-            titleId: 'dashboard.upNext.analytics.title',
-            bodyId: 'dashboard.upNext.analytics.body',
-            preview: <AnalyticsPreview />,
-          },
-          {
-            icon: MdNotificationsActive,
-            color: 'pink',
-            titleId: 'dashboard.upNext.notifications.title',
-            bodyId: 'dashboard.upNext.notifications.body',
-            preview: <NotificationsPreview />,
-          },
-        ]}
-      />
+      {hasGoneLive && (
+        <motion.div {...appear(6)}>
+          <AnalyticsTeaserCard />
+        </motion.div>
+      )}
+
+      <TipCard tipIds={RECRUITER_TIP_IDS} />
     </Box>
   );
 }

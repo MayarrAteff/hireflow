@@ -1,4 +1,4 @@
-import { createCompanyRequest, updateCompanyRequest } from '@/network/requests/company';
+import { createCompanyRequest, getCompanyRequest, updateCompanyRequest } from '@/network/requests/company';
 import { getPublicUrlRequest, removeFileRequest, uploadFileRequest } from '@/network/requests/storage';
 import type { CompanyUpdatePayload, CreateCompanyPayload } from '@/types/auth.types';
 
@@ -6,6 +6,11 @@ const logoPath = (companyId: string) => `${companyId}/logo.jpg`;
 
 export async function createCompany(payload: CreateCompanyPayload) {
   const response = await createCompanyRequest(payload);
+  return response.data;
+}
+
+export async function getCompany(companyId: string) {
+  const response = await getCompanyRequest(companyId);
   return response.data;
 }
 

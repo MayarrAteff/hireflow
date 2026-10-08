@@ -6,6 +6,7 @@ import {
   deleteApplicationRequest,
   getCandidateApplicationForJobRequest,
   getCandidateApplicationsRequest,
+  getCompanyAnalyticsApplicationsRequest,
   getCompanyNewApplicantsRequest,
   getJobApplicationsRequest,
   markApplicationViewedRequest,
@@ -88,5 +89,10 @@ export async function markApplicationViewed(applicationId: string) {
 
 export async function getCompanyNewApplicants(companyId: string, limit: number) {
   const response = await getCompanyNewApplicantsRequest(companyId, limit);
+  return response.data;
+}
+
+export async function getCompanyAnalyticsApplications(companyId: string) {
+  const response = await getCompanyAnalyticsApplicationsRequest(companyId);
   return response.data;
 }

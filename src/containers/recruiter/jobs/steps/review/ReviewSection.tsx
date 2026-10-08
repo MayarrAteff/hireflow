@@ -30,10 +30,7 @@ export function ReviewSection({ step, rows }: ReviewSectionProps) {
       className="overflow-hidden rounded-2xl"
       sx={{ border: 1, borderColor: 'divider', borderInlineStart: `4px solid ${ACCENT_COLORS[color]}` }}
     >
-      <Box
-        className="flex items-center gap-3 px-4 py-3"
-        sx={{ borderBottom: 1, borderColor: 'divider' }}
-      >
+      <Box className="flex items-center gap-3 px-4 py-3" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <IconTile icon={icon} color={color} size="sm" />
         <Typography variant="h6" className="flex-1">
           {$t({ id: `jobs.step.${step}` })}

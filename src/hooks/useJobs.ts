@@ -1,8 +1,9 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import {
-  countPublishedJobs,
+  countOpenJobs,
   getCompanyJobs,
+  getCompanyPublishedJobs,
   getJob,
   getLatestPublishedJobs,
   getPublishedJob,
@@ -29,10 +30,18 @@ export function useLatestPublishedJobs(limit: number) {
   });
 }
 
-export function usePublishedJobsCount() {
+/** A company's published jobs, as candidates see them on its page. */
+export function useCompanyPublishedJobs(companyId: string) {
   return useQuery({
-    queryKey: [...jobsQueryKey, 'published', 'count'],
-    queryFn: countPublishedJobs,
+    queryKey: [...jobsQueryKey, 'published', 'company', companyId],
+    queryFn: () => getCompanyPublishedJobs(companyId),
+  });
+}
+
+export function useOpenJobsCount() {
+  return useQuery({
+    queryKey: [...jobsQueryKey, 'published', 'open-count'],
+    queryFn: countOpenJobs,
   });
 }
 

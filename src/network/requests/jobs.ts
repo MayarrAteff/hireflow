@@ -19,16 +19,43 @@ export function getCompanyJobsRequest(companyId: string) {
   });
 }
 
-export function getLatestPublishedJobsRequest(limit: number) {
+/** A published job past its deadline no longer takes applications, so candidates are not offered it. `today` is `YYYY-MM-DD`. */
+const openDeadline = (today: string) => `(deadline.is.null,deadline.gte.${today})`;
+
+export function getLatestPublishedJobsRequest(limit: number, today: string) {
   return axiosInstance.get<JobWithCompany[]>('/jobs', {
-    params: { status: 'eq.published', select: '*,company:companies(name,logo_url)', order: 'created_at.desc', limit },
+    params: {
+      status: 'eq.published',
+      or: openDeadline(today),
+      select: '*,company:companies(name,logo_url)',
+      order: 'created_at.desc',
+      limit,
+    },
+  });
+}
+
+/** Every published job of one company, newest first. */
+export function getCompanyPublishedJobsRequest(companyId: string) {
+  return axiosInstance.get<JobWithCompany[]>('/jobs', {
+    params: {
+      company_id: `eq.${companyId}`,
+      status: 'eq.published',
+      select: '*,company:companies(name,logo_url)',
+      order: 'created_at.desc',
+    },
   });
 }
 
 /** Strips characters that have meaning inside a PostgREST `ilike` pattern. */
 const toSearchPattern = (search: string) => `*${search.replace(/[*,()%\\]/g, ' ').trim()}*`;
 
-export function searchPublishedJobsRequest(filters: JobSearchFilters, offset: number, limit: number) {
+/** `postedSince` is an ISO timestamp, or null for jobs of any age. Past-deadline jobs are included; cards mark them Closed. */
+export function searchPublishedJobsRequest(
+  filters: JobSearchFilters,
+  postedSince: string | null,
+  offset: number,
+  limit: number,
+) {
   return axiosInstance.get<JobWithCompany[]>('/jobs', {
     params: {
       status: 'eq.published',
@@ -39,6 +66,11 @@ export function searchPublishedJobsRequest(filters: JobSearchFilters, offset: nu
       ...(filters.search.trim() && { title: `ilike.${toSearchPattern(filters.search)}` }),
       ...(filters.employmentType && { employment_type: `eq.${filters.employmentType}` }),
       ...(filters.workMode && { work_mode: `eq.${filters.workMode}` }),
+      ...(postedSince && { created_at: `gte.${postedSince}` }),
+      ...(filters.application &&
+        filters.appliedJobIds.length > 0 && {
+          id: `${filters.application === 'applied' ? 'in' : 'not.in'}.(${filters.appliedJobIds.join(',')})`,
+        }),
     },
   });
 }
@@ -55,9 +87,9 @@ export function getPublishedJobRequest(jobId: string) {
 }
 
 /** HEAD request: PostgREST puts the total after the slash in `Content-Range` without sending any rows. */
-export function countPublishedJobsRequest() {
+export function countOpenJobsRequest(today: string) {
   return axiosInstance.head('/jobs', {
-    params: { status: 'eq.published' },
+    params: { status: 'eq.published', or: openDeadline(today) },
     headers: { Prefer: 'count=exact' },
   });
 }

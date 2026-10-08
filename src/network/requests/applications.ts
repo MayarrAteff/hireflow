@@ -1,4 +1,5 @@
 import { axiosInstance } from '@/network/interceptor';
+import type { AnalyticsApplication } from '@/types/analytics.types';
 import type {
   ApplicationUpdatePayload,
   CandidateApplication,
@@ -21,7 +22,7 @@ export function getCandidateApplicationsRequest(candidateId: string) {
     params: {
       candidate_id: `eq.${candidateId}`,
       select:
-        'id,job_id,stage,created_at,updated_at,job:jobs(title,company:companies(name,logo_url)),offers(id,status,expires_at,created_at)',
+        'id,job_id,stage,created_at,updated_at,job:jobs(title,company_id,company:companies(name,logo_url)),offers(id,status,expires_at,created_at)',
       order: 'updated_at.desc',
     },
   });
@@ -76,6 +77,18 @@ export function getCompanyNewApplicantsRequest(companyId: string, limit: number)
       'job.company_id': `eq.${companyId}`,
       order: 'created_at.desc',
       limit,
+    },
+  });
+}
+
+/** Every application to the company's jobs, trimmed to what the analytics page charts; `!inner` drops other companies' rows. */
+export function getCompanyAnalyticsApplicationsRequest(companyId: string) {
+  return axiosInstance.get<AnalyticsApplication[]>('/applications', {
+    params: {
+      select:
+        'id,job_id,stage,created_at,updated_at,viewed_at,job:jobs!inner(title,skills),candidate:profiles(skills),interviews(id),offers(status,responded_at)',
+      'job.company_id': `eq.${companyId}`,
+      order: 'created_at.asc',
     },
   });
 }

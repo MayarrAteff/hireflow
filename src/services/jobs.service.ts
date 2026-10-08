@@ -1,3 +1,4 @@
+import { DEFAULT_CURRENCY } from '@/constants/jobs';
 import {
   countOpenJobsRequest,
   createJobRequest,
@@ -88,7 +89,7 @@ export function toJobFormValues(job?: Job): JobFormValues {
     skills: job?.skills ?? [],
     salaryMin: job?.salary_min?.toString() ?? '',
     salaryMax: job?.salary_max?.toString() ?? '',
-    currency: job?.currency ?? 'SAR',
+    currency: job?.currency ?? DEFAULT_CURRENCY,
     deadline: job?.deadline ? dayjs(job.deadline) : null,
   };
 }

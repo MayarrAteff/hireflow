@@ -3,7 +3,8 @@ import type { EmploymentType, JobFormValues, WorkMode } from '@/types/job.types'
 
 export const EMPLOYMENT_TYPES: EmploymentType[] = ['full_time', 'part_time', 'contract', 'internship'];
 export const WORK_MODES: WorkMode[] = ['onsite', 'remote', 'hybrid'];
-export const CURRENCIES = ['SAR', 'AED', 'EGP', 'USD', 'EUR'];
+export const DEFAULT_CURRENCY = 'EGP';
+export const CURRENCIES = [DEFAULT_CURRENCY, 'SAR', 'AED', 'USD', 'EUR'];
 
 /** Fields validated before leaving each step. */
 export const JOB_STEP_FIELDS: Record<JobFormStep, (keyof JobFormValues)[]> = {

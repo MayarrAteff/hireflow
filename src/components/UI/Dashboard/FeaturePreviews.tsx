@@ -91,34 +91,6 @@ export function SearchPreview() {
   );
 }
 
-const CHART_BARS = [38, 62, 48, 80, 66, 92];
-
-/** Bars growing in turn, like a weekly hiring chart. */
-export function AnalyticsPreview() {
-  return (
-    <Box className="flex h-full items-end gap-2 px-1">
-      {CHART_BARS.map((height, index) => (
-        <motion.div
-          key={height}
-          className="flex-1 rounded-t-md"
-          style={{
-            backgroundColor: index === CHART_BARS.length - 1 ? ACCENT_COLORS.emerald : ACCENT_COLORS.violet,
-            opacity: 0.45 + index * 0.1,
-          }}
-          animate={{ height: ['12%', `${height}%`, `${height}%`, '12%'] }}
-          transition={{
-            duration: 3.2,
-            repeat: Infinity,
-            times: [0, 0.35, 0.8, 1],
-            delay: index * 0.12,
-            ease: 'easeOut',
-          }}
-        />
-      ))}
-    </Box>
-  );
-}
-
 /** A bell with notifications sliding in beside it. */
 export function NotificationsPreview() {
   return (

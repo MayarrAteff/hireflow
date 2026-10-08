@@ -15,10 +15,7 @@ export function JobStepsJourney() {
   const { $t } = useIntl();
 
   return (
-    <Box
-      component="ol"
-      className="m-0 grid w-full max-w-3xl list-none gap-4 p-0 sm:grid-cols-4"
-    >
+    <Box component="ol" className="m-0 grid w-full max-w-3xl list-none gap-4 p-0 sm:grid-cols-4">
       {JOB_FORM_STEPS.map((step, index) => {
         const { icon, color } = JOB_STEP_VISUALS[step];
         const isLast = index === JOB_FORM_STEPS.length - 1;

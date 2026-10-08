@@ -3,27 +3,20 @@ import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import {
-  MdAdd,
-  MdEditNote,
-  MdHourglassBottom,
-  MdInsights,
-  MdNotificationsActive,
-  MdPublic,
-  MdWorkOutline,
-} from 'react-icons/md';
+import { MdAdd, MdEditNote, MdHourglassBottom, MdNotificationsActive, MdPublic, MdWorkOutline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { countNewApplicants } from '@/components/Jobs/NewApplicantsBadge';
 import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
-import { AnalyticsPreview, NotificationsPreview } from '@/components/UI/Dashboard/FeaturePreviews';
+import { NotificationsPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { getJobDisplayStatus } from '@/constants/jobs';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { dayjs } from '@/utils/dayjs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
+import { AnalyticsTeaserCard } from './dashboard/AnalyticsTeaserCard';
 import { GettingStartedCard } from './dashboard/GettingStartedCard';
 import { NewApplicantsCard } from './dashboard/NewApplicantsCard';
 import { RecentJobsCard } from './dashboard/RecentJobsCard';
@@ -126,17 +119,16 @@ export function RecruiterDashboard() {
         </Box>
       )}
 
+      {hasGoneLive && (
+        <motion.div {...appear(6)}>
+          <AnalyticsTeaserCard />
+        </motion.div>
+      )}
+
       <ComingNextSection
         subtitleId="dashboard.upNext.subtitle"
         tipIds={RECRUITER_TIP_IDS}
         features={[
-          {
-            icon: MdInsights,
-            color: 'violet',
-            titleId: 'dashboard.upNext.analytics.title',
-            bodyId: 'dashboard.upNext.analytics.body',
-            preview: <AnalyticsPreview />,
-          },
           {
             icon: MdNotificationsActive,
             color: 'pink',

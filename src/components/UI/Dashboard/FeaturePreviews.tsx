@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { motion } from 'framer-motion';
-import { MdAccessTime, MdNotificationsActive, MdSearch } from 'react-icons/md';
+import { MdAccessTime, MdSearch } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { ACCENT_COLORS, type AccentColor } from '@/styles/themes/accents';
@@ -87,39 +87,6 @@ export function SearchPreview() {
           </Box>
         </motion.div>
       ))}
-    </Box>
-  );
-}
-
-/** A bell with notifications sliding in beside it. */
-export function NotificationsPreview() {
-  return (
-    <Box className="flex h-full items-center gap-3">
-      <motion.div
-        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white"
-        style={{ backgroundColor: ACCENT_COLORS.pink }}
-        animate={{ rotate: [0, -14, 12, -8, 0, 0] }}
-        transition={{ duration: 2.4, repeat: Infinity, times: [0, 0.1, 0.2, 0.3, 0.4, 1] }}
-      >
-        <MdNotificationsActive size={26} />
-      </motion.div>
-      <Box className="flex min-w-0 flex-1 flex-col gap-2">
-        {[ACCENT_COLORS.emerald, ACCENT_COLORS.amber].map((color, index) => (
-          <motion.div
-            key={color}
-            animate={{ opacity: [0, 0, 1, 1, 0], x: [16, 16, 0, 0, 0] }}
-            transition={{ duration: 2.4, repeat: Infinity, times: [0, 0.2 + index * 0.1, 0.35 + index * 0.1, 0.85, 1] }}
-          >
-            <Box
-              className="flex items-center gap-2 rounded-lg p-1.5"
-              sx={{ bgcolor: 'background.paper', boxShadow: 1 }}
-            >
-              <Box className="h-3.5 w-3.5 shrink-0 rounded-full" sx={{ bgcolor: color }} />
-              <Box className="h-1.5 flex-1 rounded-full" sx={lineSx} />
-            </Box>
-          </motion.div>
-        ))}
-      </Box>
     </Box>
   );
 }

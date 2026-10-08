@@ -3,14 +3,13 @@ import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import { MdAdd, MdEditNote, MdHourglassBottom, MdNotificationsActive, MdPublic, MdWorkOutline } from 'react-icons/md';
+import { MdAdd, MdEditNote, MdHourglassBottom, MdPublic, MdWorkOutline } from 'react-icons/md';
 import { useIntl } from 'react-intl';
 
 import { countNewApplicants } from '@/components/Jobs/NewApplicantsBadge';
-import { ComingNextSection } from '@/components/UI/Dashboard/ComingNextSection';
 import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
-import { NotificationsPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
+import { TipCard } from '@/components/UI/Dashboard/TipCard';
 import { getJobDisplayStatus } from '@/constants/jobs';
 import { useCompanyJobs } from '@/hooks/useJobs';
 import { dayjs } from '@/utils/dayjs';
@@ -125,19 +124,7 @@ export function RecruiterDashboard() {
         </motion.div>
       )}
 
-      <ComingNextSection
-        subtitleId="dashboard.upNext.subtitle"
-        tipIds={RECRUITER_TIP_IDS}
-        features={[
-          {
-            icon: MdNotificationsActive,
-            color: 'pink',
-            titleId: 'dashboard.upNext.notifications.title',
-            bodyId: 'dashboard.upNext.notifications.body',
-            preview: <NotificationsPreview />,
-          },
-        ]}
-      />
+      <TipCard tipIds={RECRUITER_TIP_IDS} />
     </Box>
   );
 }

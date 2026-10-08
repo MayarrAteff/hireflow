@@ -17,7 +17,7 @@ import { useIntl } from 'react-intl';
 import { EmptyJobsIllustration } from '@/components/UI/Illustrations';
 import { EMPLOYMENT_TYPES, WORK_MODES } from '@/constants/jobs';
 import { useCandidateApplications } from '@/hooks/useApplications';
-import { usePublishedJobsCount, usePublishedJobsSearch } from '@/hooks/useJobs';
+import { useOpenJobsCount, usePublishedJobsSearch } from '@/hooks/useJobs';
 import { brandGradient } from '@/styles/themes/accents';
 import type { EmploymentType, WorkMode } from '@/types/job.types';
 import { useAuth } from '@/utils/hooks/useAuth';
@@ -73,7 +73,7 @@ export function BrowseJobs() {
     [debouncedSearch, employmentType, workMode],
   );
   const jobsQuery = usePublishedJobsSearch(filters);
-  const openJobsQuery = usePublishedJobsCount();
+  const openJobsQuery = useOpenJobsCount();
   const applicationsQuery = useCandidateApplications(profile?.id);
 
   const jobs = jobsQuery.data?.pages.flat() ?? [];

@@ -19,7 +19,7 @@ import { DashboardHero } from '@/components/UI/Dashboard/DashboardHero';
 import { CalendarPreview, SearchPreview } from '@/components/UI/Dashboard/FeaturePreviews';
 import { StatCard } from '@/components/UI/Dashboard/StatCard';
 import { useCandidateApplications } from '@/hooks/useApplications';
-import { useLatestPublishedJobs, usePublishedJobsCount } from '@/hooks/useJobs';
+import { useLatestPublishedJobs, useOpenJobsCount } from '@/hooks/useJobs';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import { ApplicationsTracker } from './dashboard/ApplicationsTracker';
@@ -40,7 +40,7 @@ export function CandidateDashboard() {
   const { profile } = useAuth();
   const applicationsQuery = useCandidateApplications(profile?.id);
   const freshJobsQuery = useLatestPublishedJobs(FRESH_JOBS_LIMIT);
-  const openJobsQuery = usePublishedJobsCount();
+  const openJobsQuery = useOpenJobsCount();
 
   const applications = applicationsQuery.data ?? [];
   const openJobs = openJobsQuery.data ?? 0;

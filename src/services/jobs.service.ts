@@ -1,5 +1,5 @@
 import {
-  countPublishedJobsRequest,
+  countOpenJobsRequest,
   createJobRequest,
   getCompanyJobsRequest,
   getJobRequest,
@@ -32,8 +32,8 @@ export async function getPublishedJob(jobId: string) {
   return response.data;
 }
 
-export async function countPublishedJobs() {
-  const response = await countPublishedJobsRequest();
+export async function countOpenJobs() {
+  const response = await countOpenJobsRequest(dayjs().format('YYYY-MM-DD'));
   const total = String(response.headers['content-range'] ?? '').split('/')[1];
   return Number(total) || 0;
 }

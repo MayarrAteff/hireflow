@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import {
-  countPublishedJobs,
+  countOpenJobs,
   getCompanyJobs,
   getJob,
   getLatestPublishedJobs,
@@ -29,10 +29,10 @@ export function useLatestPublishedJobs(limit: number) {
   });
 }
 
-export function usePublishedJobsCount() {
+export function useOpenJobsCount() {
   return useQuery({
-    queryKey: [...jobsQueryKey, 'published', 'count'],
-    queryFn: countPublishedJobs,
+    queryKey: [...jobsQueryKey, 'published', 'open-count'],
+    queryFn: countOpenJobs,
   });
 }
 

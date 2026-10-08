@@ -54,10 +54,13 @@ export function getPublishedJobRequest(jobId: string) {
   });
 }
 
-/** HEAD request: PostgREST puts the total after the slash in `Content-Range` without sending any rows. */
-export function countPublishedJobsRequest() {
+/**
+ * HEAD request: PostgREST puts the total after the slash in `Content-Range` without sending any rows.
+ * A published job past its deadline no longer takes applications, so it is not counted. `today` is `YYYY-MM-DD`.
+ */
+export function countOpenJobsRequest(today: string) {
   return axiosInstance.head('/jobs', {
-    params: { status: 'eq.published' },
+    params: { status: 'eq.published', or: `(deadline.is.null,deadline.gte.${today})` },
     headers: { Prefer: 'count=exact' },
   });
 }

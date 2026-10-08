@@ -55,7 +55,9 @@
   "menu.findJobs": "Find jobs",
   "menu.section.main": "Main",
 
-  "header.language": "العربية",
+  "header.language": "Change language",
+  "language.en": "English",
+  "language.ar": "العربية",
   "header.darkMode": "Dark mode",
   "header.lightMode": "Light mode",
   "header.toggleSidebar": "Toggle sidebar",

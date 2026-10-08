@@ -55,7 +55,9 @@
   "menu.findJobs": "ابحث عن وظيفة",
   "menu.section.main": "الرئيسية",
 
-  "header.language": "English",
+  "header.language": "تغيير اللغة",
+  "language.en": "English",
+  "language.ar": "العربية",
   "header.darkMode": "الوضع الداكن",
   "header.lightMode": "الوضع الفاتح",
   "header.toggleSidebar": "إظهار/إخفاء القائمة",
